@@ -2,20 +2,26 @@ package model;
 
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private String m_uid;
     private String m_email;
     private String m_name;
     private String m_phoneNum;
+    private List<String> m_contactItemIds;
 
-    public User() { }
+    public User() {
+        m_contactItemIds = new ArrayList<>();
+    }
 
-    public User(String uid, String email, String name, String phoneNum) {
-        //validateInput(uid, email, name, phoneNum);
+    public User(String uid, String email, String name, String phoneNum, List<String> contactItemIds) {
         m_uid = uid;
         m_email = email;
         m_name = name;
         m_phoneNum = phoneNum;
+        m_contactItemIds = contactItemIds;
     }
 
     public static boolean isValidInputs(String uid, String email, String name, String phoneNum) {
@@ -31,10 +37,13 @@ public class User {
         if (TextUtils.isEmpty(phoneNum)) {
             return false;
         }
+        /*if (m_contactItemIds == null) {
+            return false;
+        }*/
         return true;
     }
 
-    /*private void validateInput(String uid, String email, String name, String phoneNum) throws Exception {
+    /*private void validate() throws Exception {
         if (TextUtils.isEmpty(uid)) {
             throw new Exception("UID is empty");
         }
@@ -47,10 +56,6 @@ public class User {
         if (TextUtils.isEmpty(phoneNum)) {
             throw new Exception("Phone # is empty");
         }
-    }
-
-    public Map<String, Object> toMap() {
-        return null;
     }*/
 
     public String getUid() {
@@ -67,5 +72,9 @@ public class User {
 
     public String getPhoneNum() {
         return m_phoneNum;
+    }
+
+    public List<String> getContactItemIds() {
+        return m_contactItemIds;
     }
 }
