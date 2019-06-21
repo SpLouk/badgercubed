@@ -16,8 +16,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 import model.User;
 
@@ -91,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Error creating user: inputs invalid", Toast.LENGTH_SHORT).show();
             return;
         }
-        User user = new User(uid, email, name, phoneNum);
+        User user = new User(uid, email, name, phoneNum, new ArrayList<String>());
         saveUser(user);
     }
 
