@@ -1,6 +1,8 @@
 package activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import model.ContactItem;
 import model.User;
 import util.FBManager;
 
@@ -38,9 +42,11 @@ public class ProfileActivity extends AppCompatActivity {
     private Button m_save;
     private Button m_logout;
     private Button m_userContact;
+    private Button m_addContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -80,6 +86,39 @@ public class ProfileActivity extends AppCompatActivity {
                 // Perform action on click
                 Activities.startUserContactsActivity(ProfileActivity.this);
             }
+        });
+
+        // Dialog to allow current user to add contacts
+        m_addContact = findViewById(R.id.profile_addContact);
+        m_addContact.setOnClickListener(view -> {
+            AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
+            View mView = getLayoutInflater().inflate(R.layout.dialog_add_contact, null);
+
+            alertDialog.setView(mView);
+
+            EditText description = mView.findViewById(R.id.add_contact_description);
+            EditText link = mView.findViewById(R.id.add_contact_link);
+            EditText protectionLevel = mView.findViewById(R.id.add_contact_protectionLevel);
+
+            alertDialog.setTitle("Add Contact");
+
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                    (DialogInterface dialog, int which) -> {
+                        // TODO : Add contact item, still need to add to current users list of contact itemId
+                        ContactItem contactItem = new ContactItem(UUID.randomUUID().toString(),
+                                FBManager.getInstance().getCurrentUser().getUid(), "",
+                                link.getText().toString(), description.getText().toString(),
+                                Integer.parseInt(protectionLevel.getText().toString()));
+
+                        FBManager.getInstance().saveFBObject(ProfileActivity.this, contactItem, null);
+
+                        dialog.dismiss();
+                    });
+
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                    (DialogInterface dialog, int which) -> dialog.dismiss());
+
+            alertDialog.show();
         });
     }
 

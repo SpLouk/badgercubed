@@ -1,23 +1,21 @@
 package util;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
 
 import java.util.List;
 
-public class ContactItemAdapter2 extends RecyclerView.Adapter<ContactItemAdapter2.ViewHolder> {
+public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.ViewHolder> {
 
     public List<model.ContactItem> contactItems;
 
-    public ContactItemAdapter2(List<model.ContactItem> contactItems) {
+    public ContactItemAdapter(List<model.ContactItem> contactItems) {
         this.contactItems = contactItems;
     }
 
@@ -29,7 +27,7 @@ public class ContactItemAdapter2 extends RecyclerView.Adapter<ContactItemAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-       viewHolder.textView.setText(contactItems.get(i).getDescription());
+       viewHolder.descTextView.setText(contactItems.get(i).getDescription());
     }
 
     @Override
@@ -40,13 +38,15 @@ public class ContactItemAdapter2 extends RecyclerView.Adapter<ContactItemAdapter
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         View m_view;
-        public TextView textView;
+        public TextView descTextView;
+        public Button moreBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
             m_view = itemView;
 
-            textView = m_view.findViewById(R.id.list_item_textview);
+            descTextView = m_view.findViewById(R.id.list_item_textview);
+            moreBtn = m_view.findViewById(R.id.list_item_btn);
         }
     }
 }

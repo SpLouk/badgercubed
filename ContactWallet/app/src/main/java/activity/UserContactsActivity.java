@@ -6,11 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,18 +23,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import model.ContactItem;
 import util.ContactItemAdapter;
-import util.ContactItemAdapter2;
 
 public class UserContactsActivity extends AppCompatActivity {
 
-    private GridView m_gridView;
     private RecyclerView m_recyclerView;
 
-    private ContactItemAdapter2 contactItemAdapter2;
+    private ContactItemAdapter contactItemAdapter;
 
     // Firebase db
     private FirebaseFirestore m_db;
@@ -51,11 +42,12 @@ public class UserContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usercontacts);
 
         contactItems = new ArrayList<>();
-        contactItemAdapter2 = new ContactItemAdapter2(contactItems);
+
+        contactItemAdapter = new ContactItemAdapter(contactItems);
         m_recyclerView = findViewById(R.id.recycler_view);
         m_recyclerView.setHasFixedSize(true);
         m_recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        m_recyclerView.setAdapter(contactItemAdapter2);
+        m_recyclerView.setAdapter(contactItemAdapter);
 
         m_db = FirebaseFirestore.getInstance();
         m_db.collection("contactItems").addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -67,32 +59,11 @@ public class UserContactsActivity extends AppCompatActivity {
                         ContactItem contactItem = new ContactItem("", "", "", documentChange.getDocument().getString("link"), documentChange.getDocument().getString("description"), 1);
                         contactItems.add(contactItem);
 
-                        Log.d("FIRELOG", contactItem.getDescription());
-
-                        contactItemAdapter2.notifyDataSetChanged();
+                        contactItemAdapter.notifyDataSetChanged();
                     }
                 }
             }
         });
-
-    /*    FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        Query query = rootRef.collection("contactItems");
-
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-
-            }
-        })*/
-
-      //  getContacts();
-
-     //   RecyclerView recyclerView = findViewById(R.id.recycler_view);
-     //   recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-      //  m_gridView = findViewById(R.id.usercontact_gridview);
-      //  ContactItemAdapter contactItemAdapter = new ContactItemAdapter(this, contactItems);
-      //  m_gridView.setAdapter(contactItemAdapter);
     }
 
     private void getContacts() {

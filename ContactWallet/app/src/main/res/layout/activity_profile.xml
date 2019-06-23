@@ -56,6 +56,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
             android:text="Logout"/>
+
+        <Button
+            android:id="@+id/profile_addContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Contact" />
     </LinearLayout>
 
     <Button
@@ -63,4 +69,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button" />
+
 </RelativeLayout>
