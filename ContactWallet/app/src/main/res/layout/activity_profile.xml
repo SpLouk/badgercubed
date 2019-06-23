@@ -61,13 +61,22 @@
             android:id="@+id/profile_addContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
             android:text="Add Contact" />
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/profile_userContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        <Button
+            android:id="@+id/profile_userContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <fragment
+            android:id="@+id/fragment2"
+            android:name="Activity.ContactItemsFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 
 </RelativeLayout>
