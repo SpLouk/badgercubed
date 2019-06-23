@@ -2,10 +2,14 @@ package model;
 
 import android.text.TextUtils;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User extends FBObject {
+    private final String m_collectionName = "users";
+
     private String m_uid;
     private String m_email;
     private String m_name;
@@ -23,40 +27,6 @@ public class User {
         m_phoneNum = phoneNum;
         m_contactItemIds = contactItemIds;
     }
-
-    public static boolean isValidInputs(String uid, String email, String name, String phoneNum) {
-        if (TextUtils.isEmpty(uid)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(email)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(name)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(phoneNum)) {
-            return false;
-        }
-        /*if (m_contactItemIds == null) {
-            return false;
-        }*/
-        return true;
-    }
-
-    /*private void validate() throws Exception {
-        if (TextUtils.isEmpty(uid)) {
-            throw new Exception("UID is empty");
-        }
-        if (TextUtils.isEmpty(email)) {
-            throw new Exception("Email is empty");
-        }
-        if (TextUtils.isEmpty(name)) {
-            throw new Exception("Name is empty");
-        }
-        if (TextUtils.isEmpty(phoneNum)) {
-            throw new Exception("Phone # is empty");
-        }
-    }*/
 
     public String getUid() {
         return m_uid;
@@ -76,5 +46,33 @@ public class User {
 
     public List<String> getContactItemIds() {
         return m_contactItemIds;
+    }
+
+    public void validate() throws Exception {
+        if (TextUtils.isEmpty(m_uid)) {
+            throw new Exception("UID is empty");
+        }
+        if (TextUtils.isEmpty(m_email)) {
+            throw new Exception("Email is empty");
+        }
+        if (TextUtils.isEmpty(m_name)) {
+            throw new Exception("Name is empty");
+        }
+        if (TextUtils.isEmpty(m_phoneNum)) {
+            throw new Exception("Phone # is empty");
+        }
+        if (m_contactItemIds == null) {
+            throw new Exception("Contact item id's null");
+        }
+    }
+
+    @Exclude
+    public String getCollectionName() {
+        return m_collectionName;
+    }
+
+    @Exclude
+    public String getDocReference() {
+        return m_uid;
     }
 }

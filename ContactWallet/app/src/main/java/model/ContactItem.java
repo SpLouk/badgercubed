@@ -2,7 +2,11 @@ package model;
 
 import android.text.TextUtils;
 
-public class ContactItem {
+import com.google.firebase.firestore.Exclude;
+
+public class ContactItem extends FBObject {
+    private final String m_collectionName = "contactItems";
+
     private String m_uid;
     private String m_userId;
     private String m_serviceId;
@@ -67,5 +71,37 @@ public class ContactItem {
 
     public Integer getProtectionLevel() {
         return m_protectionLevel;
+    }
+
+    public void validate() throws Exception {
+        if (TextUtils.isEmpty(m_uid)) {
+            throw new Exception("UID is empty");
+        }
+        if (TextUtils.isEmpty(m_userId)) {
+            throw new Exception("User ID is empty");
+        }
+        if (TextUtils.isEmpty(m_serviceId)) {
+            throw new Exception("Service ID is empty");
+        }
+        if (TextUtils.isEmpty(m_link)) {
+            throw new Exception("Contact link is empty");
+        }
+        if (TextUtils.isEmpty(m_description)) {
+            throw new Exception("Description is empty");
+        }
+        // TODO: better verification
+        if (m_protectionLevel == null) {
+            throw new Exception("Protection level is null");
+        }
+    }
+
+    @Exclude
+    public String getCollectionName() {
+        return m_collectionName;
+    }
+
+    @Exclude
+    public String getDocReference() {
+        return m_uid;
     }
 }
