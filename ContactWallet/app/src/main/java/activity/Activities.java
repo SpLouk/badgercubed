@@ -15,4 +15,9 @@ public class Activities {
         Intent intent = new Intent(context, ProfileActivity.class);
         context.startActivity(intent);
     }
+
+    public static void startUserContactsActivity(Context context) {
+        Intent intent = new Intent(context, UserContactsActivity.class);
+        context.startActivity(intent);
+    }
 }
