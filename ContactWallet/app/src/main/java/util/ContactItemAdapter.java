@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -19,10 +20,12 @@ import model.ContactItem;
 public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.ViewHolder> {
 
     private Context context;
+    private String activityName;
     private List<model.ContactItem> contactItems;
 
-    public ContactItemAdapter(Context context, List<ContactItem> contactItems) {
+    public ContactItemAdapter(Context context, String activityName, List<ContactItem> contactItems) {
         this.context = context;
+        this.activityName = activityName;
         this.contactItems = contactItems;
     }
 
@@ -34,6 +37,12 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+        // TODO : Refactor?
+        if (activityName.equals(activity.UserContactsActivity.class.getSimpleName())) {
+            viewHolder.deleteBtn.setVisibility(View.GONE);
+        }
+
         model.ContactItem contactItem = contactItems.get(i);
         viewHolder.descTextView.setText(contactItem.getDescription());
 
@@ -41,6 +50,19 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
         viewHolder.linkBtn.setOnClickListener((View view) -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             context.startActivity(browserIntent);
+        });
+
+        viewHolder.deleteBtn.setOnClickListener((View view) -> {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String uid = contactItem.getUid();
+
+            db.collection("contactItems")
+                    .document(uid).delete()
+                    .addOnSuccessListener((Void aVoid) -> {
+                contactItems.remove(i);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i, contactItems.size());
+            });
         });
     }
 
@@ -54,14 +76,14 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
         View m_view;
         public TextView descTextView;
         public Button linkBtn;
-        public Button moreBtn;
+        public Button deleteBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
             m_view = itemView;
 
             descTextView = m_view.findViewById(R.id.list_item_textview);
-            moreBtn = m_view.findViewById(R.id.contact_item_list_item_more_btn);
+            deleteBtn = m_view.findViewById(R.id.contact_item_list_item_delete_btn);
             linkBtn = m_view.findViewById(R.id.contact_item_list_item_link_btn);
         }
     }

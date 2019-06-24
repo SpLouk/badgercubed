@@ -35,8 +35,10 @@ public class ContactItemsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.contact_items_fragment, container, false);
 
+        String activityName = getActivity().getClass().getSimpleName();
+
         contactItems = new ArrayList<>();
-        contactItemAdapter = new ContactItemAdapter(getActivity(), contactItems);
+        contactItemAdapter = new ContactItemAdapter(getActivity(), activityName, contactItems);
 
         m_recyclerView = view.findViewById(R.id.contact_items_fragment_recycler_view);
         m_recyclerView.setHasFixedSize(true);
@@ -48,7 +50,12 @@ public class ContactItemsFragment extends Fragment {
            for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                if (documentChange.getType() == DocumentChange.Type.ADDED) {
                    //ContactItem contactItem = documentChange.getDocument().toObject(ContactItem.class);
-                   model.ContactItem contactItem = new model.ContactItem("", "", "", documentChange.getDocument().getString("link"), documentChange.getDocument().getString("description"), 1);
+                   model.ContactItem contactItem = new model.ContactItem(documentChange.getDocument().getString("uid"),
+                           documentChange.getDocument().getString("userId"),
+                           documentChange.getDocument().getString("serviceId"),
+                           documentChange.getDocument().getString("link"),
+                           documentChange.getDocument().getString("description"),
+                           1);
                    contactItems.add(contactItem);
                    contactItemAdapter.notifyDataSetChanged();
                }
