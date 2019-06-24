@@ -2,6 +2,9 @@ package activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -99,6 +102,11 @@ public class ProfileActivity extends AppCompatActivity {
 
             alertDialog.show();
         });
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container,
+                        activity.ContactItemsFragment.newInstance(FBManager.getInstance().getCurrentFBUser().getUid()))
+                .commit();
     }
 
     public void logoutUser() {
