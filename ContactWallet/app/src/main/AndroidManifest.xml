@@ -32,6 +32,10 @@
             android:label="Profile" >
         </activity>
 
+        <activity android:name="activity.ListContactsActivity"
+            android:label="Contacts" >
+        </activity>
+
         <activity android:name="activity.UserContactsActivity"
             android:label="Contacts" >
         </activity>

@@ -27,6 +27,13 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*if (true) {
+            Activities.startListContactsActivity(this);
+            finish();
+            return;
+        }*/
+
         setContentView(R.layout.activity_profile);
 
         User user = LoginManager.getInstance().getCurrentUser();

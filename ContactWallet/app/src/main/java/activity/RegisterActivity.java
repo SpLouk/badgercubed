@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
 
         String uid = FBManager.getInstance().getCurrentFBUser().getUid();
 
-        User newUser = new User(uid, email, name, phoneNum, new ArrayList<String>());
+        User newUser = new User(uid, email, name, phoneNum, new ArrayList<String>(), new ArrayList<String>());
         LoginManager.getInstance().saveUserAfterFBRegistration(this, newUser, this);
     }
 
