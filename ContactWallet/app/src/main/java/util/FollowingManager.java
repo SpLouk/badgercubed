@@ -33,7 +33,7 @@ public class FollowingManager {
             f.setFollowerUid(follower.getUid());
             f.setFollowingUid(id);
             f.setLevel("0"); // starts at public level by default
-            FBManager.getInstance().getCollection(Following.getCollectionName()).add(f);
+            FBManager.getInstance().getCollection(Following.mCollectionName).add(f);
             Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();
         });
     }

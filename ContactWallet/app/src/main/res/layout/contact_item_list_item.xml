@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@+id/contact_item_list_item_link_btn"
-        tools:text="Delete" />
+        android:text="Delete" />
 
     <Button
         android:id="@+id/contact_item_list_item_link_btn"

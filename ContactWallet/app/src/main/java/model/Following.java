@@ -4,11 +4,25 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.Exclude;
 
-public class Following {
+public class Following extends FBObject{
+    public static final String mCollectionName = "followers";
+
+    private String mUid;
     private String mFollowingUid;
     private String mFollowerUid;
     private String mLevel;
-    private static final String mCollectionName = "followers";
+
+    public Following() {
+
+    }
+
+    public String getUid() {
+        return mUid;
+    }
+
+    public void setUid(String uid) {
+        mUid = uid;
+    }
 
     public String getFollowingUid() {
         return mFollowingUid;
@@ -47,7 +61,11 @@ public class Following {
         }
     }
 
-    public static String getCollectionName() {
+    public String getCollectionName() {
         return mCollectionName;
+    }
+
+    public String getDocReference() {
+        return mUid;
     }
 }

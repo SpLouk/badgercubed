@@ -54,9 +54,11 @@ public class ListContactsActivity extends AppCompatActivity {
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
             for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                    User contactItem = documentChange.getDocument().toObject(User.class);
-                    userDataSet.add(contactItem);
-                    m_contactAdapter.notifyDataSetChanged();
+                    User contact = documentChange.getDocument().toObject(User.class);
+                    if (!contact.getUid().equals(LoginManager.getInstance().getCurrentUser().getUid())) {
+                        userDataSet.add(contact);
+                        m_contactAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         };

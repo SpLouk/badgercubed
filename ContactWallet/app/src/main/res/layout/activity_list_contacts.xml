@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
             android:text="" />
 
         <Button
