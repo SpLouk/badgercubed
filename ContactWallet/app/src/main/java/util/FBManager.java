@@ -11,17 +11,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 import model.FBObject;
 import model.User;
@@ -108,6 +103,10 @@ public class FBManager {
         saveTask.addOnCompleteListener(saveCompleteListener);
     }
 
+    public CollectionReference getCollection(String colName) {
+        return m_db.collection(colName);
+    }
+
     public void getFBObject(Context context, final String collName, final String docRefId,
                             @NonNull OnCompleteListener<DocumentSnapshot>... readCompleteListeners) {
         final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
@@ -136,5 +135,9 @@ public class FBManager {
 
         m_db.collection(User.m_collectionName).addSnapshotListener(queryListener);
         progressDialog.dismiss();
+    }
+
+    public Task<QuerySnapshot> getUsersByEmail(String email) {
+        return m_db.collection(User.m_collectionName).whereEqualTo("email", email).get();
     }
 }

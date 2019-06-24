@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import model.User;
 import util.FBManager;
+import util.FollowingManager;
 import util.LoginManager;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -23,6 +24,9 @@ public class ProfileActivity extends AppCompatActivity {
     private Button m_logout;
     private Button m_userContact;
     private Button m_addContact;
+
+    private EditText m_newContactInput;
+    private Button m_newContactButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
             logoutUser();
         });
 
-        m_userContact = findViewById(R.id.profile_userContact);
-        m_userContact.setOnClickListener(l -> {
+        m_newContactInput = findViewById(R.id.profile_newContactText);
+        m_newContactButton = findViewById(R.id.profile_addContact);
+        m_newContactButton.setOnClickListener(l -> {
+            FollowingManager.getInstance().addFollowing(user, m_newContactInput.toString());
             // Perform action on click
             Activities.startUserContactsActivity(ProfileActivity.this);
         });

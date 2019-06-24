@@ -35,6 +35,14 @@
             android:layout_margin="16dp"
             android:text="Logout"/>
 
+        <EditText
+            android:id="@+id/profile_newContactText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Contact email"
+            android:inputType="text"/>
+
         <Button
             android:id="@+id/profile_addContact"
             android:layout_width="wrap_content"
