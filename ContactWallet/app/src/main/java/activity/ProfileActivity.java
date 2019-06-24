@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         m_newFollowingInput = findViewById(R.id.profile_newFollowingText);
         m_saveFollowing = findViewById(R.id.profile_saveFollowing);
         m_saveFollowing.setOnClickListener(l -> {
-            FollowingManager.getInstance().addFollowing(user, m_newFollowingInput.getText().toString());
+            FollowingManager.getInstance().addFollowing(ProfileActivity.this, user, m_newFollowingInput.getText().toString());
         });
 
         // Dialog to allow current user to add contacts
