@@ -1,5 +1,7 @@
 package util;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -27,7 +29,6 @@ public class FollowingManager {
             f.setFollowerUid(follower.getUid());
             f.setFollowingUid(id);
             f.setLevel("0"); // starts at public level by default
-
             FBManager.getInstance().getCollection(Following.getCollectionName()).add(f);
         });
     }

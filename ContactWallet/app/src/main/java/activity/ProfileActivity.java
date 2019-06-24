@@ -25,8 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Button m_userContact;
     private Button m_addContact;
 
-    private EditText m_newContactInput;
-    private Button m_newContactButton;
+    private EditText m_newFollowingInput;
+    private Button m_saveFollowing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
             logoutUser();
         });
 
-        m_newContactInput = findViewById(R.id.profile_newContactText);
-        m_newContactButton = findViewById(R.id.profile_addContact);
-        m_newContactButton.setOnClickListener(l -> {
-            FollowingManager.getInstance().addFollowing(user, m_newContactInput.toString());
-            // Perform action on click
-            Activities.startUserContactsActivity(ProfileActivity.this);
+        m_newFollowingInput = findViewById(R.id.profile_newFollowingText);
+        m_saveFollowing = findViewById(R.id.profile_saveFollowing);
+        m_saveFollowing.setOnClickListener(l -> {
+            FollowingManager.getInstance().addFollowing(user, m_newFollowingInput.getText().toString());
         });
 
         // Dialog to allow current user to add contacts

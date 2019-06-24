@@ -36,12 +36,20 @@
             android:text="Logout"/>
 
         <EditText
-            android:id="@+id/profile_newContactText"
+            android:id="@+id/profile_newFollowingText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Contact email"
             android:inputType="text"/>
+
+        <Button
+            android:id="@+id/profile_saveFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:text="Save" />
 
         <Button
             android:id="@+id/profile_addContact"

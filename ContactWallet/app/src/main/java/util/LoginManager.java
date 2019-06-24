@@ -39,7 +39,7 @@ public class LoginManager {
         return false;
     }
 
-    public void upeCurrentUser(Context context, OnCompleteListener<DocumentSnapshot> readCompleteListener) {
+    public void updateCurrentUser(Context context, OnCompleteListener<DocumentSnapshot> readCompleteListener) {
         FirebaseUser fbUser = FBManager.getInstance().getCurrentFBUser();
         if (fbUser == null) {
             m_currentUser = null;
@@ -62,7 +62,7 @@ public class LoginManager {
             }
             callBack.loginResult(updateUser.isSuccessful());
         };
-       // updateCurrentUser(context, updateUserCompletion);
+       updateCurrentUser(context, updateUserCompletion);
     }
 
     public void login(Context context, String email, String password, LoginCallback loginCallBack) {
