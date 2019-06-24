@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Logged In User Email: "
+            android:text="Hello, "
             android:layout_gravity="center_horizontal"/>
 
         <TextView
@@ -34,6 +34,13 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
             android:text="Logout"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Add a new contact:"
+            android:layout_gravity="center_horizontal"/>
 
         <EditText
             android:id="@+id/profile_newFollowingText"
@@ -57,13 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
-            android:text="Add Contact" />
-
-        <Button
-            android:id="@+id/profile_userContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Add Contact Info" />
 
         <fragment
             android:id="@+id/fragment2"
