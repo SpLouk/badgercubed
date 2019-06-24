@@ -19,13 +19,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="activity.LoginActivity" >
+        <activity android:name="activity.RegisterActivity"
+            android:label="Register">
         </activity>
 
-        <activity android:name="activity.ProfileActivity" >
+        <activity android:name="activity.LoginActivity"
+            android:label="Login">
         </activity>
 
-        <activity android:name="activity.UserContactsActivity" >
+        <activity android:name="activity.ProfileActivity"
+            android:label="Profile" >
+        </activity>
+
+        <activity android:name="activity.UserContactsActivity"
+            android:label="Contacts" >
         </activity>
     </application>
 

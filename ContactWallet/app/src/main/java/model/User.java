@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends FBObject {
-    private final String m_collectionName = "users";
+    public static final String m_collectionName = "users";
 
     private String m_uid;
     private String m_email;
@@ -36,16 +36,32 @@ public class User extends FBObject {
         return m_email;
     }
 
+    public void setEmail(String email) {
+        m_email = email;
+    }
+
     public String getName() {
         return m_name;
+    }
+
+    public void setName(String name) {
+        m_name = name;
     }
 
     public String getPhoneNum() {
         return m_phoneNum;
     }
 
+    public void setPhoneNum(String phoneNum) {
+        m_phoneNum = phoneNum;
+    }
+
     public List<String> getContactItemIds() {
         return m_contactItemIds;
+    }
+
+    public void setContactItemIds(List<String> contactItemIds) {
+        m_contactItemIds = contactItemIds;
     }
 
     public void validate() throws Exception {

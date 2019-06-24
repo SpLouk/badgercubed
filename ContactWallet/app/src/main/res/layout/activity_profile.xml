@@ -73,7 +73,7 @@
 
         <fragment
             android:id="@+id/fragment2"
-            android:name="Activity.ContactItemsFragment"
+            android:name="activity.ContactItemsFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />

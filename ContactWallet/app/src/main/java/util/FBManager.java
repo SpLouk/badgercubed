@@ -2,6 +2,7 @@ package util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -10,6 +11,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import model.FBObject;
@@ -35,19 +38,15 @@ public class FBManager {
 
     // AUTHENTICATION METHODS
 
-    public FirebaseUser getCurrentUser() {
-        return m_firebaseAuth.getCurrentUser();
-    }
-
     public void registerUserWithEmailAndPassword(Context context, String email, String password,
                                           OnCompleteListener<AuthResult> registerCompleteListener) {
         final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
         progressDialog.setMessage("Registering...");
         progressDialog.show();
 
-        Task<AuthResult> loginTask = m_firebaseAuth.createUserWithEmailAndPassword(email, password);
-        loginTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        loginTask.addOnCompleteListener(registerCompleteListener);
+        Task<AuthResult> registerTask = m_firebaseAuth.createUserWithEmailAndPassword(email, password);
+        registerTask.addOnCompleteListener(task -> progressDialog.dismiss());
+        registerTask.addOnCompleteListener(registerCompleteListener);
     }
 
     public void loginWithEmailAndPassword(Context context, String email, String password,
@@ -59,6 +58,10 @@ public class FBManager {
         Task<AuthResult> loginTask = m_firebaseAuth.signInWithEmailAndPassword(email, password);
         loginTask.addOnCompleteListener(task -> progressDialog.dismiss());
         loginTask.addOnCompleteListener(loginCompleteListener);
+    }
+
+    public FirebaseUser getCurrentFBUser() {
+        return m_firebaseAuth.getCurrentUser();
     }
 
     public void logout() {
@@ -94,5 +97,22 @@ public class FBManager {
             }
         });
         saveTask.addOnCompleteListener(saveCompleteListener);
+    }
+
+    public void getFBObject(Context context, final String collName, final String docRefId,
+                            @NonNull OnCompleteListener<DocumentSnapshot>... readCompleteListeners) {
+        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        DocumentReference docRef = m_db.collection(collName).document(docRefId);
+        Task<DocumentSnapshot> readTask = docRef.get();
+        readTask.addOnCompleteListener(task ->  {
+            progressDialog.dismiss();
+        });
+        for (int i = 0; i< readCompleteListeners.length; i++) {
+            readTask.addOnCompleteListener(readCompleteListeners[i]);
+
+        }
     }
 }
