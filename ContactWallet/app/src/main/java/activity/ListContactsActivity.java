@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
 import com.google.firebase.firestore.DocumentChange;
@@ -20,8 +22,10 @@ import model.User;
 import util.ContactAdapter;
 import util.ContactItemAdapter;
 import util.FBManager;
+import util.LoginManager;
 
 public class ListContactsActivity extends AppCompatActivity {
+    private TextView m_currentUser;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter m_contactAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -30,19 +34,22 @@ public class ListContactsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_contacts);
-        recyclerView = findViewById(R.id.listContacts_recycler);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        //recyclerView.setHasFixedSize(true);
+        m_currentUser = findViewById(R.id.listContacts_currentUser);
+        m_currentUser.setText(LoginManager.getInstance().getCurrentUser().getName());
+        m_currentUser.setOnClickListener(l -> {
+            Activities.startUserContactsActivity(this, LoginManager.getInstance().getCurrentUser().getUid());
+        });
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
         List<User> userDataSet = new ArrayList<>();
         m_contactAdapter = new ContactAdapter(userDataSet);
+
+        recyclerView = findViewById(R.id.listContacts_recycler);
         recyclerView.setAdapter(m_contactAdapter);
+        recyclerView.setLayoutManager(layoutManager);
 
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
             for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
@@ -54,5 +61,8 @@ public class ListContactsActivity extends AppCompatActivity {
             }
         };
         FBManager.getInstance().getFollowingUsers(this, null, queryListener);
+
+        Button profile = findViewById(R.id.listContacts_profile);
+        profile.setOnClickListener(l -> Activities.startProfileActivity(this));
     }
 }

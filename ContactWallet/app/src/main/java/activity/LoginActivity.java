@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
         if (result) {
             // User logged in
             finish();
-            Activities.startProfileActivity(this);
+            Activities.startListContactsActivity(this);
         }
     }
 

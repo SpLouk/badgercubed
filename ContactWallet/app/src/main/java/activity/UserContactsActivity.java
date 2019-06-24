@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.badgercubed.ContactWallet.R;
 
+import util.FBManager;
+
 public class UserContactsActivity extends AppCompatActivity {
 
     @Override
@@ -13,10 +15,11 @@ public class UserContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usercontacts);
 
         // TODO : Get userid from savedInstanceState and pass to contactItemsFragment
-        Bundle bundle = new Bundle();
-        bundle.putString("userId", "23");
+        String uid = getIntent().getStringExtra(Activities.INTENT_USER_UID); //TODO: null check
 
-        activity.ContactItemsFragment contactItemsFragment = new activity.ContactItemsFragment();
-        contactItemsFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_frame,
+                        activity.ContactItemsFragment.newInstance(uid))
+                .commit();
     }
 }

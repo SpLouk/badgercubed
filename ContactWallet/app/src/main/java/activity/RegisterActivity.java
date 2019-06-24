@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         if (result) {
             // User logged in
             finish();
-            Activities.startProfileActivity(this);
+            Activities.startListContactsActivity(this);
         }
     }
 

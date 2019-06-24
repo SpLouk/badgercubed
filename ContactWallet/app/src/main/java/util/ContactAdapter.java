@@ -1,5 +1,6 @@
 package util;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.badgercubed.ContactWallet.R;
 
 import java.util.List;
 
+import activity.Activities;
 import model.User;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
@@ -18,14 +20,21 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView textView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView m_textView;
+
         public ViewHolder(View v) {
             super(v);
-            textView = v.findViewById(R.id.my_text_view_id);
-            textView.setOnClickListener(v1 -> {
+            m_textView = v.findViewById(R.id.my_text_view_id);
+        }
+
+        public void setPosition(int position) {
+            m_textView.setText(m_dataset.get(position).getName());
+            m_textView.setOnClickListener(v1 -> {
                 // Start contact detail activity
+                Context context = m_textView.getContext();
+                User selectedUser = m_dataset.get(position);
+                Activities.startUserContactsActivity(context, selectedUser.getUid());
             });
         }
     }
@@ -37,7 +46,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ContactAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
@@ -50,10 +59,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.textView.setText(m_dataset.get(position).getName());
-
+        holder.setPosition(position);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

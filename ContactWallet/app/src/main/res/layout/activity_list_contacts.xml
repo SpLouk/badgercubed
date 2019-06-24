@@ -5,10 +5,30 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/listContacts_currentUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingLeft="32dp"
+            android:text="" />
+
+        <Button
+            android:id="@+id/listContacts_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/listContacts_currentUser"
+            android:text="Profile"/>
+
+    </RelativeLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Contacts:" />
 
@@ -16,5 +36,6 @@
         android:id="@+id/listContacts_recycler"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"/>
 </LinearLayout>

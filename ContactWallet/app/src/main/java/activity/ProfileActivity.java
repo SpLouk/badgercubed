@@ -2,9 +2,6 @@ package activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -56,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
         setTitle(user.getName());
 
         m_email = findViewById(R.id.profile_email);
-        m_email.setText(user.getEmail());
+        m_email.setText(user.getName());
 
         m_logout = findViewById(R.id.profile_logout);
         m_logout.setOnClickListener(l -> {

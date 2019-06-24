@@ -17,12 +17,12 @@
             android:layout_height="wrap_content"
             android:text="User Contacts" />
 
-        <fragment
-            android:id="@+id/fragment"
+        <FrameLayout
+            android:id="@+id/fragment_frame"
             android:name="activity.ContactItemsFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="175dp" />
+            android:layout_marginBottom="175dp"/>
     </LinearLayout>
 
 </RelativeLayout>
