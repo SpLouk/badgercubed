@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import model.User;
 import util.FBManager;
+import util.FollowingManager;
 import util.LoginManager;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -23,6 +24,9 @@ public class ProfileActivity extends AppCompatActivity {
     private Button m_logout;
     private Button m_userContact;
     private Button m_addContact;
+
+    private EditText m_newFollowingInput;
+    private Button m_saveFollowing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
             logoutUser();
         });
 
-        m_userContact = findViewById(R.id.profile_userContact);
-        m_userContact.setOnClickListener(l -> {
-            // Perform action on click
-            Activities.startUserContactsActivity(ProfileActivity.this);
+        m_newFollowingInput = findViewById(R.id.profile_newFollowingText);
+        m_saveFollowing = findViewById(R.id.profile_saveFollowing);
+        m_saveFollowing.setOnClickListener(l -> {
+            FollowingManager.getInstance().addFollowing(ProfileActivity.this, user, m_newFollowingInput.getText().toString());
         });
 
         // Dialog to allow current user to add contacts

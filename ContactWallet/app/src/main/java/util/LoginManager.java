@@ -62,7 +62,7 @@ public class LoginManager {
             }
             callBack.loginResult(updateUser.isSuccessful());
         };
-        updateCurrentUser(context, updateUserCompletion);
+       updateCurrentUser(context, updateUserCompletion);
     }
 
     public void login(Context context, String email, String password, LoginCallback loginCallBack) {
