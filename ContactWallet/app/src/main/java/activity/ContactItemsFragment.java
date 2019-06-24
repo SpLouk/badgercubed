@@ -36,7 +36,7 @@ public class ContactItemsFragment extends Fragment {
         View view = inflater.inflate(R.layout.contact_items_fragment, container, false);
 
         contactItems = new ArrayList<>();
-        contactItemAdapter = new ContactItemAdapter(contactItems);
+        contactItemAdapter = new ContactItemAdapter(getActivity(), contactItems);
 
         m_recyclerView = view.findViewById(R.id.contact_items_fragment_recycler_view);
         m_recyclerView.setHasFixedSize(true);
