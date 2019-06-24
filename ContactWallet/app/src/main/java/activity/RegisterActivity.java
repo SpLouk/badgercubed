@@ -22,6 +22,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
     private Button m_register;
     private EditText m_enterEmail;
     private EditText m_enterPassword;
+    private EditText m_enterName;
+    private EditText m_enterPhoneNum;
     private TextView m_login;
 
     @Override
@@ -29,9 +31,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         if (!result) {
             return;
         }
+
         String email = m_enterEmail.getText().toString().trim();
-        String name = "TODO";
-        String phoneNum = "TODO";
+        String name = m_enterName.getText().toString().trim();
+        String phoneNum = m_enterPhoneNum.getText().toString().trim();
+
         String uid = FBManager.getInstance().getCurrentFBUser().getUid();
 
         User newUser = new User(uid, email, name, phoneNum, new ArrayList<String>());
@@ -58,11 +62,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
             Activities.startProfileActivity(this);
         }
 
-        m_register = findViewById(R.id.register_register);
-        m_register.setOnClickListener(l -> registerUser());
-
         m_enterEmail = findViewById(R.id.register_enterEmail);
         m_enterPassword = findViewById(R.id.register_enterPassword);
+        m_enterName = findViewById(R.id.register_enterName);
+        m_enterPhoneNum = findViewById(R.id.register_enterPhoneNum);
+
+
+        m_register = findViewById(R.id.register_register);
+        m_register.setOnClickListener(l -> registerUser());
 
         m_login = findViewById(R.id.register_login);
         m_login.setOnClickListener(l -> Activities.startLoginActivity(RegisterActivity.this));
@@ -71,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
     private void registerUser() {
         String email = m_enterEmail.getText().toString().trim();
         String password = m_enterPassword.getText().toString().trim();
+        String name = m_enterName.getText().toString().trim();
+        String phoneNum = m_enterPhoneNum.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             // Email empty
@@ -80,6 +89,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         if (TextUtils.isEmpty(password)) {
             // Password empty
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(name)) {
+            // Password empty
+            Toast.makeText(this, "Please enter name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(phoneNum)) {
+            // Password empty
+            Toast.makeText(this, "Please enter phone #", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -27,28 +27,6 @@
             android:text="User Email Here"
             android:layout_gravity="center_horizontal"/>
 
-        <EditText
-            android:id="@+id/profile_enterName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Name: "
-            android:inputType="textPersonName"/>
-
-        <EditText
-            android:id="@+id/profile_enterPhoneNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Phone #: "
-            android:inputType="phone"/>
-
-        <Button
-            android:id="@+id/profile_saveData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Save Information"/>
-
         <Button
             android:id="@+id/profile_logout"
             android:layout_width="wrap_content"

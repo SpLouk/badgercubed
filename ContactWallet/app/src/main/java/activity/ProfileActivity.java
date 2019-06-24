@@ -3,7 +3,6 @@ package activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,9 +14,6 @@ import util.LoginManager;
 
 public class ProfileActivity extends AppCompatActivity {
     private TextView m_email;
-    private EditText m_name;
-    private EditText m_phoneNum;
-    private Button m_save;
     private Button m_logout;
     private Button m_userContact;
 
@@ -36,17 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
+        setTitle(user.getName());
+
         m_email = findViewById(R.id.profile_email);
         m_email.setText(user.getEmail());
-
-        m_name = findViewById(R.id.profile_enterName);
-        m_phoneNum = findViewById(R.id.profile_enterPhoneNum);
-
-        m_save = findViewById(R.id.profile_saveData);
-        m_save.setOnClickListener(l -> {
-            // Perform action on click
-            saveData();
-        });
 
         m_logout = findViewById(R.id.profile_logout);
         m_logout.setOnClickListener(l -> {
@@ -59,17 +48,6 @@ public class ProfileActivity extends AppCompatActivity {
             // Perform action on click
             Activities.startUserContactsActivity(ProfileActivity.this);
         });
-    }
-
-    public void saveData() {
-        /*User user = FBManager.getInstance().updateCurrentUser(this);
-        String uid = user.getUid();
-        String email = user.getEmail();
-        String name = m_name.getText().toString().trim();
-        String phoneNum = m_phoneNum.getText().toString().trim();
-
-        User newUser = new User(uid, email, name, phoneNum, new ArrayList<String>());
-        FBManager.getInstance().saveFBObject(this, newUser, null);*/
     }
 
     public void logoutUser() {

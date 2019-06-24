@@ -53,24 +53,48 @@ public class ContactItem extends FBObject {
         return m_uid;
     }
 
+    public void setUid(String uid) {
+        m_uid = uid;
+    }
+
     public String getUserId() {
         return m_userId;
+    }
+
+    public void setUserId(String userId) {
+        m_userId = userId;
     }
 
     public String getServiceId() {
         return m_serviceId;
     }
 
+    public void setServiceId (String serviceId) {
+         m_serviceId = serviceId;
+    }
+
     public String getLink() {
         return m_link;
+    }
+
+    public void setLink(String link) {
+        m_link = link;
     }
 
     public String getDescription() {
         return m_description;
     }
 
+    public void setDescription(String description) {
+        m_description = description;
+    }
+
     public Integer getProtectionLevel() {
         return m_protectionLevel;
+    }
+
+    public void setProtectionLevel(Integer protectionLevel) {
+        m_protectionLevel = protectionLevel;
     }
 
     public void validate() throws Exception {
