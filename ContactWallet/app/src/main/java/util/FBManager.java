@@ -15,10 +15,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 import model.FBObject;
+import model.Following;
 import model.User;
 
 public class FBManager {
@@ -94,9 +97,9 @@ public class FBManager {
         saveTask.addOnCompleteListener(task -> {
             progressDialog.dismiss();
             if (task.isSuccessful()) {
-                Log.i(TAG, "Succesfully saved doc " + docRef + " in collection " + collName);
+                Log.i(TAG, "Succesfully saved document " + docRef + " in collection " + collName);
             } else {
-                String msg = "Succesfully saved doc " + docRef + " in collection " + collName;
+                String msg = "Failed to save document " + docRef + " in collection " + collName;
                 Log.e(TAG, msg,  task.getException());
             }
         });
@@ -123,12 +126,13 @@ public class FBManager {
         deleteTask.addOnCompleteListener(task -> {
             progressDialog.dismiss();
             if (task.isSuccessful()) {
-                Log.i(TAG, "Succesfully deleted doc " + docRef + " in collection " + collName);
+                Log.i(TAG, "Succesfully deleted document " + docRef + " in collection " + collName);
             } else {
-                String msg = "Succesfully deleted doc " + docRef + " in collection " + collName;
+                String msg = "Failed to delete document " + docRef + " in collection " + collName;
                 Log.e(TAG, msg,  task.getException());
             }
         });
+
         deleteTask.addOnCompleteListener(deleteCompleteListener);
     }
 
@@ -155,15 +159,38 @@ public class FBManager {
 
     // SPECIFIC FIRESTORE QUERIES
 
-    // TODO this is incorrect
+    // TODO : Not sure what followingIds for, kept for now
     public void getFollowingUsers(Context context, List<String> followingIds,
         EventListener<QuerySnapshot> queryListener) {
         final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
         progressDialog.setMessage("Getting Contacts...");
         progressDialog.show();
 
-        m_db.collection(User.m_collectionName).addSnapshotListener(queryListener);
-        progressDialog.dismiss();
+        // Need to get list of people that current user is following,
+        // find following docs with followerid == current user
+
+        Task<QuerySnapshot> following = m_db.collection(Following.mCollectionName)
+                .whereEqualTo("followerUid", getCurrentFBUser().getUid()).get();
+
+        // TODO : Maybe refactor, create getByIds method (collectionName, query, ids, callback)...
+        // TODO : constants for db fieldNames...?
+        following.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                    String followingUid = documentSnapshot.get("followingUid").toString();
+                    followingIds.add(followingUid);
+                }
+
+                Query query = m_db.collection(User.m_collectionName);
+
+                for (String followingId : followingIds) {
+                    query.whereEqualTo("uid", followingId);
+                }
+
+                query.addSnapshotListener(queryListener);
+                progressDialog.dismiss();
+            }
+        });
     }
 
     public Task<QuerySnapshot> getUsersByEmail(String email) {

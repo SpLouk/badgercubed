@@ -59,7 +59,7 @@ public class ListContactsActivity extends AppCompatActivity {
             }
         };
 
-        FBManager.getInstance().getFollowingUsers(this, null, queryListener);
+        FBManager.getInstance().getFollowingUsers(this, new ArrayList<>(), queryListener);
 
         Button profile = findViewById(R.id.listContacts_profile);
         profile.setOnClickListener(l -> Activities.startProfileActivity(this));
