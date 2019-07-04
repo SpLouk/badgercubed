@@ -103,6 +103,35 @@ public class FBManager {
         saveTask.addOnCompleteListener(saveCompleteListener);
     }
 
+    public void deleteFBObject(Context context, FBObject fbObject,
+                             OnCompleteListener<Void> deleteCompleteListener) {
+        try {
+            fbObject.validate();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to validate Firebase object", e);
+        }
+
+        final String collName = fbObject.getCollectionName();
+        final String docRef = fbObject.getDocReference();
+
+        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
+        progressDialog.setMessage("Deleting...");
+        progressDialog.show();
+
+        CollectionReference collectionReference = m_db.collection(collName);
+        Task<Void> deleteTask = collectionReference.document(docRef).delete();
+        deleteTask.addOnCompleteListener(task -> {
+            progressDialog.dismiss();
+            if (task.isSuccessful()) {
+                Log.i(TAG, "Succesfully deleted doc " + docRef + " in collection " + collName);
+            } else {
+                String msg = "Succesfully deleted doc " + docRef + " in collection " + collName;
+                Log.e(TAG, msg,  task.getException());
+            }
+        });
+        deleteTask.addOnCompleteListener(deleteCompleteListener);
+    }
+
     public CollectionReference getCollection(String colName) {
         return m_db.collection(colName);
     }
@@ -118,9 +147,9 @@ public class FBManager {
         readTask.addOnCompleteListener(task ->  {
             progressDialog.dismiss();
         });
+
         for (int i = 0; i< readCompleteListeners.length; i++) {
             readTask.addOnCompleteListener(readCompleteListeners[i]);
-
         }
     }
 

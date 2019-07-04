@@ -10,17 +10,13 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import model.User;
 import util.ContactAdapter;
-import util.ContactItemAdapter;
 import util.FBManager;
 import util.LoginManager;
 
@@ -62,6 +58,7 @@ public class ListContactsActivity extends AppCompatActivity {
                 }
             }
         };
+
         FBManager.getInstance().getFollowingUsers(this, null, queryListener);
 
         Button profile = findViewById(R.id.listContacts_profile);

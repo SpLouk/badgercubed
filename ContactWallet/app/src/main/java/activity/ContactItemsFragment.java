@@ -1,7 +1,6 @@
 package activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,13 +65,8 @@ public class ContactItemsFragment extends Fragment {
         query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
            for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                   //ContactItem contactItem = documentChange.getDocument().toObject(ContactItem.class);
-                   model.ContactItem contactItem = new model.ContactItem(documentChange.getDocument().getString("uid"),
-                           documentChange.getDocument().getString("userId"),
-                           documentChange.getDocument().getString("serviceId"),
-                           documentChange.getDocument().getString("link"),
-                           documentChange.getDocument().getString("description"),
-                           1);
+                   model.ContactItem contactItem = documentChange.getDocument().toObject(model.ContactItem.class);
+
                    contactItems.add(contactItem);
                    contactItemAdapter.notifyDataSetChanged();
                }

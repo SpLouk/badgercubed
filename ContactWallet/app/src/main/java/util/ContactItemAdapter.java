@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.List;
 
@@ -53,16 +53,16 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
         });
 
         viewHolder.deleteBtn.setOnClickListener((View view) -> {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            String uid = contactItem.getUid();
 
-            db.collection("contactItems")
-                    .document(uid).delete()
-                    .addOnSuccessListener((Void aVoid) -> {
-                contactItems.remove(i);
-                notifyItemRemoved(i);
-                notifyItemRangeChanged(i, contactItems.size());
-            });
+            OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {
+                if (deleteTask.isSuccessful()) {
+                    contactItems.remove(i);
+                    notifyItemRemoved(i);
+                    notifyItemRangeChanged(i, contactItems.size());
+                }
+            };
+
+            FBManager.getInstance().deleteFBObject(context, contactItem, deleteCompleteListener);
         });
     }
 
