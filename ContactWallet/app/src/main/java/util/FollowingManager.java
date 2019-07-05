@@ -22,12 +22,16 @@ public class FollowingManager {
     }
 
     public void addFollowing(Context context, User follower, String email) {
-        Task<QuerySnapshot> q = FBManager.getInstance().getUsersByEmail(email);
-        q.addOnSuccessListener(result -> {
+        Task<QuerySnapshot> usersByEmail = FBManager.getInstance().getUsersByEmail(email);
+        usersByEmail.addOnSuccessListener(result -> {
             if (result.isEmpty()) {
                 Toast.makeText(context, "Contact does not exist!", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            // TODO : Check for repeats when adding, currently can add multiple entries in following table
+            //  with same relationship
+
             String id = result.getDocuments().get(0).getId();
             Following f = new Following();
             f.setFollowerUid(follower.getUid());
@@ -37,5 +41,4 @@ public class FollowingManager {
             Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();
         });
     }
-
 }

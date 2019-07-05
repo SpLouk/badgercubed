@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
 
 import model.ContactItem;
+import model.User;
 
 public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.ViewHolder> {
 
@@ -62,6 +64,10 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
                 }
             };
 
+            // Remove contactItem from current user
+            FBManager.getInstance().getCollection(User.m_collectionName)
+                    .document(FBManager.getInstance().getCurrentFBUser().getUid())
+                    .update("contactItemIds", FieldValue.arrayRemove(contactItem.getUid()));
             FBManager.getInstance().deleteFBObject(context, contactItem, deleteCompleteListener);
         });
     }

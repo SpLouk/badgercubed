@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.UUID;
 
@@ -31,12 +32,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*if (true) {
-            Activities.startListContactsActivity(this);
-            finish();
-            return;
-        }*/
 
         setContentView(R.layout.activity_profile);
 
@@ -90,6 +85,10 @@ public class ProfileActivity extends AppCompatActivity {
                                 Integer.parseInt(protectionLevel.getText().toString()));
 
                         FBManager.getInstance().saveFBObject(ProfileActivity.this, contactItem, null);
+                        // Add new contactItem Id to current user
+                        FBManager.getInstance().getCollection(User.m_collectionName)
+                                .document(FBManager.getInstance().getCurrentFBUser().getUid())
+                                .update("contactItemIds", FieldValue.arrayUnion(contactItem.getUid()));
 
                         dialog.dismiss();
                     });
