@@ -61,10 +61,12 @@ public class Following extends FBObject{
         }
     }
 
+    @Exclude
     public String getCollectionName() {
         return mCollectionName;
     }
 
+    @Exclude
     public String getDocReference() {
         return mUid;
     }

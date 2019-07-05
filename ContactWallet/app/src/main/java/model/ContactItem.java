@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.google.firebase.firestore.Exclude;
 
 public class ContactItem extends FBObject {
-    private final String m_collectionName = "contactItems";
+    public static final String m_collectionName = "contactItems";
 
     private String m_uid;
     private String m_userId;

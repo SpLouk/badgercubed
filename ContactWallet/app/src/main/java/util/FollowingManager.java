@@ -30,7 +30,7 @@ public class FollowingManager {
             }
 
             // TODO : Check for repeats when adding, currently can add multiple entries in following table
-            //  with same relationship
+            //  with same relationship, also don't allow follows to self
 
             String id = result.getDocuments().get(0).getId();
             Following f = new Following();

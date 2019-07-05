@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.badgercubed.ContactWallet.R;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -18,7 +17,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.ContactItem;
 import util.ContactItemAdapter;
+import util.FBManager;
 
 public class ContactItemsFragment extends Fragment {
 
@@ -26,9 +27,6 @@ public class ContactItemsFragment extends Fragment {
     private ContactItemAdapter contactItemAdapter;
 
     private String userId = "";
-
-    // Firebase db
-    private FirebaseFirestore m_db;
     private List<model.ContactItem> contactItems;
 
     public ContactItemsFragment() {}
@@ -53,15 +51,13 @@ public class ContactItemsFragment extends Fragment {
         m_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         m_recyclerView.setAdapter(contactItemAdapter);
 
-        //.whereEqualTo("userId", userId)
-        m_db = FirebaseFirestore.getInstance();
-        Query query = m_db.collection("contactItems");
+        Query query = FBManager.getInstance().getCollection(ContactItem.m_collectionName);
 
         if (!userId.trim().isEmpty()) {
             query = query.whereEqualTo("userId", userId);
         }
 
-        // TODO : refactor to FBManager
+        // TODO : refactor to general method?
         query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
            for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                if (documentChange.getType() == DocumentChange.Type.ADDED) {
