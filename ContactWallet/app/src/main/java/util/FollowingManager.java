@@ -1,13 +1,20 @@
 package util;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import activity.ProfileActivity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import model.Following;
 import model.User;
 
@@ -33,12 +40,38 @@ public class FollowingManager {
             //  with same relationship, also don't allow follows to self
 
             String id = result.getDocuments().get(0).getId();
-            Following f = new Following();
-            f.setFollowerUid(follower.getUid());
-            f.setFollowingUid(id);
-            f.setLevel("0"); // starts at public level by default
-            FBManager.getInstance().getCollection(Following.mCollectionName).add(f);
-            Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();
+            Following f = new Following(UUID.randomUUID().toString(), follower.getUid(), id,
+                    "0"); // starts at public level by default
+
+            OnCompleteListener<Void> onCompleteListener = t -> {
+                Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();
+            };
+
+            FBManager.getInstance().saveFBObject(context, f, onCompleteListener);
+        });
+    }
+
+    public void removeFollowing(String followerUid, String followingUid,
+                                @Nullable OnCompleteListener onCompleteListener) {
+
+        List<Task<Void>> deleteTasks = new ArrayList<>();
+
+        Task<QuerySnapshot> querySnapshotTask = FBManager.getInstance()
+                .getCollection(Following.mCollectionName)
+                .whereEqualTo("followerUid", followerUid)
+                .whereEqualTo("followingUid", followingUid)
+                .get();
+
+        querySnapshotTask.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                    deleteTasks.add(snapshot.getReference().delete());
+                }
+
+                if (onCompleteListener != null) {
+                    Tasks.whenAllComplete(deleteTasks).addOnCompleteListener(onCompleteListener);
+                }
+            }
         });
     }
 }

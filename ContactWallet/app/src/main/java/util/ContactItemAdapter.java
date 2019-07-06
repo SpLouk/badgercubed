@@ -55,7 +55,6 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
         });
 
         viewHolder.deleteBtn.setOnClickListener((View view) -> {
-
             OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {
                 if (deleteTask.isSuccessful()) {
                     contactItems.remove(i);

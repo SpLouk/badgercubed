@@ -5,42 +5,54 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.List;
 
 import activity.Activities;
+import model.Following;
 import model.User;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
-    private List<User> m_dataset;
+    private Context m_context;
+    private List<Following> m_dataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView m_textView;
+        public Button m_deleteBtn;
 
         public ViewHolder(View v) {
             super(v);
             m_textView = v.findViewById(R.id.my_text_view_id);
+            m_deleteBtn = v.findViewById(R.id.btn_list_item_contact_delete);
         }
 
         public void setPosition(int position) {
-            m_textView.setText(m_dataset.get(position).getName());
-            m_textView.setOnClickListener(v1 -> {
-                // Start contact detail activity
-                Context context = m_textView.getContext();
-                User selectedUser = m_dataset.get(position);
-                Activities.startUserContactsActivity(context, selectedUser.getUid());
-            });
+            FBManager.getInstance().getCollection(User.m_collectionName)
+                    .document(m_dataset.get(position).getFollowingUid())
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            m_textView.setText(task.getResult().get("name").toString());
+                            m_textView.setOnClickListener(v1 -> {
+                                // Start contact detail activity
+                                Context context = m_textView.getContext();
+                                Activities.startUserContactsActivity(context, m_dataset.get(position).getFollowingUid());
+                            });
+                        }
+                    });
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ContactAdapter(List<User> myDataset) {
+    public ContactAdapter(Context context, List<Following> myDataset) {
+        m_context = context;
         m_dataset = myDataset;
     }
 
@@ -59,7 +71,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         holder.setPosition(position);
+
+        holder.m_deleteBtn.setOnClickListener(view -> {
+            OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {
+                if (deleteTask.isSuccessful()) {
+                    m_dataset.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, m_dataset.size());
+                }
+            };
+
+            FBManager.getInstance().deleteFBObject(m_context, m_dataset.get(position), deleteCompleteListener);
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

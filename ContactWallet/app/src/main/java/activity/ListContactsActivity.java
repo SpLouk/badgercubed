@@ -15,7 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.User;
+import model.Following;
 import util.ContactAdapter;
 import util.FBManager;
 import util.LoginManager;
@@ -40,21 +40,20 @@ public class ListContactsActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
 
-        List<User> userDataSet = new ArrayList<>();
-        m_contactAdapter = new ContactAdapter(userDataSet);
+        List<Following> userDataSet = new ArrayList<>();
+        m_contactAdapter = new ContactAdapter(ListContactsActivity.this, userDataSet);
 
         recyclerView = findViewById(R.id.listContacts_recycler);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(m_contactAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
             for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                    User contact = documentChange.getDocument().toObject(User.class);
-                    if (!contact.getUid().equals(LoginManager.getInstance().getCurrentUser().getUid())) {
-                        userDataSet.add(contact);
-                        m_contactAdapter.notifyDataSetChanged();
-                    }
+                    Following contact = documentChange.getDocument().toObject(Following.class);
+                    userDataSet.add(contact);
+                    m_contactAdapter.notifyDataSetChanged();
                 }
             }
         };
