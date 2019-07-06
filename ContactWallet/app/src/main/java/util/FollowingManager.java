@@ -36,42 +36,29 @@ public class FollowingManager {
                 return;
             }
 
+            String id = result.getDocuments().get(0).getId();
+
             // TODO : Check for repeats when adding, currently can add multiple entries in following table
             //  with same relationship, also don't allow follows to self
+            FBManager.getInstance().getCollection(Following.mCollectionName)
+                    .whereEqualTo("followerUid", follower.getUid())
+                    .whereEqualTo("followingUid", id)
+                    .get()
+                    .addOnSuccessListener(res -> {
+                        if (res.isEmpty() && !follower.getUid().equals(id)) {
+                            Following f = new Following(UUID.randomUUID().toString(), follower.getUid(), id,
+                                    "0"); // starts at public level by default
 
-            String id = result.getDocuments().get(0).getId();
-            Following f = new Following(UUID.randomUUID().toString(), follower.getUid(), id,
-                    "0"); // starts at public level by default
+                            OnCompleteListener<Void> onCompleteListener = t -> {
+                                Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();
+                            };
 
-            OnCompleteListener<Void> onCompleteListener = t -> {
-                Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();
-            };
-
-            FBManager.getInstance().saveFBObject(context, f, onCompleteListener);
-        });
-    }
-
-    public void removeFollowing(String followerUid, String followingUid,
-                                @Nullable OnCompleteListener onCompleteListener) {
-
-        List<Task<Void>> deleteTasks = new ArrayList<>();
-
-        Task<QuerySnapshot> querySnapshotTask = FBManager.getInstance()
-                .getCollection(Following.mCollectionName)
-                .whereEqualTo("followerUid", followerUid)
-                .whereEqualTo("followingUid", followingUid)
-                .get();
-
-        querySnapshotTask.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                    deleteTasks.add(snapshot.getReference().delete());
-                }
-
-                if (onCompleteListener != null) {
-                    Tasks.whenAllComplete(deleteTasks).addOnCompleteListener(onCompleteListener);
-                }
-            }
+                            FBManager.getInstance().saveFBObject(context, f, onCompleteListener);
+                        }
+                        else {
+                            Toast.makeText(context, "Not Valid!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 }
