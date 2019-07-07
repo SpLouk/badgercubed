@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         m_register.setOnClickListener(l -> registerUser());
 
         m_login = findViewById(R.id.register_login);
-        m_login.setOnClickListener(l -> Activities.startLoginActivity(RegisterActivity.this));
+        m_login.setOnClickListener(l -> Activities.startWelcomeActivity(RegisterActivity.this));
     }
 
     private void registerUser() {
