@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="activity.MainActivity"
+    tools:context="com.badgercubed.ContactWallet.activity.MainActivity"
     android:layout_centerVertical="true">
 
     <LinearLayout

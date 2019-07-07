@@ -1,22 +1,15 @@
-package util;
+package com.badgercubed.ContactWallet.util;
 
 import android.content.Context;
 import android.widget.Toast;
 
+import com.badgercubed.ContactWallet.model.Following;
+import com.badgercubed.ContactWallet.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-
-import javax.annotation.Nullable;
-
-import model.Following;
-import model.User;
 
 public class FollowingManager {
     private static FollowingManager instance = null;
@@ -54,8 +47,7 @@ public class FollowingManager {
                             };
 
                             FBManager.getInstance().saveFBObject(context, f, onCompleteListener);
-                        }
-                        else {
+                        } else {
                             Toast.makeText(context, "Not Valid!", Toast.LENGTH_SHORT).show();
                         }
                     });

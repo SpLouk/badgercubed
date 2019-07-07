@@ -1,4 +1,4 @@
-package util;
+package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,19 +11,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
+import com.badgercubed.ContactWallet.activity.UserContactsActivity;
+import com.badgercubed.ContactWallet.model.ContactItem;
+import com.badgercubed.ContactWallet.model.User;
+import com.badgercubed.ContactWallet.util.FBManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
 
-import model.ContactItem;
-import model.User;
-
 public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.ViewHolder> {
 
     private Context context;
     private String activityName;
-    private List<model.ContactItem> contactItems;
+    private List<ContactItem> contactItems;
 
     public ContactItemAdapter(Context context, String activityName, List<ContactItem> contactItems) {
         this.context = context;
@@ -41,11 +42,11 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         // TODO : Refactor?
-        if (activityName.equals(activity.UserContactsActivity.class.getSimpleName())) {
+        if (activityName.equals(UserContactsActivity.class.getSimpleName())) {
             viewHolder.deleteBtn.setVisibility(View.GONE);
         }
 
-        model.ContactItem contactItem = contactItems.get(i);
+        ContactItem contactItem = contactItems.get(i);
         viewHolder.descTextView.setText(contactItem.getDescription());
 
         String url = contactItem.getLink();
@@ -78,10 +79,10 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        View m_view;
         public TextView descTextView;
         public Button linkBtn;
         public Button deleteBtn;
+        View m_view;
 
         public ViewHolder(View itemView) {
             super(itemView);

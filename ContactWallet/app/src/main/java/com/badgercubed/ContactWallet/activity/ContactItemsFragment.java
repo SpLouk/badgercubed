@@ -1,4 +1,4 @@
-package activity;
+package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.badgercubed.ContactWallet.R;
+import com.badgercubed.ContactWallet.adapter.ContactItemAdapter;
+import com.badgercubed.ContactWallet.model.ContactItem;
+import com.badgercubed.ContactWallet.util.FBManager;
+
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -17,19 +21,26 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.ContactItem;
-import util.ContactItemAdapter;
-import util.FBManager;
-
 public class ContactItemsFragment extends Fragment {
 
     private RecyclerView m_recyclerView;
     private ContactItemAdapter contactItemAdapter;
 
     private String userId = "";
-    private List<model.ContactItem> contactItems;
+    private List<ContactItem> contactItems;
 
-    public ContactItemsFragment() {}
+    public ContactItemsFragment() {
+    }
+
+    public static ContactItemsFragment newInstance(String userId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("userId", userId);
+
+        ContactItemsFragment contactItemsFragment = new ContactItemsFragment();
+        contactItemsFragment.setArguments(bundle);
+
+        return contactItemsFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,26 +70,16 @@ public class ContactItemsFragment extends Fragment {
 
         // TODO : refactor to general method?
         query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
-           for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-               if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                   model.ContactItem contactItem = documentChange.getDocument().toObject(model.ContactItem.class);
+            for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    ContactItem contactItem = documentChange.getDocument().toObject(ContactItem.class);
 
-                   contactItems.add(contactItem);
-                   contactItemAdapter.notifyDataSetChanged();
-               }
-           }
+                    contactItems.add(contactItem);
+                    contactItemAdapter.notifyDataSetChanged();
+                }
+            }
         });
 
         return view;
-    }
-
-    public static ContactItemsFragment newInstance(String userId) {
-        Bundle bundle = new Bundle();
-        bundle.putString("userId", userId);
-
-        ContactItemsFragment contactItemsFragment = new ContactItemsFragment();
-        contactItemsFragment.setArguments(bundle);
-
-        return contactItemsFragment;
     }
 }

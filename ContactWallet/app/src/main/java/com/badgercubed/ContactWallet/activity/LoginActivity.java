@@ -1,4 +1,4 @@
-package activity;
+package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
-
-import util.FBManager;
-import util.LoginCallback;
-import util.LoginManager;
+import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.LoginCallback;
+import com.badgercubed.ContactWallet.util.LoginManager;
 
 public class LoginActivity extends AppCompatActivity implements LoginCallback {
     private Button m_login;

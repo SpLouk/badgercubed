@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="activity.MainActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.MainActivity"
             android:label="ContactWallet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,23 +20,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="activity.RegisterActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.RegisterActivity"
             android:label="Register">
         </activity>
 
-        <activity android:name="activity.LoginActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.LoginActivity"
             android:label="Login">
         </activity>
 
-        <activity android:name="activity.ProfileActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.ProfileActivity"
             android:label="Profile" >
         </activity>
 
-        <activity android:name="activity.ListContactsActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.ListContactsActivity"
             android:label="Contacts" >
         </activity>
 
-        <activity android:name="activity.UserContactsActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.UserContactsActivity"
             android:label="Contacts" >
         </activity>
     </application>

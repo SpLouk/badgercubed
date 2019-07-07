@@ -1,4 +1,4 @@
-package model;
+package com.badgercubed.ContactWallet.model;
 
 import android.text.TextUtils;
 
@@ -12,7 +12,8 @@ public class Following extends FBObject {
     private String mFollowerUid;
     private String mLevel;
 
-    public Following() {}
+    public Following() {
+    }
 
     public Following(String uid, String followerUid, String followingUid, String protectionLevel) {
         mUid = uid;
