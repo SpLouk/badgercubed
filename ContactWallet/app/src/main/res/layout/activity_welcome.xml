@@ -1,37 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="com.badgercubed.ContactWallet.activity.MainActivity"
-    android:layout_centerVertical="true">
+    tools:context="activity.MainActivity"
+    android:layout_centerVertical="true"
+    android:background="@drawable/gradient">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="551dp"
+        app:srcCompat="@drawable/logo" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="270dp"
+        android:layout_marginEnd="83dp"
+        android:ems="10"
+        android:hint="Username"
+        android:drawableStart="@drawable/ic_action_username"
+        android:background="#11000000"
+        android:inputType="textPersonName"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Welcome To ContactWallet!"
-            android:layout_gravity="center_horizontal"/>
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="340dp"
+        android:layout_marginEnd="83dp"
+        android:background="#11000000"
+        android:drawableStart="@drawable/ic_action_password"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/welcome_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Login"/>
+    <Button
+        android:id="@+id/welcome_login"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/login_password"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="240dp"
+        android:background="@drawable/btn_login"
+        android:text="Login" />
 
-        <Button
-            android:id="@+id/welcome_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Register"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/welcome_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="506dp"
+        android:layout_marginEnd="172dp"
+        android:text="Register"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
 </RelativeLayout>

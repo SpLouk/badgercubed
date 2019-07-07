@@ -2,7 +2,11 @@ package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.util.FBManager;
@@ -12,7 +16,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements LoginCallback {
     private Button m_login;
-    private Button m_register;
+    private TextView m_register;
+    private EditText m_enterEmail;
+    private EditText m_enterPassword;
 
     @Override
     public void loginResult(boolean result) {
@@ -38,6 +44,28 @@ public class MainActivity extends AppCompatActivity implements LoginCallback {
         m_register.setOnClickListener(l -> Activities.startRegisterActivity(MainActivity.this));
 
         m_login = findViewById(R.id.welcome_login);
-        m_login.setOnClickListener(l -> Activities.startLoginActivity(MainActivity.this));
+        m_login.setOnClickListener(l -> loginUser());
+
+        m_enterEmail = findViewById(R.id.login_username);
+        m_enterPassword = findViewById(R.id.login_password);
+    }
+
+
+    private void loginUser() {
+        String email = m_enterEmail.getText().toString().trim();
+        String password = m_enterPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            // Email empty
+            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            // Password empty
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        LoginManager.getInstance().login(this, email, password, this);
     }
 }
