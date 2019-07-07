@@ -33,14 +33,14 @@ public class FollowingManager {
 
             // TODO : Check for repeats when adding, currently can add multiple entries in following table
             //  with same relationship, also don't allow follows to self
-            FBManager.getInstance().getCollection(Following.mCollectionName)
+            FBManager.getInstance().getCollection(Following.m_collectionName)
                     .whereEqualTo("followerUid", follower.getUid())
                     .whereEqualTo("followingUid", id)
                     .get()
                     .addOnSuccessListener(res -> {
                         if (res.isEmpty() && !follower.getUid().equals(id)) {
                             Following f = new Following(UUID.randomUUID().toString(), follower.getUid(), id,
-                                    "0"); // starts at public level by default
+                                    Integer.toString(ProtectionLevel.PUBLIC.getProtectionLevel())); // starts at public level by default
 
                             OnCompleteListener<Void> onCompleteListener = t -> {
                                 Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();

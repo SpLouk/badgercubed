@@ -22,14 +22,14 @@ import java.util.List;
 
 public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.ViewHolder> {
 
-    private Context context;
-    private String activityName;
-    private List<ContactItem> contactItems;
+    private Context m_context;
+    private String m_activityName;
+    private List<ContactItem> m_contactItems;
 
     public ContactItemAdapter(Context context, String activityName, List<ContactItem> contactItems) {
-        this.context = context;
-        this.activityName = activityName;
-        this.contactItems = contactItems;
+        this.m_context = context;
+        this.m_activityName = activityName;
+        this.m_contactItems = contactItems;
     }
 
     @Override
@@ -40,27 +40,26 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-
         // TODO : Refactor?
-        if (activityName.equals(UserContactsActivity.class.getSimpleName())) {
-            viewHolder.deleteBtn.setVisibility(View.GONE);
+        if (m_activityName.equals(UserContactsActivity.class.getSimpleName())) {
+            viewHolder.m_deleteBtn.setVisibility(View.GONE);
         }
 
-        ContactItem contactItem = contactItems.get(i);
-        viewHolder.descTextView.setText(contactItem.getDescription());
+        ContactItem contactItem = m_contactItems.get(i);
+        viewHolder.m_descTextView.setText(contactItem.getDescription());
 
         String url = contactItem.getLink();
-        viewHolder.linkBtn.setOnClickListener((View view) -> {
+        viewHolder.m_linkBtn.setOnClickListener((View view) -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(browserIntent);
+            m_context.startActivity(browserIntent);
         });
 
-        viewHolder.deleteBtn.setOnClickListener((View view) -> {
+        viewHolder.m_deleteBtn.setOnClickListener((View view) -> {
             OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {
                 if (deleteTask.isSuccessful()) {
-                    contactItems.remove(i);
+                    m_contactItems.remove(i);
                     notifyItemRemoved(i);
-                    notifyItemRangeChanged(i, contactItems.size());
+                    notifyItemRangeChanged(i, m_contactItems.size());
                 }
             };
 
@@ -68,29 +67,29 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
             FBManager.getInstance().getCollection(User.m_collectionName)
                     .document(FBManager.getInstance().getCurrentFBUser().getUid())
                     .update("contactItemIds", FieldValue.arrayRemove(contactItem.getUid()));
-            FBManager.getInstance().deleteFBObject(context, contactItem, deleteCompleteListener);
+            FBManager.getInstance().deleteFBObject(m_context, contactItem, deleteCompleteListener);
         });
     }
 
     @Override
     public int getItemCount() {
-        return contactItems.size();
+        return m_contactItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView descTextView;
-        public Button linkBtn;
-        public Button deleteBtn;
+        public TextView m_descTextView;
+        public Button m_linkBtn;
+        public Button m_deleteBtn;
         View m_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             m_view = itemView;
 
-            descTextView = m_view.findViewById(R.id.list_item_textview);
-            deleteBtn = m_view.findViewById(R.id.contact_item_list_item_delete_btn);
-            linkBtn = m_view.findViewById(R.id.contact_item_list_item_link_btn);
+            m_descTextView = m_view.findViewById(R.id.list_item_textview);
+            m_deleteBtn = m_view.findViewById(R.id.contact_item_list_item_delete_btn);
+            m_linkBtn = m_view.findViewById(R.id.contact_item_list_item_link_btn);
         }
     }
 }

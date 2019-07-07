@@ -21,9 +21,9 @@ import com.google.firebase.firestore.FieldValue;
 import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
+
     private TextView m_email;
     private Button m_logout;
-    private Button m_userContact;
     private Button m_addContact;
 
     private EditText m_newFollowingInput;

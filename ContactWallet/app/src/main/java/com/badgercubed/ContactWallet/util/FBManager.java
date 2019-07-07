@@ -168,43 +168,11 @@ public class FBManager {
         // Need to get list of people that current user is following,
         // find following docs with followerid == current user
 
-        Query following = m_db.collection(Following.mCollectionName)
+        Query following = m_db.collection(Following.m_collectionName)
                 .whereEqualTo("followerUid", getCurrentFBUser().getUid());
 
         following.addSnapshotListener(queryListener);
         progressDialog.dismiss();
-
-        /*
-        Task<QuerySnapshot> following = m_db.collection(Following.mCollectionName)
-                .whereEqualTo("followerUid", getCurrentFBUser().getUid()).get();
-
-        // TODO : Maybe refactor, create getByIds method (collectionName, query, ids, callback)...
-        // TODO : constants for db fieldNames...?
-        following.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                    String followingUid = documentSnapshot.get("followingUid").toString();
-                    followingIds.add(followingUid);
-                }
-
-                Query query = m_db.collection(User.m_collectionName);
-                        // TODO : Can't limit to 0...
-                        // .limit(followingIds.size());
-                // Temp way, get user query with 1 item, just self since checked later... find other way
-                if (followingIds.size() == 0) {
-                    query.whereEqualTo("uid", getCurrentFBUser().getUid());
-                }
-
-                for (String followingId : followingIds) {
-                    query.whereEqualTo("uid", followingId);
-                }
-
-                // TODO : currently listening to user collection, need to change to followers?
-                //  check whether dynamic add/delete work
-                query.addSnapshotListener(queryListener);
-                progressDialog.dismiss();
-            }
-        });*/
     }
 
     public Task<QuerySnapshot> getUsersByEmail(String email) {
