@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(ProfileActivity.this, "ERROR, user somehow logged out", Toast.LENGTH_SHORT).show();
             LoginManager.getInstance().logout();
             finish();
-            Activities.startLoginActivity(this);
+            Activities.startWelcomeActivity(this);
             return;
         }
 

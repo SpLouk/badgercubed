@@ -17,11 +17,6 @@ public class Activities {
         context.startActivity(intent);
     }
 
-    public static void startLoginActivity(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        context.startActivity(intent);
-    }
-
     public static void startProfileActivity(Context context) {
         Intent intent = new Intent(context, ProfileActivity.class);
         context.startActivity(intent);

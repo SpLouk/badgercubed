@@ -5,23 +5,17 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Contacts" />
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
         <TextView
             android:id="@+id/listContacts_currentUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
-            android:paddingBottom="16dp"
+            android:layout_centerVertical="true"
             android:text="@string/username"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -31,15 +25,20 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/listContacts_currentUser"
             android:layout_marginLeft="50dp"
+            android:layout_centerVertical="true"
             android:text="Profile" />
-
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Contacts:" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listContacts_recycler"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"/>
-
+        android:layout_marginLeft="16dp"/>
 </LinearLayout>
