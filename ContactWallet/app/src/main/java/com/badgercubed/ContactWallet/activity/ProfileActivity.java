@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
+import com.badgercubed.ContactWallet.dialog.AddContactItemDialog;
 import com.badgercubed.ContactWallet.model.ContactItem;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
@@ -65,38 +66,8 @@ public class ProfileActivity extends AppCompatActivity {
         // Dialog to allow current user to add contacts
         m_addContact = findViewById(R.id.profile_addContact);
         m_addContact.setOnClickListener(view -> {
-            AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
-            View mView = getLayoutInflater().inflate(R.layout.dialog_add_contact, null);
-
-            alertDialog.setView(mView);
-
-            EditText description = mView.findViewById(R.id.add_contact_description);
-            EditText link = mView.findViewById(R.id.add_contact_link);
-            EditText protectionLevel = mView.findViewById(R.id.add_contact_protectionLevel);
-
-            alertDialog.setTitle("Add Contact");
-
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                    (DialogInterface dialog, int which) -> {
-                        // TODO : Add contact item, still need to add to current users list of contact itemId
-                        ContactItem contactItem = new ContactItem(UUID.randomUUID().toString(),
-                                FBManager.getInstance().getCurrentFBUser().getUid(), "",
-                                link.getText().toString(), description.getText().toString(),
-                                Integer.parseInt(protectionLevel.getText().toString()));
-
-                        FBManager.getInstance().saveFBObject(ProfileActivity.this, contactItem, null);
-                        // Add new contactItem Id to current user
-                        FBManager.getInstance().getCollection(User.m_collectionName)
-                                .document(FBManager.getInstance().getCurrentFBUser().getUid())
-                                .update("contactItemIds", FieldValue.arrayUnion(contactItem.getUid()));
-
-                        dialog.dismiss();
-                    });
-
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
-                    (DialogInterface dialog, int which) -> dialog.dismiss());
-
-            alertDialog.show();
+            AddContactItemDialog dialog = new AddContactItemDialog();
+            dialog.show(getFragmentManager(), "Add A Contact Item");
         });
 
         getSupportFragmentManager().beginTransaction()
