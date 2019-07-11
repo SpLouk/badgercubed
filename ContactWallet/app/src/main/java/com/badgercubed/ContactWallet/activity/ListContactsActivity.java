@@ -33,7 +33,7 @@ public class ListContactsActivity extends AppCompatActivity {
         m_currentUser = findViewById(R.id.listContacts_currentUser);
         m_currentUser.setText(LoginManager.getInstance().getCurrentUser().getName());
         m_currentUser.setOnClickListener(l -> {
-            Activities.startUserContactsActivity(this, LoginManager.getInstance().getCurrentUser().getUid());
+            Activities.startContactDetailsActivity(this, LoginManager.getInstance().getCurrentUser().getUid());
         });
 
         // use a linear layout manager

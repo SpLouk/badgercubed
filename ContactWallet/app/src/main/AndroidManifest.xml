@@ -32,7 +32,7 @@
             android:label="Contacts" >
         </activity>
 
-        <activity android:name="com.badgercubed.ContactWallet.activity.UserContactsActivity"
+        <activity android:name="com.badgercubed.ContactWallet.activity.ContactDetailsActivity"
             android:label="Contacts" >
         </activity>
     </application>

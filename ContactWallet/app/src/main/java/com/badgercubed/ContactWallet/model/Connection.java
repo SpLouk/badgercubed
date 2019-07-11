@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.Exclude;
 
-public class ContactItem extends FBObject {
-    public static final String m_collectionName = "contactItems";
+public class Connection extends FBObject {
+    public static final String m_collectionName = "connections";
 
     private String m_uid;
     private String m_userId;
@@ -14,10 +14,10 @@ public class ContactItem extends FBObject {
     private String m_description;
     private Integer m_protectionLevel;
 
-    public ContactItem() {
+    public Connection() {
     }
 
-    public ContactItem(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
+    public Connection(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
         m_uid = uid;
         m_userId = userId;
         m_serviceId = serviceId;
@@ -105,7 +105,7 @@ public class ContactItem extends FBObject {
             throw new Exception("Service ID is empty");
         }
         if (TextUtils.isEmpty(m_link)) {
-            throw new Exception("Contact link is empty");
+            throw new Exception("Connection link is empty");
         }
         if (TextUtils.isEmpty(m_description)) {
             throw new Exception("Description is empty");

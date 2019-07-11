@@ -74,7 +74,7 @@
 
         <!--  <fragment
               android:id="@+id/fragment2"
-              android:name="com.badgercubed.ContactWallet.activity.ContactItemsFragment"
+              android:name="com.badgercubed.ContactWallet.activity.ConnectionsFragment
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center_horizontal" />-->
