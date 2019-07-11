@@ -14,21 +14,21 @@ public class User extends FBObject {
     private String m_email;
     private String m_name;
     private String m_phoneNum;
-    private List<String> m_contactItemIds;
+    private List<String> m_connectionIds;
     private List<String> m_followingIds;
 
     public User() {
-        m_contactItemIds = new ArrayList<>();
+        m_connectionIds = new ArrayList<>();
         m_followingIds = new ArrayList<>();
     }
 
     public User(String uid, String email, String name, String phoneNum,
-                List<String> contactItemIds, List<String> followingIds) {
+                List<String> connectionIds, List<String> followingIds) {
         m_uid = uid;
         m_email = email;
         m_name = name;
         m_phoneNum = phoneNum;
-        m_contactItemIds = contactItemIds;
+        m_connectionIds = connectionIds;
         m_followingIds = followingIds;
     }
 
@@ -64,12 +64,12 @@ public class User extends FBObject {
         m_phoneNum = phoneNum;
     }
 
-    public List<String> getContactItemIds() {
-        return m_contactItemIds;
+    public List<String> getConnectionIds() {
+        return m_connectionIds;
     }
 
-    public void setContactItemIds(List<String> contactItemIds) {
-        m_contactItemIds = contactItemIds;
+    public void setConnectionIds(List<String> connectionIds) {
+        m_connectionIds = connectionIds;
     }
 
     public List<String> getFollowingIds() {
@@ -93,8 +93,8 @@ public class User extends FBObject {
         if (TextUtils.isEmpty(m_phoneNum)) {
             throw new Exception("Phone # is empty");
         }
-        if (m_contactItemIds == null) {
-            throw new Exception("Contact item id's null");
+        if (m_connectionIds == null) {
+            throw new Exception("Connection id's null");
         }
         if (m_followingIds == null) {
             throw new Exception("Following id's null");

@@ -9,4 +9,11 @@
         <item name="android:windowSoftInputMode">stateHidden</item>
     </style>
 
+    <style name="DialogFragmentTitleStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
 </resources>

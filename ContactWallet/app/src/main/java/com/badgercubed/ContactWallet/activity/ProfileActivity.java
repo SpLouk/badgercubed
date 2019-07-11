@@ -1,25 +1,18 @@
 package com.badgercubed.ContactWallet.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.dialog.AddContactItemDialog;
-import com.badgercubed.ContactWallet.model.ContactItem;
+import com.badgercubed.ContactWallet.dialog.AddConnectionDialog;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.badgercubed.ContactWallet.util.FollowingManager;
 import com.badgercubed.ContactWallet.util.LoginManager;
-import com.google.firebase.firestore.FieldValue;
-
-import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -66,13 +59,13 @@ public class ProfileActivity extends AppCompatActivity {
         // Dialog to allow current user to add contacts
         m_addContact = findViewById(R.id.profile_addContact);
         m_addContact.setOnClickListener(view -> {
-            AddContactItemDialog dialog = new AddContactItemDialog();
-            dialog.show(getFragmentManager(), "Add A Contact Item");
+            AddConnectionDialog dialog = new AddConnectionDialog();
+            dialog.show(getFragmentManager(), "Add A Connection");
         });
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container,
-                        ContactItemsFragment.newInstance(FBManager.getInstance().getCurrentFBUser().getUid()))
+                        ConnectionsFragment.newInstance(FBManager.getInstance().getCurrentFBUser().getUid()))
                 .commit();
     }
 

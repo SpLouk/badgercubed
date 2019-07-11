@@ -1,53 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="0dp">
 
-    <EditText
+    <Spinner
+        android:id="@+id/addContact_serviceSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <com.badgercubed.ContactWallet.widget.PrefixEditText
         android:id="@+id/addContact_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
         android:inputType="textPersonName"
-        android:hint="Link" />
+        android:ems="10"
+        android:tag="prefix" />
 
     <EditText
         android:id="@+id/addContact_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Description" />
 
-    <EditText
-        android:id="@+id/addContact_protectionLevel"
-        android:layout_width="match_parent"
+    <Spinner
+        android:id="@+id/addContact_protectionLevelSpinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Protection Level" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp">
-
-        <Button
-            android:id="@+id/addContact_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="Confirm"/>
-
-        <Button
-            android:id="@+id/addContact_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel"/>
-    </RelativeLayout>
-
+        android:layout_marginBottom="16dp" />
 </LinearLayout>

@@ -27,8 +27,8 @@ public class Activities {
         context.startActivity(intent);
     }
 
-    public static void startUserContactsActivity(Context context, String userUid) {
-        Intent intent = new Intent(context, UserContactsActivity.class);
+    public static void startContactDetailsActivity(Context context, String userUid) {
+        Intent intent = new Intent(context, ContactDetailsActivity.class);
         intent.putExtra(INTENT_USER_UID, userUid);
         context.startActivity(intent);
     }

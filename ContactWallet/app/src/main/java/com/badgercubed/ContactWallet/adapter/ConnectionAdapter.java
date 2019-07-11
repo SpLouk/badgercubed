@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.activity.UserContactsActivity;
-import com.badgercubed.ContactWallet.model.ContactItem;
+import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
+import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,35 +20,35 @@ import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
 
-public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.ViewHolder> {
+public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.ViewHolder> {
 
     private Context m_context;
     private String m_activityName;
-    private List<ContactItem> m_contactItems;
+    private List<Connection> m_connections;
 
-    public ContactItemAdapter(Context context, String activityName, List<ContactItem> contactItems) {
+    public ConnectionAdapter(Context context, String activityName, List<Connection> connections) {
         this.m_context = context;
         this.m_activityName = activityName;
-        this.m_contactItems = contactItems;
+        this.m_connections = connections;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.contact_item_list_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_connection, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         // TODO : Refactor?
-        if (m_activityName.equals(UserContactsActivity.class.getSimpleName())) {
+        if (m_activityName.equals(ContactDetailsActivity.class.getSimpleName())) {
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
         }
 
-        ContactItem contactItem = m_contactItems.get(i);
-        viewHolder.m_descTextView.setText(contactItem.getDescription());
+        Connection connection = m_connections.get(i);
+        viewHolder.m_descTextView.setText(connection.getDescription());
 
-        String url = contactItem.getLink();
+        String url = connection.getLink();
         viewHolder.m_linkBtn.setOnClickListener((View view) -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             m_context.startActivity(browserIntent);
@@ -57,23 +57,23 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
         viewHolder.m_deleteBtn.setOnClickListener((View view) -> {
             OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {
                 if (deleteTask.isSuccessful()) {
-                    m_contactItems.remove(i);
+                    m_connections.remove(i);
                     notifyItemRemoved(i);
-                    notifyItemRangeChanged(i, m_contactItems.size());
+                    notifyItemRangeChanged(i, m_connections.size());
                 }
             };
 
-            // Remove contactItem from current user
+            // Remove connection from current user
             FBManager.getInstance().getCollection(User.m_collectionName)
                     .document(FBManager.getInstance().getCurrentFBUser().getUid())
-                    .update("contactItemIds", FieldValue.arrayRemove(contactItem.getUid()));
-            FBManager.getInstance().deleteFBObject(m_context, contactItem, deleteCompleteListener);
+                    .update("connectionIds", FieldValue.arrayRemove(connection.getUid()));
+            FBManager.getInstance().deleteFBObject(m_context, connection, deleteCompleteListener);
         });
     }
 
     @Override
     public int getItemCount() {
-        return m_contactItems.size();
+        return m_connections.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -87,9 +87,9 @@ public class ContactItemAdapter extends RecyclerView.Adapter<ContactItemAdapter.
             super(itemView);
             m_view = itemView;
 
-            m_descTextView = m_view.findViewById(R.id.list_item_textview);
-            m_deleteBtn = m_view.findViewById(R.id.contact_item_list_item_delete_btn);
-            m_linkBtn = m_view.findViewById(R.id.contact_item_list_item_link_btn);
+            m_descTextView = m_view.findViewById(R.id.listItemConnection_textView);
+            m_deleteBtn = m_view.findViewById(R.id.listItemConnection_deleteBtn);
+            m_linkBtn = m_view.findViewById(R.id.listItemConnection_linkBtn);
         }
     }
 }

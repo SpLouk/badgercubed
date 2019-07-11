@@ -86,7 +86,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     m_textView.setOnClickListener(v1 -> {
                         // Start contact detail activity
                         Context context = m_textView.getContext();
-                        Activities.startUserContactsActivity(context, m_dataset.get(position).getFollowingUid());
+                        Activities.startContactDetailsActivity(context, m_dataset.get(position).getFollowingUid());
                     });
                 }
             });

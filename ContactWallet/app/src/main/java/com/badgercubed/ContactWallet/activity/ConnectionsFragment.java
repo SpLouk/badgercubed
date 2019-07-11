@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.adapter.ContactItemAdapter;
-import com.badgercubed.ContactWallet.model.ContactItem;
+import com.badgercubed.ContactWallet.adapter.ConnectionAdapter;
+import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -20,31 +20,31 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactItemsFragment extends Fragment {
+public class ConnectionsFragment extends Fragment {
 
     private RecyclerView m_recyclerView;
-    private ContactItemAdapter m_contactItemAdapter;
+    private ConnectionAdapter m_connectionAdapter;
 
     private String m_userId = "";
-    private List<ContactItem> m_contactItems;
+    private List<Connection> m_connections;
 
-    public ContactItemsFragment() {
+    public ConnectionsFragment() {
     }
 
-    public static ContactItemsFragment newInstance(String userId) {
+    public static ConnectionsFragment newInstance(String userId) {
         Bundle bundle = new Bundle();
         bundle.putString("userId", userId);
 
-        ContactItemsFragment contactItemsFragment = new ContactItemsFragment();
-        contactItemsFragment.setArguments(bundle);
+        ConnectionsFragment connectionsFragment = new ConnectionsFragment();
+        connectionsFragment.setArguments(bundle);
 
-        return contactItemsFragment;
+        return connectionsFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.contact_items_fragment, container, false);
+        View view = inflater.inflate(R.layout.list_connections, container, false);
 
         String activityName = getActivity().getClass().getSimpleName();
         Bundle bundle = this.getArguments();
@@ -53,32 +53,32 @@ public class ContactItemsFragment extends Fragment {
             m_userId = getArguments().get("userId").toString();
         }
 
-        m_contactItems = new ArrayList<>();
-        m_contactItemAdapter = new ContactItemAdapter(getActivity(), activityName, m_contactItems);
+        m_connections = new ArrayList<>();
+        m_connectionAdapter = new ConnectionAdapter(getActivity(), activityName, m_connections);
 
-        m_recyclerView = view.findViewById(R.id.contact_items_fragment_recycler_view);
+        m_recyclerView = view.findViewById(R.id.listConnections_recyclerView);
         m_recyclerView.setHasFixedSize(true);
         m_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        m_recyclerView.setAdapter(m_contactItemAdapter);
+        m_recyclerView.setAdapter(m_connectionAdapter);
 
-        Query query = FBManager.getInstance().getCollection(ContactItem.m_collectionName);
+        Query query = FBManager.getInstance().getCollection(Connection.m_collectionName);
 
         if (!m_userId.trim().isEmpty()) {
             query = query.whereEqualTo("userId", m_userId);
 
 
             // TODO : use userid to get the user and the protection level between current user and following,
-            //  each contact item has to be <= the following protectionlevel to display
+            //  each connection has to be <= the following protectionlevel to display
         }
 
         // TODO : refactor to general method?
         query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
             for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                    ContactItem contactItem = documentChange.getDocument().toObject(ContactItem.class);
+                    Connection connection = documentChange.getDocument().toObject(Connection.class);
 
-                    m_contactItems.add(contactItem);
-                    m_contactItemAdapter.notifyDataSetChanged();
+                    m_connections.add(connection);
+                    m_connectionAdapter.notifyDataSetChanged();
                 }
             }
         });
