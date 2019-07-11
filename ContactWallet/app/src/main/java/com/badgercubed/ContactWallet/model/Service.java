@@ -3,7 +3,8 @@ package com.badgercubed.ContactWallet.model;
 public enum Service {
     // Display alphabetially
     FACEBOOK ("Facebook", "facebook.com/"),
-    MESSENGER ("Messenger", "messenger.com/t/");
+    MESSENGER ("Messenger", "messenger.com/t/"),
+    TEST ("Test", "");
 
     private final String m_name;
     private final String m_baseLink;
