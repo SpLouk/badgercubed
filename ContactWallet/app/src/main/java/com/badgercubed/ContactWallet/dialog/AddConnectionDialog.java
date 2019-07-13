@@ -154,7 +154,7 @@ public class AddConnectionDialog extends DialogFragment {
         String currentUserUid = FBManager.getInstance().getCurrentFBUser().getUid();
         String link = " http://www." + m_link.getText().toString();
         String description = m_description.getText().toString();
-        Integer protectionLevel = m_selectedProtectionLevel.getInteger();
+        Integer protectionLevel = m_selectedProtectionLevel.getInt();
 
         // TODO : Add connection, still need to add to current users list of connectionIds
         Connection connection = new Connection(connectionUid.toString(), currentUserUid, "",

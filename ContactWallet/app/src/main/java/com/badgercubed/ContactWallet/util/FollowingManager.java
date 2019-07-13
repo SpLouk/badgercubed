@@ -40,7 +40,7 @@ public class FollowingManager {
                     .addOnSuccessListener(res -> {
                         if (res.isEmpty() && !follower.getUid().equals(id)) {
                             Following f = new Following(UUID.randomUUID().toString(), follower.getUid(), id,
-                                    Integer.toString(ProtectionLevel.PUBLIC.getProtectionLevel())); // starts at public level by default
+                                    ProtectionLevel.PUBLIC.getProtectionLevel()); // starts at public level by default
 
                             OnCompleteListener<Void> onCompleteListener = t -> {
                                 Toast.makeText(context, "Contact added!", Toast.LENGTH_SHORT).show();

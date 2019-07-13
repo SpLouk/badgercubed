@@ -178,4 +178,8 @@ public class FBManager {
     public Task<QuerySnapshot> getUsersByEmail(String email) {
         return m_db.collection(User.m_collectionName).whereEqualTo("email", email).get();
     }
+
+    public Task<QuerySnapshot> getFollowingProtectionLevel(String followerUid) {
+        return m_db.collection(User.m_collectionName).whereEqualTo("followerUid", followerUid).get();
+    }
 }

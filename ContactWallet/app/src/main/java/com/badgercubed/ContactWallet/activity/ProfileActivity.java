@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.dialog.AddConnectionDialog;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.badgercubed.ContactWallet.util.FollowingManager;
@@ -65,7 +66,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container,
-                        ConnectionsFragment.newInstance(FBManager.getInstance().getCurrentFBUser().getUid()))
+                        ConnectionsFragment.newInstance(
+                                FBManager.getInstance().getCurrentFBUser().getUid(), ProtectionLevel.PUBLIC.getInt()))
                 .commit();
     }
 

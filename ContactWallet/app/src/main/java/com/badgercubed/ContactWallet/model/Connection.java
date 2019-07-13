@@ -12,7 +12,7 @@ public class Connection extends FBObject {
     private String m_serviceId;
     private String m_link;
     private String m_description;
-    private Integer m_protectionLevel;
+    private int m_protectionLevel = -1;
 
     public Connection() {
     }
@@ -86,12 +86,12 @@ public class Connection extends FBObject {
         m_description = description;
     }
 
-    public Integer getProtectionLevel() {
+    public int getProtectionLevel() {
         return m_protectionLevel;
     }
 
     public void setProtectionLevel(Integer protectionLevel) {
-        m_protectionLevel = protectionLevel;
+        m_protectionLevel = protectionLevel.intValue();
     }
 
     public void validate() throws Exception {
@@ -111,8 +111,8 @@ public class Connection extends FBObject {
             throw new Exception("Description is empty");
         }
         // TODO: better verification
-        if (m_protectionLevel == null) {
-            throw new Exception("Protection level is null");
+        if (m_protectionLevel == -1) {
+            throw new Exception("Protection level not set");
         }
     }
 

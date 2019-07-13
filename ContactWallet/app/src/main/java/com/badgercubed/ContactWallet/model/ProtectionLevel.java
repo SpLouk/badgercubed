@@ -17,7 +17,18 @@ public enum ProtectionLevel {
         return m_name;
     }
 
-    public int getInteger() {
+    public int getInt() {
         return m_levelNum;
+    }
+
+    public static ProtectionLevel fromInt(Integer protLevelNum) {
+        if (protLevelNum == null) return null;
+
+        switch(protLevelNum) {
+            case 3: return PUBLIC;
+            case 2: return PROTECTED;
+            case 1: return PRIVATE;
+            default: return null;
+        }
     }
 }
