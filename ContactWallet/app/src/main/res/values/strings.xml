@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="username">Username</string>
+
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="nav_drawer_open">Open</string>
+    <string name="nav_drawer_close">Close</string>
+    <string name="title_activity_contacts_fragment">ContactsFragment</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_profile">Profile</string>
 </resources>

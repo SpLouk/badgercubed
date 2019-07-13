@@ -45,6 +45,13 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
         }
 
+        //if is in profile fragment
+        // TODO : Add a verify button for pivot
+        //  use strategy pattern? Each service will have different OAuth
+        //  also have to make sure that the account they are signing into is the right one
+        //  and not for a different service or user
+        //}
+
         Connection connection = m_connections.get(i);
         viewHolder.m_descTextView.setText(connection.getDescription());
 

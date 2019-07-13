@@ -1,13 +1,16 @@
-package com.badgercubed.ContactWallet.activity;
+package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
+import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.adapter.ContactAdapter;
 import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.util.FBManager;
@@ -19,30 +22,33 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListContactsActivity extends AppCompatActivity {
+public class ContactsFragment extends Fragment {
     private TextView m_currentUser;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter m_contactAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_contacts);
+    public ContactsFragment() {
+    }
 
-        m_currentUser = findViewById(R.id.listContacts_currentUser);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+
+        m_currentUser = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
         m_currentUser.setText(LoginManager.getInstance().getCurrentUser().getName());
         m_currentUser.setOnClickListener(l -> {
-            Activities.startContactDetailsActivity(this, LoginManager.getInstance().getCurrentUser().getUid());
+            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid());
         });
 
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(getContext());
 
         List<Following> userDataSet = new ArrayList<>();
-        m_contactAdapter = new ContactAdapter(ListContactsActivity.this, userDataSet);
+        m_contactAdapter = new ContactAdapter(getContext(), userDataSet);
 
-        recyclerView = findViewById(R.id.listContacts_recycler);
+        recyclerView = view.findViewById(R.id.fragment_contacts_listContacts_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(m_contactAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -57,9 +63,8 @@ public class ListContactsActivity extends AppCompatActivity {
             }
         };
 
-        FBManager.getInstance().getFollowingUsers(this, new ArrayList<>(), queryListener);
+        FBManager.getInstance().getFollowingUsers(getContext(), new ArrayList<>(), queryListener);
 
-        Button profile = findViewById(R.id.listContacts_profile);
-        profile.setOnClickListener(l -> Activities.startProfileActivity(this));
+        return view;
     }
 }
