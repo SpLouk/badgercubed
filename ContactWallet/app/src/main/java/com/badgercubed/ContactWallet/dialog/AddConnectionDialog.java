@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.adapter.ProtetionLevelAdapter;
+import com.badgercubed.ContactWallet.adapter.ProtectionLevelAdapter;
 import com.badgercubed.ContactWallet.adapter.ServiceAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
@@ -88,7 +88,7 @@ public class AddConnectionDialog extends DialogFragment {
         m_description = view.findViewById(R.id.addContact_description);
 
         List<ProtectionLevel> protectionLevels = new ArrayList<>(Arrays.asList(ProtectionLevel.values()));
-        ArrayAdapter<ProtectionLevel> protLevelAdapter = new ProtetionLevelAdapter(getActivity(), protectionLevels);
+        ArrayAdapter<ProtectionLevel> protLevelAdapter = new ProtectionLevelAdapter(getActivity(), protectionLevels);
 
         m_protectionLevelSpinner = view.findViewById(R.id.addContact_protectionLevelSpinner);
         m_protectionLevelSpinner.setAdapter(protLevelAdapter);

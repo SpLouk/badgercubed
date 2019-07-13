@@ -14,10 +14,10 @@ import com.badgercubed.ContactWallet.model.Service;
 
 import java.util.List;
 
-public class ProtetionLevelAdapter extends ArrayAdapter<ProtectionLevel> {
+public class ProtectionLevelAdapter extends ArrayAdapter<ProtectionLevel> {
     List<ProtectionLevel> m_items;
 
-    public ProtetionLevelAdapter(Context context, List<ProtectionLevel> items) {
+    public ProtectionLevelAdapter(Context context, List<ProtectionLevel> items) {
         super(context, R.layout.list_item_service, items);
         m_items = items;
     }
