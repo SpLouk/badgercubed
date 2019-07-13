@@ -17,19 +17,14 @@ public class Activities {
         context.startActivity(intent);
     }
 
-    public static void startProfileActivity(Context context) {
-        Intent intent = new Intent(context, ProfileActivity.class);
-        context.startActivity(intent);
-    }
-
-    public static void startListContactsActivity(Context context) {
-        Intent intent = new Intent(context, ListContactsActivity.class);
-        context.startActivity(intent);
-    }
-
     public static void startContactDetailsActivity(Context context, String userUid) {
         Intent intent = new Intent(context, ContactDetailsActivity.class);
         intent.putExtra(INTENT_USER_UID, userUid);
+        context.startActivity(intent);
+    }
+
+    public static void startNavActivity(Context context) {
+        Intent intent = new Intent(context, NavActivity.class);
         context.startActivity(intent);
     }
 }
