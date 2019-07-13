@@ -1,11 +1,14 @@
 package com.badgercubed.ContactWallet.model;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.badgercubed.ContactWallet.R;
+import com.badgercubed.ContactWallet.util.App;
 import com.google.firebase.firestore.Exclude;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class User extends FBObject {
     public static final String m_collectionName = "users";
@@ -14,22 +17,41 @@ public class User extends FBObject {
     private String m_email;
     private String m_name;
     private String m_phoneNum;
-    private List<String> m_connectionIds;
-    private List<String> m_followingIds;
+
+
+    private String m_publicHandle;
+    private String m_protectedHandle;
+    private String m_privateHandle;
 
     public User() {
-        m_connectionIds = new ArrayList<>();
-        m_followingIds = new ArrayList<>();
     }
 
-    public User(String uid, String email, String name, String phoneNum,
-                List<String> connectionIds, List<String> followingIds) {
+    public User(String uid, String email, String name, String phoneNum) {
         m_uid = uid;
         m_email = email;
         m_name = name;
         m_phoneNum = phoneNum;
-        m_connectionIds = connectionIds;
-        m_followingIds = followingIds;
+
+        if (TextUtils.isEmpty(m_email)) {
+            throw new IllegalArgumentException("Email can't be empty");
+        }
+
+        Context context = App.getContext();
+        String handleBase = context.getString(R.string.handle_base);
+        m_publicHandle = handleBase + generateRandString(6);
+        m_protectedHandle = handleBase + generateRandString(6);
+        m_privateHandle = handleBase + generateRandString(6);
+    }
+
+    protected String generateRandString(int length) {
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        StringBuilder builder = new StringBuilder();
+        Random rnd = new Random();
+        while (builder.length() < length) {
+            int index = (int) (rnd.nextFloat() * alphabet.length());
+            builder.append(alphabet.charAt(index));
+        }
+        return builder.toString();
     }
 
     public String getUid() {
@@ -64,20 +86,28 @@ public class User extends FBObject {
         m_phoneNum = phoneNum;
     }
 
-    public List<String> getConnectionIds() {
-        return m_connectionIds;
+    public String getPublicHandle() {
+        return m_publicHandle;
     }
 
-    public void setConnectionIds(List<String> connectionIds) {
-        m_connectionIds = connectionIds;
+    public void setPublicHandle(String publicHandle) {
+        m_publicHandle = publicHandle;
     }
 
-    public List<String> getFollowingIds() {
-        return m_followingIds;
+    public String getProtectedHandle() {
+        return m_protectedHandle;
     }
 
-    public void setFollowingIds(List<String> followingIds) {
-        m_followingIds = followingIds;
+    public void setProtectedHandle(String protectedHandle) {
+        m_protectedHandle = protectedHandle;
+    }
+
+    public String getPrivateHandle() {
+        return m_privateHandle;
+    }
+
+    public void setPrivateHandle(String privateHandle) {
+        m_privateHandle = privateHandle;
     }
 
     public void validate() throws Exception {
@@ -92,12 +122,6 @@ public class User extends FBObject {
         }
         if (TextUtils.isEmpty(m_phoneNum)) {
             throw new Exception("Phone # is empty");
-        }
-        if (m_connectionIds == null) {
-            throw new Exception("Connection id's null");
-        }
-        if (m_followingIds == null) {
-            throw new Exception("Following id's null");
         }
     }
 

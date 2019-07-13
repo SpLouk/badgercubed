@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.model.FBObject;
 import com.badgercubed.ContactWallet.model.Following;

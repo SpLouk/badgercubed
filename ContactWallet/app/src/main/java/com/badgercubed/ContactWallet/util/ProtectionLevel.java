@@ -11,7 +11,7 @@ public enum ProtectionLevel {
         this.level = l;
     }
 
-    public int getProtectionLevel() {
+    public int getLevel() {
         return this.level;
     }
 }

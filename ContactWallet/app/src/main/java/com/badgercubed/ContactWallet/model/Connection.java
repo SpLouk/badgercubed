@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.UUID;
+
 public class Connection extends FBObject {
     public static final String m_collectionName = "connections";
 
@@ -17,8 +19,8 @@ public class Connection extends FBObject {
     public Connection() {
     }
 
-    public Connection(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
-        m_uid = uid;
+    public Connection(String userId, String serviceId, String link, String description, Integer protectionLevel) {
+        m_uid = UUID.randomUUID().toString();
         m_userId = userId;
         m_serviceId = serviceId;
         m_link = link;

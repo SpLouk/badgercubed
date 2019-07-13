@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.UUID;
+
 public class Following extends FBObject {
     public static final String m_collectionName = "followers";
 
@@ -15,8 +17,8 @@ public class Following extends FBObject {
     public Following() {
     }
 
-    public Following(String uid, String followerUid, String followingUid, Integer protectionLevel) {
-        m_uid = uid;
+    public Following(String followerUid, String followingUid, Integer protectionLevel) {
+        m_uid = UUID.randomUUID().toString();
         m_followerUid = followerUid;
         m_followingUid = followingUid;
         m_protectionLevel = protectionLevel;
