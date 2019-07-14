@@ -3,38 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="0dp">
-
-    <Spinner
-        android:id="@+id/addContact_serviceSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <com.badgercubed.ContactWallet.widget.PrefixEditText
-        android:id="@+id/addContact_link"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:tag="prefix" />
+    android:padding="16dp">
 
     <EditText
-        android:id="@+id/addContact_description"
+        android:id="@+id/addContact_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Description" />
+        android:inputType="textEmailAddress"
+        android:hint="Contact Email"/>
 
-    <Spinner
-        android:id="@+id/addContact_protectionLevelSpinner"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:text="Contact Handle:"/>
+
+    <com.badgercubed.ContactWallet.widget.PrefixEditText
+        android:id="@+id/addContact_handle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:tag="@string/handle_base"
+        android:hint="[id]" />
 </LinearLayout>

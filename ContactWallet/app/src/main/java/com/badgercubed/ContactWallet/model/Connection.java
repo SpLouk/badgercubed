@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.UUID;
+
 public class Connection extends FBObject {
     public static final String m_collectionName = "connections";
 
@@ -12,13 +14,13 @@ public class Connection extends FBObject {
     private String m_serviceId;
     private String m_link;
     private String m_description;
-    private Integer m_protectionLevel;
+    private int m_protectionLevel = -1;
 
     public Connection() {
     }
 
-    public Connection(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
-        m_uid = uid;
+    public Connection(String userId, String serviceId, String link, String description, Integer protectionLevel) {
+        m_uid = UUID.randomUUID().toString();
         m_userId = userId;
         m_serviceId = serviceId;
         m_link = link;
@@ -86,12 +88,12 @@ public class Connection extends FBObject {
         m_description = description;
     }
 
-    public Integer getProtectionLevel() {
+    public int getProtectionLevel() {
         return m_protectionLevel;
     }
 
     public void setProtectionLevel(Integer protectionLevel) {
-        m_protectionLevel = protectionLevel;
+        m_protectionLevel = protectionLevel.intValue();
     }
 
     public void validate() throws Exception {
@@ -111,8 +113,8 @@ public class Connection extends FBObject {
             throw new Exception("Description is empty");
         }
         // TODO: better verification
-        if (m_protectionLevel == null) {
-            throw new Exception("Protection level is null");
+        if (m_protectionLevel == -1) {
+            throw new Exception("Protection level not set");
         }
     }
 

@@ -15,8 +15,6 @@ import com.badgercubed.ContactWallet.util.LoginCallback;
 import com.badgercubed.ContactWallet.util.LoginManager;
 import com.badgercubed.ContactWallet.util.RegisterCallback;
 
-import java.util.ArrayList;
-
 public class RegisterActivity extends AppCompatActivity implements RegisterCallback, LoginCallback {
     private Button m_register;
     private EditText m_enterEmail;
@@ -37,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
 
         String uid = FBManager.getInstance().getCurrentFBUser().getUid();
 
-        User newUser = new User(uid, email, name, phoneNum, new ArrayList<String>(), new ArrayList<String>());
+        User newUser = new User(uid, email, name, phoneNum);
         LoginManager.getInstance().saveUserAfterFBRegistration(this, newUser, this);
     }
 

@@ -1,6 +1,7 @@
 package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.adapter.ContactAdapter;
+import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.Following;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.badgercubed.ContactWallet.util.LoginManager;
 import com.google.firebase.firestore.DocumentChange;
@@ -23,9 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsFragment extends Fragment {
-    private TextView m_currentUser;
+    private FloatingActionButton m_addContact;
+    private TextView m_currentUserContact;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter m_contactAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     public ContactsFragment() {
@@ -36,35 +39,50 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
-        m_currentUser = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
-        m_currentUser.setText(LoginManager.getInstance().getCurrentUser().getName());
-        m_currentUser.setOnClickListener(l -> {
-            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid());
+        m_currentUserContact = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
+        m_currentUserContact.setText(LoginManager.getInstance().getCurrentUser().getName());
+        m_currentUserContact.setOnClickListener(l -> {
+            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid(),
+                    ProtectionLevel.PUBLIC.getInt());
+        });
+
+        m_addContact = view.findViewById(R.id.fragment_contacts_add_contact);
+        m_addContact.setOnClickListener(l -> {
+            AddContactDialog dialog = new AddContactDialog();
+            dialog.show(getActivity().getFragmentManager(), "Add A Contact");
         });
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getContext());
 
-        List<Following> userDataSet = new ArrayList<>();
-        m_contactAdapter = new ContactAdapter(getContext(), userDataSet);
-
         recyclerView = view.findViewById(R.id.fragment_contacts_listContacts_recycler);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(m_contactAdapter);
         recyclerView.setLayoutManager(layoutManager);
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshDataSet();
+    }
+
+    private void refreshDataSet() {
+        List<Following> userDataSet = new ArrayList<>();
+        RecyclerView.Adapter contactAdapter = new ContactAdapter(getActivity(), userDataSet);
+
+        recyclerView.setAdapter(contactAdapter);
 
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
             for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     Following contact = documentChange.getDocument().toObject(Following.class);
                     userDataSet.add(contact);
-                    m_contactAdapter.notifyDataSetChanged();
                 }
             }
+            contactAdapter.notifyDataSetChanged();
         };
 
-        FBManager.getInstance().getFollowingUsers(getContext(), new ArrayList<>(), queryListener);
-
-        return view;
+        FBManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);
     }
 }
