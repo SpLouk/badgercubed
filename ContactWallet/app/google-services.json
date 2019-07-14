@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "514937235169-pht155i0nmhf6sdq2sub7ib2h9ik6gvd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.badgercubed.ContactWallet",
+            "certificate_hash": "4ffc05a92466a6b9230dd7a1fd52f74b15bf0408"
+          }
+        },
+        {
+          "client_id": "514937235169-8s5ss5uc1p0dcugsoj9n30ucaso7ejp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.badgercubed.ContactWallet",
+            "certificate_hash": "ce4421a5d074d22c9c2c72689512d56796108732"
+          }
+        },
+        {
           "client_id": "514937235169-ebed2revtii79ojnpdnv7deqhpnumjgl.apps.googleusercontent.com",
           "client_type": 3
         }
