@@ -1,6 +1,7 @@
 package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.adapter.ContactAdapter;
+import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.util.FBManager;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsFragment extends Fragment {
+    private FloatingActionButton m_addContact;
     private TextView m_currentUser;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -41,6 +44,12 @@ public class ContactsFragment extends Fragment {
         m_currentUser.setOnClickListener(l -> {
             Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid(),
                     ProtectionLevel.PUBLIC.getInt());
+        });
+
+        m_addContact = view.findViewById(R.id.fragment_contacts_add_contact);
+        m_addContact.setOnClickListener(l -> {
+            AddContactDialog dialog = new AddContactDialog();
+            dialog.show(getActivity().getFragmentManager(), "Add A Contact");
         });
 
         // use a linear layout manager

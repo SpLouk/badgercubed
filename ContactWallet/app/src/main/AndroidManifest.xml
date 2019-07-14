@@ -25,13 +25,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.badgercubed.ContactWallet.activity.RegisterActivity"
-            android:label="Register">
-        </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:label="Register"
+            android:theme="@style/AppTheme" />
 
-        <activity android:name="com.badgercubed.ContactWallet.activity.ContactDetailsActivity"
-            android:label="Contacts" >
-        </activity>
+        <activity
+            android:name=".activity.ContactDetailsActivity"
+            android:label="Contacts"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

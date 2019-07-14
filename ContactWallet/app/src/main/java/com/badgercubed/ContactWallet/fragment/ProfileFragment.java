@@ -11,14 +11,12 @@ import android.widget.Toast;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.dialog.AddConnectionDialog;
-import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.badgercubed.ContactWallet.util.LoginManager;
 
 public class ProfileFragment extends Fragment {
-    private Button m_addContact;
     private Button m_addConnection;
 
     public ProfileFragment() {
@@ -42,14 +40,8 @@ public class ProfileFragment extends Fragment {
 
         getActivity().setTitle(user.getName());
 
-        m_addContact = view.findViewById(R.id.profile_addContact);
-        m_addContact.setOnClickListener(l -> {
-            AddContactDialog dialog = new AddContactDialog();
-            dialog.show(getActivity().getFragmentManager(), "Add A Contact");
-        });
-
-        // Dialog to allow current user to add contacts
-        m_addConnection = view.findViewById(R.id.profile_addConnection);
+        // Dialog to allow current user to add connections
+        m_addConnection = view.findViewById(R.id.fragment_profile_add_connection);
         m_addConnection.setOnClickListener(l -> {
             AddConnectionDialog dialog = new AddConnectionDialog();
             dialog.show(getActivity().getFragmentManager(), "Add A Connection");
