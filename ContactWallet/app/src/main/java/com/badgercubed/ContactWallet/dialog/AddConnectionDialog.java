@@ -3,14 +3,19 @@ package com.badgercubed.ContactWallet.dialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.app.DialogFragment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.adapter.ProtectionLevelAdapter;
@@ -20,13 +25,17 @@ import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.TwitterManager;
+import com.badgercubed.ContactWallet.util.OauthManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class AddConnectionDialog extends DialogFragment {
     private static final String TAG = "T-AddConnectionDialog";
@@ -34,6 +43,7 @@ public class AddConnectionDialog extends DialogFragment {
     private Spinner m_serviceSpinner;
     private Spinner m_protectionLevelSpinner;
     private EditText m_description;
+    private Switch m_switch;
     private PrefixEditText m_link;
 
     private Service m_selectedService = null;
@@ -74,15 +84,12 @@ public class AddConnectionDialog extends DialogFragment {
                     selectedService = services.get(position);
                 }
 
-                if (selectedService == Service.TWITTER) {
-                    TwitterManager.getInstance().verifyTwitter(getActivity());
-                }
-
                 if (selectedService != null && !selectedService.equals(m_selectedService)) {
                     m_selectedService = selectedService;
                     selectedServiceChanged();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -90,6 +97,30 @@ public class AddConnectionDialog extends DialogFragment {
 
         m_link = view.findViewById(R.id.addConnection_link);
         m_description = view.findViewById(R.id.addConnection_description);
+        m_switch = view.findViewById(R.id.oauthVerify);
+        m_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b && m_selectedService == Service.TWITTER) {
+                    OauthManager.getInstance().verifyService(getActivity(), m_selectedService)
+                            .addOnSuccessListener(
+                                    new OnSuccessListener<AuthResult>() {
+                                        @Override
+                                        public void onSuccess(AuthResult authResult) {
+                                            Map<String, Object> profile = authResult.getAdditionalUserInfo().getProfile();
+                                            m_link.setText("twitter.com/" + profile.get("screen_name"));
+                                            m_link.setEnabled(false);
+                                        }
+                                    }
+                            )
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                }
+                            });
+                }
+            }
+        });
 
         List<ProtectionLevel> protectionLevels = new ArrayList<>(Arrays.asList(ProtectionLevel.values()));
         ArrayAdapter<ProtectionLevel> protLevelAdapter = new ProtectionLevelAdapter(getActivity(), protectionLevels);
@@ -106,6 +137,7 @@ public class AddConnectionDialog extends DialogFragment {
                     m_selectedProtectionLevel = protectionLevels.get(position);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -129,26 +161,25 @@ public class AddConnectionDialog extends DialogFragment {
             m_link.setVisibility(View.GONE);
             m_description.setVisibility(View.GONE);
             m_protectionLevelSpinner.setVisibility(View.GONE);
-            return;
+            m_switch.setVisibility(View.GONE);
+        } else {
+            m_link.setText("");
+            m_link.setTag(m_selectedService.getLink());
+            m_link.setVisibility(View.VISIBLE);
+            m_description.setText("");
+            m_description.setVisibility(View.VISIBLE);
+            m_protectionLevelSpinner.setSelection(0);
+            m_protectionLevelSpinner.setVisibility(View.VISIBLE);
+            //TODO: this doesn't work
+            if (m_link.hasFocus()) {
+                m_link.clearFocus();
+            }
         }
 
-        m_link.setText("");
-        m_link.setTag(m_selectedService.getLink());
-        m_link.setVisibility(View.VISIBLE);
-        m_description.setText("");
-        m_description.setVisibility(View.VISIBLE);
-        m_protectionLevelSpinner.setSelection(0);
-        m_protectionLevelSpinner.setVisibility(View.VISIBLE);
-
-        //TODO: this doesn't work
-        if (m_link.hasFocus()) {
-            m_link.clearFocus();
+        if (m_selectedService == Service.TWITTER) {
+            m_switch.setChecked(false);
+            m_switch.setVisibility(View.VISIBLE);
         }
-    }
-
-    private void valiateLink() {
-        // TODO: something with OAuth
-
     }
 
     private void createAndSaveConnections() {
