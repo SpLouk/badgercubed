@@ -53,7 +53,7 @@ public class PrefixEditText extends AppCompatEditText {
     }
 
     public String getPrefix() {
-        return getTag().toString();
+        return (getTag() == null) ? "" : getTag().toString();
     }
 
     public String getFullString() {

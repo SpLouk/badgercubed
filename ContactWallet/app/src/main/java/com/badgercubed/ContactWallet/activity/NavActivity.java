@@ -9,11 +9,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.fragment.ContactsFragment;
 import com.badgercubed.ContactWallet.fragment.ProfileFragment;
+import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.LoginManager;
 
 public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -22,6 +25,15 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        User user = LoginManager.getInstance().getCurrentUser();
+        if (user == null) {
+            // User somehow logged out
+            Toast.makeText(this, "Error, user somehow logged out", Toast.LENGTH_SHORT).show();
+            logoutUser();
+            return;
+        }
+
         setContentView(R.layout.activity_nav);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

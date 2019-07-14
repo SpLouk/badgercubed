@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ContactsFragment extends Fragment {
     private FloatingActionButton m_addContact;
-    private TextView m_currentUser;
+    private TextView m_currentUserContact;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -39,9 +39,9 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
-        m_currentUser = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
-        m_currentUser.setText(LoginManager.getInstance().getCurrentUser().getName());
-        m_currentUser.setOnClickListener(l -> {
+        m_currentUserContact = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
+        m_currentUserContact.setText(LoginManager.getInstance().getCurrentUser().getName());
+        m_currentUserContact.setOnClickListener(l -> {
             Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid(),
                     ProtectionLevel.PUBLIC.getInt());
         });
