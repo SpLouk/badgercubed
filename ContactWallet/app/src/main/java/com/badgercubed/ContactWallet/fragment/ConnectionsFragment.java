@@ -1,4 +1,4 @@
-package com.badgercubed.ContactWallet.activity;
+package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

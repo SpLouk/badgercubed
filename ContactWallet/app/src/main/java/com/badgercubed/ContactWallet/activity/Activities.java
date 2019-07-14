@@ -18,20 +18,15 @@ public class Activities {
         context.startActivity(intent);
     }
 
-    public static void startProfileActivity(Context context) {
-        Intent intent = new Intent(context, ProfileActivity.class);
-        context.startActivity(intent);
-    }
-
-    public static void startListContactsActivity(Context context) {
-        Intent intent = new Intent(context, ListContactsActivity.class);
-        context.startActivity(intent);
-    }
-
-    public static void startContactDetailsActivity(Context context, String userUid, int protectionLevelId) {
+    public static void startContactDetailsActivity(Context context, String userUid) {
         Intent intent = new Intent(context, ContactDetailsActivity.class);
         intent.putExtra(INTENT_FOLLOWING_USER_UID, userUid);
         intent.putExtra(INTENT_REL_PROT_LEVEL, protectionLevelId);
+        context.startActivity(intent);
+    }
+
+    public static void startNavActivity(Context context) {
+        Intent intent = new Intent(context, NavActivity.class);
         context.startActivity(intent);
     }
 }

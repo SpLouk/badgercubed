@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.model.ProtectionLevel;
+import com.badgercubed.ContactWallet.fragment.ConnectionsFragment;
 
 public class ContactDetailsActivity extends AppCompatActivity {
 

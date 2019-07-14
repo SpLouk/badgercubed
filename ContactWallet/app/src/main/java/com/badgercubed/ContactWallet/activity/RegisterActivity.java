@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         if (result) {
             // User logged in
             finish();
-            Activities.startListContactsActivity(this);
+            Activities.startNavActivity(this);
         }
     }
 
@@ -56,7 +56,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         if (FBManager.getInstance().getCurrentFBUser() != null) {
             // User already logged in
             finish();
-            Activities.startProfileActivity(this);
+            // TODO : go to profile fragment? necessary
+            Activities.startNavActivity(this);
         }
 
         m_enterEmail = findViewById(R.id.register_enterEmail);
