@@ -26,7 +26,6 @@ import com.google.firebase.firestore.FieldValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class AddConnectionDialog extends DialogFragment {
     private static final String TAG = "T-AddConnectionDialog";
@@ -57,12 +56,12 @@ public class AddConnectionDialog extends DialogFragment {
     }
 
     public View createDialogView() {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_contact, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_connection, null);
 
         List<Service> services = new ArrayList<>(Arrays.asList(Service.values()));
         ArrayAdapter<Service> serviceAdapter = new ServiceAdapter(getActivity(), services);
 
-        m_serviceSpinner = view.findViewById(R.id.addContact_serviceSpinner);
+        m_serviceSpinner = view.findViewById(R.id.addConnnection_serviceSpinner);
         m_serviceSpinner.setAdapter(serviceAdapter);
         m_serviceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -84,13 +83,13 @@ public class AddConnectionDialog extends DialogFragment {
             }
         });
 
-        m_link = view.findViewById(R.id.addContact_link);
-        m_description = view.findViewById(R.id.addContact_description);
+        m_link = view.findViewById(R.id.addConnection_link);
+        m_description = view.findViewById(R.id.addConnection_description);
 
         List<ProtectionLevel> protectionLevels = new ArrayList<>(Arrays.asList(ProtectionLevel.values()));
         ArrayAdapter<ProtectionLevel> protLevelAdapter = new ProtetionLevelAdapter(getActivity(), protectionLevels);
 
-        m_protectionLevelSpinner = view.findViewById(R.id.addContact_protectionLevelSpinner);
+        m_protectionLevelSpinner = view.findViewById(R.id.addConnnection_protectionLevelSpinner);
         m_protectionLevelSpinner.setAdapter(protLevelAdapter);
         m_protectionLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -150,15 +149,12 @@ public class AddConnectionDialog extends DialogFragment {
     private void createAndSaveConnections() {
         // TODO: validate link
 
-        UUID connectionUid = UUID.randomUUID();
         String currentUserUid = FBManager.getInstance().getCurrentFBUser().getUid();
         String link = " http://www." + m_link.getText().toString();
         String description = m_description.getText().toString();
-        Integer protectionLevel = m_selectedProtectionLevel.getInteger();
+        Integer protectionLevel = m_selectedProtectionLevel.getInt();
 
-        // TODO : Add connection, still need to add to current users list of connectionIds
-        Connection connection = new Connection(connectionUid.toString(), currentUserUid, "",
-                link, description, protectionLevel);
+        Connection connection = new Connection(currentUserUid, "", link, description, protectionLevel);
         FBManager.getInstance().saveFBObject(getActivity(), connection, null);
 
         // Add new connection Id to current user

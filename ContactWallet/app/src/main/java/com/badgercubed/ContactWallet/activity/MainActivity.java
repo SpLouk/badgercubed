@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity implements LoginCallback {
         if (result) {
             // User logged in
             finish();
-            Activities.startListContactsActivity(this);
+
+            Activities.startNavActivity(this);
         }
     }
 

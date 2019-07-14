@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.model.FBObject;
 import com.badgercubed.ContactWallet.model.Following;
@@ -177,5 +178,9 @@ public class FBManager {
 
     public Task<QuerySnapshot> getUsersByEmail(String email) {
         return m_db.collection(User.m_collectionName).whereEqualTo("email", email).get();
+    }
+
+    public Task<QuerySnapshot> getFollowingProtectionLevel(String followerUid) {
+        return m_db.collection(User.m_collectionName).whereEqualTo("followerUid", followerUid).get();
     }
 }

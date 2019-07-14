@@ -4,22 +4,24 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.UUID;
+
 public class Following extends FBObject {
     public static final String m_collectionName = "followers";
 
     private String m_uid;
     private String m_followingUid;
     private String m_followerUid;
-    private String m_level;
+    private Integer m_protectionLevel;
 
     public Following() {
     }
 
-    public Following(String uid, String followerUid, String followingUid, String protectionLevel) {
-        m_uid = uid;
+    public Following(String followerUid, String followingUid, Integer protectionLevel) {
+        m_uid = UUID.randomUUID().toString();
         m_followerUid = followerUid;
         m_followingUid = followingUid;
-        m_level = protectionLevel;
+        m_protectionLevel = protectionLevel;
     }
 
     public String getUid() {
@@ -46,18 +48,18 @@ public class Following extends FBObject {
         this.m_followerUid = followerUid;
     }
 
-    public String getLevel() {
-        return m_level;
+    public Integer getProtectionLevel() {
+        return m_protectionLevel;
     }
 
-    public void setLevel(String level) {
-        this.m_level = level;
+    public void setProtectionLevel(Integer level) {
+        this.m_protectionLevel = level;
     }
 
 
     public void validate() throws Exception {
-        if (TextUtils.isEmpty(m_level)) {
-            throw new Exception("Protection level is empty");
+        if (m_protectionLevel == null) {
+            throw new Exception("Protection level not set");
         }
         if (TextUtils.isEmpty(m_followerUid)) {
             throw new Exception("Follower uid is empty");
