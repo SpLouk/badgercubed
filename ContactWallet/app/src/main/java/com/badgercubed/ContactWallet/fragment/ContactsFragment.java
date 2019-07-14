@@ -39,7 +39,8 @@ public class ContactsFragment extends Fragment {
         m_currentUser = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
         m_currentUser.setText(LoginManager.getInstance().getCurrentUser().getName());
         m_currentUser.setOnClickListener(l -> {
-            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid());
+            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid(),
+                    ProtectionLevel.PUBLIC.getInt());
         });
 
         // use a linear layout manager

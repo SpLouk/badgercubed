@@ -18,7 +18,7 @@ public class Activities {
         context.startActivity(intent);
     }
 
-    public static void startContactDetailsActivity(Context context, String userUid) {
+    public static void startContactDetailsActivity(Context context, String userUid, Integer protectionLevelId) {
         Intent intent = new Intent(context, ContactDetailsActivity.class);
         intent.putExtra(INTENT_FOLLOWING_USER_UID, userUid);
         intent.putExtra(INTENT_REL_PROT_LEVEL, protectionLevelId);

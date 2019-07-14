@@ -29,14 +29,6 @@
             android:label="Register">
         </activity>
 
-        <activity android:name="com.badgercubed.ContactWallet.activity.ProfileActivity"
-            android:label="Profile" >
-        </activity>
-
-        <activity android:name="com.badgercubed.ContactWallet.activity.ListContactsActivity"
-            android:label="Contacts" >
-        </activity>
-
         <activity android:name="com.badgercubed.ContactWallet.activity.ContactDetailsActivity"
             android:label="Contacts" >
         </activity>
