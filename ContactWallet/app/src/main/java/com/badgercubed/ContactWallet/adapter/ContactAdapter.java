@@ -1,13 +1,17 @@
 package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.model.Following;
@@ -70,11 +74,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView m_textView;
         public Button m_deleteBtn;
+        public ImageView m_imageIcon;
 
         public ViewHolder(View v) {
             super(v);
             m_textView = v.findViewById(R.id.my_text_view_id);
             m_deleteBtn = v.findViewById(R.id.btn_list_item_contact_delete);
+            m_imageIcon = v.findViewById(R.id.image_icon);
         }
 
         public void setPosition(int position) {
@@ -82,7 +88,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     .document(m_dataset.get(position).getFollowingUid())
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    m_textView.setText(task.getResult().get("name").toString());
+                    String name = task.getResult().get("name").toString();
+                    m_textView.setText(name);
                     m_textView.setOnClickListener(v1 -> {
                         // Start contact detail activity
                         Context context = m_textView.getContext();
@@ -91,6 +98,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                         Activities.startContactDetailsActivity(context,
                                 relationship.getFollowingUid(), relationship.getProtectionLevel());
                     });
+
+                    ColorGenerator generator = ColorGenerator.MATERIAL;
+                    int color = generator.getColor(name);
+                    TextDrawable icon = TextDrawable.builder()
+                            .buildRound(name.charAt(0) + "", color);
+                    m_imageIcon.setImageDrawable(icon);
                 }
             });
         }
