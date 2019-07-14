@@ -38,7 +38,7 @@ public class ProfileFragment extends Fragment {
             // return;
         }
 
-        getActivity().setTitle(user.getName());
+        // getActivity().setTitle(user.getName());
 
         // Dialog to allow current user to add connections
         m_addConnection = view.findViewById(R.id.fragment_profile_add_connection);
