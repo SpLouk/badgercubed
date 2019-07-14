@@ -64,16 +64,20 @@
 
         <Button
             android:id="@+id/register_register"
-            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
             android:text="Register"/>
 
         <TextView
             android:id="@+id/register_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:textAlignment="center"
             android:text="Already a user? Log in here"/>
     </LinearLayout>
