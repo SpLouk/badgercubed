@@ -17,7 +17,7 @@ import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.badgercubed.ContactWallet.util.LoginManager;
-import com.badgercubed.ContactWallet.util.ProtectionLevel;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +40,7 @@ public class AddContactDialog extends DialogFragment {
         View dialogView = createDialogView();
         builder.setView(dialogView);
 
-        builder.setPositiveButton("Add", (dialog, which) -> createFollowingRelationship());
+        builder.setPositiveButton("Add", null); //OnclickListener added in 'onStart'
         builder.setNegativeButton("Cancel", (dialog, which) -> dismiss());
 
         return builder.create();
@@ -60,7 +60,9 @@ public class AddContactDialog extends DialogFragment {
         super.onStart();
         getDialog().getWindow()
                 .setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        getDialog().setTitle("Add A Contact");
+
+        // Set here so dialog doesn't terminate automatically when button is clicked
+        ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> createFollowingRelationship());
     }
 
     private void createFollowingRelationship() {
@@ -68,8 +70,13 @@ public class AddContactDialog extends DialogFragment {
         //  with same relationship
 
         String email = m_enterEmail.getText().toString();
-        String handle = m_enterHandle.getText().toString();
+        String handle = m_enterHandle.getFullString();
 
+        if (TextUtils.isEmpty(email)) {
+            String errMsg = "Email can't be empty";
+            Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (email.equals(LoginManager.getInstance().getCurrentUser())) {
             String errMsg = "Can't follow yourself!";
             Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
@@ -118,7 +125,7 @@ public class AddContactDialog extends DialogFragment {
     private void saveFollowingRelationship(User following, ProtectionLevel protLevel) {
         String followerId = LoginManager.getInstance().getCurrentUser().getUid();
         String followingId = following.getUid();
-        Following followingRelationship = new Following(followerId, followingId, protLevel.getLevel());
+        Following followingRelationship = new Following(followerId, followingId, protLevel.getInt());
 
         OnCompleteListener<Void> saveCompleteListener = task -> {
             if (task.isSuccessful()) {

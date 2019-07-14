@@ -51,4 +51,12 @@ public class PrefixEditText extends AppCompatEditText {
         canvas.drawText(prefix, mOriginalLeftPadding,
                 getLineBounds(0, null), getPaint());
     }
+
+    public String getPrefix() {
+        return getTag().toString();
+    }
+
+    public String getFullString() {
+        return getPrefix() + getText().toString();
+    }
 }
