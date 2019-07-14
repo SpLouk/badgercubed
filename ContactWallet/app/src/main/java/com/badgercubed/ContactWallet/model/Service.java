@@ -4,6 +4,7 @@ public enum Service {
     // Display alphabetially
     FACEBOOK ("Facebook", "facebook.com/"),
     MESSENGER ("Messenger", "messenger.com/t/"),
+    TWITTER ("Twitter", "twitter.com/"),
     TEST ("Test", "");
 
     private final String m_name;

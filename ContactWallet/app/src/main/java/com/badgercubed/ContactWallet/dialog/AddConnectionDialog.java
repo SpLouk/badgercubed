@@ -20,6 +20,7 @@ import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.TwitterManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.firebase.firestore.FieldValue;
 
@@ -72,6 +73,10 @@ public class AddConnectionDialog extends DialogFragment {
                     // Account for first entry which isn't valid
                     position = position - 1;
                     selectedService = services.get(position);
+                }
+
+                if (selectedService == Service.TWITTER) {
+                    TwitterManager.getInstance().verifyTwitter(getActivity());
                 }
 
                 if (selectedService != null && !selectedService.equals(m_selectedService)) {
