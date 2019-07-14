@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="110dp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/logo_backup2" />
 
