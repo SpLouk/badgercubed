@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
@@ -87,7 +88,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
         public TextView m_descTextView;
         public Button m_linkBtn;
-        public Button m_deleteBtn;
+        public ImageButton m_deleteBtn;
         View m_view;
 
         public ViewHolder(View itemView) {

@@ -35,9 +35,6 @@ public class ConnectionsFragment extends Fragment {
     private Integer m_followingProtectionLevel = null;
     private List<Connection> m_connections;
 
-    public ConnectionsFragment() {
-    }
-
     public static ConnectionsFragment newInstance(String followingUserUid, Integer relationshipProtectionLevel) {
         Bundle bundle = new Bundle();
         bundle.putString(Activities.INTENT_FOLLOWING_USER_UID, followingUserUid);

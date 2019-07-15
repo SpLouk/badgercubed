@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.FBObject;
 import com.badgercubed.ContactWallet.model.Following;
+import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -168,6 +170,17 @@ public class FBManager {
 
         following.addSnapshotListener(queryListener);
         progressDialog.dismiss();
+    }
+
+    public Task<QuerySnapshot> getConnectionByUserAndService(User user, Service service) {
+        return m_db.collection(Connection.m_collectionName)
+                .whereEqualTo("userId", user.getUid())
+                .whereEqualTo("serviceId", service.getId())
+                .get();
+    }
+
+    public Task<QuerySnapshot> getConnectionsForUser(User user) {
+        return m_db.collection(Connection.m_collectionName).whereEqualTo("userId", user.getUid()).get();
     }
 
     public Task<QuerySnapshot> getUsersByEmail(String email) {

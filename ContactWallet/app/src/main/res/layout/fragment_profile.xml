@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:text="Add New Connection" />
+        android:text="Add Contact Information" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
