@@ -11,15 +11,15 @@ public class Connection extends FBObject {
 
     private String m_uid;
     private String m_userId;
-    private String m_serviceId;
     private String m_link;
     private String m_description;
+    private int m_serviceId = -1;
     private int m_protectionLevel = -1;
 
     public Connection() {
     }
 
-    public Connection(String userId, String serviceId, String link, String description, Integer protectionLevel) {
+    public Connection(String userId, int serviceId, String link, String description, Integer protectionLevel) {
         m_uid = UUID.randomUUID().toString();
         m_userId = userId;
         m_serviceId = serviceId;
@@ -64,11 +64,11 @@ public class Connection extends FBObject {
         m_userId = userId;
     }
 
-    public String getServiceId() {
+    public int getServiceId() {
         return m_serviceId;
     }
 
-    public void setServiceId(String serviceId) {
+    public void setServiceId(int serviceId) {
         m_serviceId = serviceId;
     }
 
@@ -103,7 +103,7 @@ public class Connection extends FBObject {
         if (TextUtils.isEmpty(m_userId)) {
             throw new Exception("User ID is empty");
         }
-        if (TextUtils.isEmpty(m_serviceId)) {
+        if (m_serviceId == -1) {
             throw new Exception("Service ID is empty");
         }
         if (TextUtils.isEmpty(m_link)) {
@@ -112,7 +112,6 @@ public class Connection extends FBObject {
         if (TextUtils.isEmpty(m_description)) {
             throw new Exception("Description is empty");
         }
-        // TODO: better verification
         if (m_protectionLevel == -1) {
             throw new Exception("Protection level not set");
         }

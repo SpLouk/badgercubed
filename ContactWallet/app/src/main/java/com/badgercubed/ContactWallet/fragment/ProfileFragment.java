@@ -44,12 +44,12 @@ public class ProfileFragment extends Fragment {
         m_addConnection = view.findViewById(R.id.fragment_profile_add_connection);
         m_addConnection.setOnClickListener(l -> {
             AddConnectionDialog dialog = new AddConnectionDialog();
-            dialog.show(getActivity().getFragmentManager(), "Add A Connection");
+            dialog.show(getActivity().getFragmentManager(), "Add Contact Information");
         });
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, ConnectionsFragment.newInstance(
-                        FBManager.getInstance().getCurrentFBUser().getUid(), ProtectionLevel.PUBLIC.getInt()))
+                        FBManager.getInstance().getCurrentFBUser().getUid(), ProtectionLevel.PRIVATE.getInt()))
                 .commit();
 
         return view;

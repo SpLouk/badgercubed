@@ -66,7 +66,7 @@ public class AddConnectionDialog extends DialogFragment {
         return builder.create();
     }
 
-    public View createDialogView() {
+    private View createDialogView() {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_add_connection, null);
 
         List<Service> services = new ArrayList<>(Arrays.asList(Service.values()));
@@ -122,7 +122,7 @@ public class AddConnectionDialog extends DialogFragment {
             }
         });
 
-        List<ProtectionLevel> protectionLevels = new ArrayList<>(Arrays.asList(ProtectionLevel.values()));
+        ProtectionLevel[] protectionLevels = ProtectionLevel.values();
         ArrayAdapter<ProtectionLevel> protLevelAdapter = new ProtectionLevelAdapter(getActivity(), protectionLevels);
 
         m_protectionLevelSpinner = view.findViewById(R.id.addConnnection_protectionLevelSpinner);
@@ -130,30 +130,18 @@ public class AddConnectionDialog extends DialogFragment {
         m_protectionLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                m_selectedProtectionLevel = null;
-                if (position > 0) {
-                    // Account for first entry which isn't valid
-                    position = position - 1;
-                    m_selectedProtectionLevel = protectionLevels.get(position);
-                }
+                m_selectedProtectionLevel = protectionLevels[position];
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                m_selectedProtectionLevel = protectionLevels[2];
             }
         });
 
         selectedServiceChanged();
 
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getDialog().getWindow()
-                .setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        getDialog().setTitle("Add A Contact");
     }
 
     private void selectedServiceChanged() {
@@ -188,9 +176,10 @@ public class AddConnectionDialog extends DialogFragment {
         String currentUserUid = FBManager.getInstance().getCurrentFBUser().getUid();
         String link = " http://www." + m_link.getText().toString();
         String description = m_description.getText().toString();
-        Integer protectionLevel = m_selectedProtectionLevel.getInt();
+        int protectionLevel = m_selectedProtectionLevel.getInt();
+        int serviceId = m_selectedService.getId();
 
-        Connection connection = new Connection(currentUserUid, "", link, description, protectionLevel);
+        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel);
         FBManager.getInstance().saveFBObject(getActivity(), connection, null);
 
         // Add new connection Id to current user
