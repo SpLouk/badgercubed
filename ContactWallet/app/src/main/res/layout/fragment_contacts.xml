@@ -16,7 +16,7 @@
             android:id="@+id/fragment_contacts_listContacts_currentUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
+            android:textAlignment="textStart"
             android:text="@string/username"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
