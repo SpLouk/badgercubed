@@ -18,7 +18,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
         Integer relationshipProtLevel = getIntent().getIntExtra(Activities.INTENT_REL_PROT_LEVEL, -1);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.contactDetails_fragmentFrame, ConnectionsFragment.newInstance(uid, relationshipProtLevel))
+                 .replace(R.id.contactDetails_fragmentFrame, ConnectionsFragment.newInstance(uid, relationshipProtLevel))
                 .commit();
     }
 }
