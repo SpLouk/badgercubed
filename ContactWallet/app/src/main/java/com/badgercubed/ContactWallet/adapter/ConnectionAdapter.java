@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.User;
+import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.FieldValue;
@@ -47,7 +49,10 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         }
 
         Connection connection = m_connections.get(i);
-        viewHolder.m_descTextView.setText(connection.getDescription());
+        String description = TextUtils.isEmpty(connection.getDescription()) ?
+                Service.values()[connection.getServiceId()].getName() :
+                connection.getDescription();
+        viewHolder.m_descTextView.setText(description);
 
 
         if (!connection.getVerified()) {

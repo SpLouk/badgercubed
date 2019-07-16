@@ -30,12 +30,16 @@ import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static com.badgercubed.ContactWallet.model.Service.GITHUB;
+import static com.badgercubed.ContactWallet.model.Service.TWITTER;
 
 public class AddConnectionDialog extends DialogFragment {
     private static final String TAG = "T-AddConnectionDialog";
@@ -102,14 +106,22 @@ public class AddConnectionDialog extends DialogFragment {
         m_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b && m_selectedService == Service.TWITTER) {
+                if (b && (m_selectedService == TWITTER || m_selectedService == GITHUB)) {
                     OauthManager.getInstance().verifyService(getActivity(), m_selectedService)
                             .addOnSuccessListener(
                                     new OnSuccessListener<AuthResult>() {
                                         @Override
                                         public void onSuccess(AuthResult authResult) {
                                             Map<String, Object> profile = authResult.getAdditionalUserInfo().getProfile();
-                                            m_link.setText("twitter.com/" + profile.get("screen_name"));
+                                            Log.e("foo", profile.toString());
+                                            switch (m_selectedService) {
+                                                case TWITTER:
+                                                    m_link.setText((String)profile.get("screen_name"));
+                                                    break;
+                                                case GITHUB:
+                                                    m_link.setText((String)profile.get("login"));
+                                                    break;
+                                            }
                                             m_link.setEnabled(false);
                                             m_verified = true;
                                         }
@@ -118,6 +130,9 @@ public class AddConnectionDialog extends DialogFragment {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    Log.e("Oauth Integration", e.toString());
+                                    m_switch.setChecked(false);
+                                    Toast.makeText(getActivity(), "Something went wrong. Please try again.", Toast.LENGTH_LONG).show();
                                 }
                             });
                 }
@@ -166,7 +181,7 @@ public class AddConnectionDialog extends DialogFragment {
             }
         }
 
-        if (m_selectedService == Service.TWITTER) {
+        if (m_selectedService == TWITTER || m_selectedService == GITHUB) {
             m_switch.setChecked(false);
             m_switch.setVisibility(View.VISIBLE);
         }
@@ -176,7 +191,7 @@ public class AddConnectionDialog extends DialogFragment {
         // TODO: validate link
 
         String currentUserUid = FBManager.getInstance().getCurrentFBUser().getUid();
-        String link = " http://www." + m_link.getText().toString();
+        String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
