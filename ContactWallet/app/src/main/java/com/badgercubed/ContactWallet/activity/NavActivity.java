@@ -101,7 +101,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         if (m_drawerLayout.isDrawerOpen(GravityCompat.START)) {
             m_drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            m_drawerLayout.openDrawer(GravityCompat.START);
+            //super.onBackPressed();
         }
     }
 

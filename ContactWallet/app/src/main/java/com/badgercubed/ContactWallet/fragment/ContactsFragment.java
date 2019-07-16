@@ -3,6 +3,7 @@ package com.badgercubed.ContactWallet.fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ import java.util.List;
 
 public class ContactsFragment extends Fragment {
     private FloatingActionButton m_addContact;
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView m_recyclerView;
+    private RecyclerView.LayoutManager m_layoutManager;
 
     public ContactsFragment() {
     }
@@ -34,6 +35,8 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
+        getActivity().setTitle("Contacts");
+
         m_addContact = view.findViewById(R.id.fragment_contacts_add_contact);
         m_addContact.setOnClickListener(l -> {
             AddContactDialog dialog = new AddContactDialog();
@@ -41,11 +44,16 @@ public class ContactsFragment extends Fragment {
         });
 
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(getContext());
+        m_layoutManager = new LinearLayoutManager(getContext());
 
-        recyclerView = view.findViewById(R.id.fragment_contacts_listContacts_recycler);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
+        m_recyclerView = view.findViewById(R.id.fragment_contacts_listContacts_recycler);
+        m_recyclerView.setHasFixedSize(true);
+        m_recyclerView.setLayoutManager(m_layoutManager);
+
+        // Add dividing line between each item
+        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        m_recyclerView.addItemDecoration(itemDecor);
+
         return view;
     }
 
@@ -59,7 +67,7 @@ public class ContactsFragment extends Fragment {
         List<Following> userDataSet = new ArrayList<>();
         RecyclerView.Adapter contactAdapter = new ContactAdapter(getActivity(), userDataSet);
 
-        recyclerView.setAdapter(contactAdapter);
+        m_recyclerView.setAdapter(contactAdapter);
 
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
             for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {

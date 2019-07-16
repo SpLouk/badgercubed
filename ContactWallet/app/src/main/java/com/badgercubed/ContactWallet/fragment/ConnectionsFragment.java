@@ -2,6 +2,7 @@ package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -71,6 +72,10 @@ public class ConnectionsFragment extends Fragment {
         m_recyclerView.setHasFixedSize(true);
         m_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         m_recyclerView.setAdapter(m_connectionAdapter);
+
+        // Add dividing line between each item
+        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        m_recyclerView.addItemDecoration(itemDecor);
 
         if (m_followingUserUid.isEmpty()) {
             Toast.makeText(getActivity(), "ERROR: user ID empty", Toast.LENGTH_SHORT);
