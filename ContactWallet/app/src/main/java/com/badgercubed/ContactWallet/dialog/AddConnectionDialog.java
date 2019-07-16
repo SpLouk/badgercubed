@@ -48,6 +48,7 @@ public class AddConnectionDialog extends DialogFragment {
 
     private Service m_selectedService = null;
     private ProtectionLevel m_selectedProtectionLevel = null;
+    private boolean m_verified = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -110,6 +111,7 @@ public class AddConnectionDialog extends DialogFragment {
                                             Map<String, Object> profile = authResult.getAdditionalUserInfo().getProfile();
                                             m_link.setText("twitter.com/" + profile.get("screen_name"));
                                             m_link.setEnabled(false);
+                                            m_verified = true;
                                         }
                                     }
                             )
@@ -179,7 +181,7 @@ public class AddConnectionDialog extends DialogFragment {
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
 
-        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel);
+        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
         FBManager.getInstance().saveFBObject(getActivity(), connection, null);
 
         // Add new connection Id to current user

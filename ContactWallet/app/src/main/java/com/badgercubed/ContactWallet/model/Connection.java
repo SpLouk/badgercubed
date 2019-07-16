@@ -16,10 +16,34 @@ public class Connection extends FBObject {
     private int m_serviceId = -1;
     private int m_protectionLevel = -1;
 
+    private boolean m_verified = false;
+
     public Connection() {
     }
 
-    public Connection(String userId, int serviceId, String link, String description, Integer protectionLevel) {
+    public Connection(
+            String userId,
+            int serviceId,
+            String link,
+            String description,
+            Integer protectionLevel,
+            boolean verified) {
+        m_uid = UUID.randomUUID().toString();
+        m_userId = userId;
+        m_serviceId = serviceId;
+        m_link = link;
+        m_description = description;
+        m_protectionLevel = protectionLevel;
+        m_verified = verified;
+    }
+
+
+    public Connection(
+            String userId,
+            int serviceId,
+            String link,
+            String description,
+            Integer protectionLevel) {
         m_uid = UUID.randomUUID().toString();
         m_userId = userId;
         m_serviceId = serviceId;
@@ -94,6 +118,15 @@ public class Connection extends FBObject {
 
     public void setProtectionLevel(Integer protectionLevel) {
         m_protectionLevel = protectionLevel.intValue();
+    }
+
+
+    public boolean getVerified() {
+        return m_verified;
+    }
+
+    public void setVerified(boolean m_verified) {
+        this.m_verified = m_verified;
     }
 
     public void validate() throws Exception {

@@ -11,6 +11,23 @@
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+    <ImageView
+        android:id="@+id/listItemConnection_verified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:src="@drawable/ic_check_black_24dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/listItemConnection_textView"  />
+    <TextView
+        android:id="@+id/listItemConnection_verifiedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Verified"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_toEndOf="@+id/listItemConnection_verified"  />
+
     <Button
         android:id="@+id/listItemConnection_linkBtn"
         android:layout_width="wrap_content"
