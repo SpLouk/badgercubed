@@ -1,21 +1,18 @@
 package com.badgercubed.ContactWallet.dialog;
 
 import android.app.Dialog;
-import android.os.Bundle;
 import android.app.DialogFragment;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.adapter.ProtectionLevelAdapter;

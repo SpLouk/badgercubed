@@ -10,22 +10,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:inputType="textEmailAddress"
-        android:hint="Contact Email"/>
+        android:hint="Contact Email"
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="Contact Handle:"/>
+        android:text="Contact Handle:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <com.badgercubed.ContactWallet.widget.PrefixEditText
         android:id="@+id/addContact_handle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:inputType="textPersonName"
         android:ems="10"
-        android:tag="@string/handle_base"
-        android:hint="[id]" />
+        android:hint="[id]"
+        android:inputType="textPersonName"
+        android:tag="@string/handle_base" />
+
 </LinearLayout>

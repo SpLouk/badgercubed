@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.Following;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.badgercubed.ContactWallet.util.LoginManager;
-import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,7 +93,7 @@ public class AddContactDialog extends DialogFragment {
             if (!task.isSuccessful()) {
                 String errMsg = "Error Querying DB: " + task.getException().getMessage();
                 Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error Querying DB: ",  task.getException());
+                Log.e(TAG, "Error Querying DB: ", task.getException());
                 return;
             }
 
@@ -143,13 +143,13 @@ public class AddContactDialog extends DialogFragment {
 
     private ProtectionLevel getProtectionLevelFromHandle(User checkUser, String handle) {
         if (checkUser.getPublicHandle().equals(handle)) {
-            return  ProtectionLevel.PUBLIC;
+            return ProtectionLevel.PUBLIC;
         }
         if (checkUser.getProtectedHandle().equals(handle)) {
-            return  ProtectionLevel.PROTECTED;
+            return ProtectionLevel.PROTECTED;
         }
         if (checkUser.getPrivateHandle().equals(handle)) {
-            return  ProtectionLevel.PRIVATE;
+            return ProtectionLevel.PRIVATE;
         }
         return null;
     }

@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthProvider;
 
 public class OauthManager {
-    OAuthProvider.Builder provider;
     private static OauthManager instance = null;
+    OAuthProvider.Builder provider;
 
     public static OauthManager getInstance() {
         if (instance == null) {

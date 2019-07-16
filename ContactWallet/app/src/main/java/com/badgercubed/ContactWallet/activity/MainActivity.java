@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback {
         m_enterPassword = findViewById(R.id.login_password);
     }
 
-
     private void loginUser() {
         String email = m_enterEmail.getText().toString().trim();
         String password = m_enterPassword.getText().toString().trim();

@@ -24,7 +24,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
-        if(rowView == null) {
+        if (rowView == null) {
             rowView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_service, parent, false);
         }
 
@@ -46,7 +46,7 @@ public class ServiceAdapter extends ArrayAdapter<Service> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
-        if(view == null) {
+        if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
         }
 

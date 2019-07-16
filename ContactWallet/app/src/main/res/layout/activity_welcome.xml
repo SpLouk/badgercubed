@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="activity.MainActivity"
-    android:layout_centerVertical="true">
+    android:layout_centerVertical="true"
+    tools:context="activity.MainActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/bg1"/>
+        app:srcCompat="@drawable/bg1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -30,39 +30,39 @@
         <AutoCompleteTextView
             android:id="@+id/login_username"
             android:layout_width="match_parent"
-            android:layout_gravity="center_horizontal"
             android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="80dp"
-            android:layout_marginEnd="80dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="80dp"
             android:background="@drawable/rounded_white"
             android:drawableStart="@drawable/ic_action_username"
-            android:paddingStart="5dp"
             android:ems="10"
             android:hint="@string/username"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:paddingStart="5dp" />
 
         <AutoCompleteTextView
             android:id="@+id/login_password"
-            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="80dp"
-            android:layout_marginEnd="80dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="80dp"
             android:layout_marginBottom="20dp"
-            android:paddingStart="5dp"
             android:background="@drawable/rounded_white"
             android:drawableStart="@drawable/ic_action_password"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textVisiblePassword" />
+            android:inputType="textVisiblePassword"
+            android:paddingStart="5dp" />
 
         <Button
             android:id="@+id/welcome_login"
-            android:layout_gravity="center_horizontal"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"

@@ -7,7 +7,6 @@ import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.util.App;
 import com.google.firebase.firestore.Exclude;
 
-import java.util.List;
 import java.util.Random;
 
 public class User extends FBObject {
@@ -17,7 +16,6 @@ public class User extends FBObject {
     private String m_email;
     private String m_name;
     private String m_phoneNum;
-
 
     private String m_publicHandle;
     private String m_protectedHandle;

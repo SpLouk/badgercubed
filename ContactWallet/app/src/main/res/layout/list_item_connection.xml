@@ -15,17 +15,17 @@
         android:id="@+id/listItemConnection_linkBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:text="Open" />
 
     <ImageButton
         android:id="@+id/listItemConnection_deleteBtn"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/listItemConnection_linkBtn"
-        android:src="@drawable/ic_delete_black_24dp"
-        style="?android:attr/borderlessButtonStyle" />
+        android:src="@drawable/ic_delete_black_24dp" />
 
 </RelativeLayout>

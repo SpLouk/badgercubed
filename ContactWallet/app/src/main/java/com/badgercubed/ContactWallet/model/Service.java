@@ -2,10 +2,10 @@ package com.badgercubed.ContactWallet.model;
 
 public enum Service {
     // Display alphabetially
-    FACEBOOK (0,"Facebook", "facebook.com/"),
-    MESSENGER (1, "Messenger", "messenger.com/t/"),
-    TWITTER (2, "Twitter", "twitter.com/"),
-    TEST (3, "Test", "");
+    FACEBOOK(0, "Facebook", "facebook.com/"),
+    MESSENGER(1, "Messenger", "messenger.com/t/"),
+    TWITTER(2, "Twitter", "twitter.com/"),
+    TEST(3, "Test", "");
 
     private final int m_id;
     private final String m_name;

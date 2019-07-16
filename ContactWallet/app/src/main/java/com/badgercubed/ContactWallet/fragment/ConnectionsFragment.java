@@ -56,7 +56,7 @@ public class ConnectionsFragment extends Fragment {
 
         if (bundle == null) {
             Toast.makeText(getActivity(), "ERROR: Bundle empty", Toast.LENGTH_SHORT);
-            Log.e(TAG,  "Bundle empty");
+            Log.e(TAG, "Bundle empty");
             getActivity().finish();
             return view;
         }
@@ -72,10 +72,9 @@ public class ConnectionsFragment extends Fragment {
         m_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         m_recyclerView.setAdapter(m_connectionAdapter);
 
-
         if (m_followingUserUid.isEmpty()) {
             Toast.makeText(getActivity(), "ERROR: user ID empty", Toast.LENGTH_SHORT);
-            Log.e(TAG,  "ERROR: user ID empty");
+            Log.e(TAG, "ERROR: user ID empty");
             getActivity().finish();
             return view;
         }
@@ -86,7 +85,7 @@ public class ConnectionsFragment extends Fragment {
 
         if (m_followingProtectionLevel == null) {
             Toast.makeText(getActivity(), "ERROR: protection level not found", Toast.LENGTH_SHORT);
-            Log.e(TAG,  "ERROR: protection level not found");
+            Log.e(TAG, "ERROR: protection level not found");
             getActivity().finish();
             return view;
         }
@@ -95,13 +94,12 @@ public class ConnectionsFragment extends Fragment {
         if (protectionLevel == null) {
             Toast.makeText(getActivity(), "ERROR: failed to determine protection level, num=" + m_followingProtectionLevel,
                     Toast.LENGTH_SHORT);
-            Log.e(TAG,  "ERROR: failed to determine protection level, num=" + m_followingProtectionLevel);
+            Log.e(TAG, "ERROR: failed to determine protection level, num=" + m_followingProtectionLevel);
             getActivity().finish();
             return view;
         }
 
-
-        switch(protectionLevel) {
+        switch (protectionLevel) {
             case PRIVATE:
                 queryContacts(ProtectionLevel.PRIVATE.getInt());
                 // fall through

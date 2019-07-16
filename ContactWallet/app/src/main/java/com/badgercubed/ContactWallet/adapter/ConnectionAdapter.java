@@ -14,10 +14,8 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
 import com.badgercubed.ContactWallet.model.Connection;
-import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.FBManager;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.firestore.FieldValue;
 
 import java.util.List;
 
@@ -72,9 +70,9 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             };
 
             // Remove connection from current user
-            FBManager.getInstance().getCollection(User.m_collectionName)
-                    .document(FBManager.getInstance().getCurrentFBUser().getUid())
-                    .update("connectionIds", FieldValue.arrayRemove(connection.getUid()));
+            //FBManager.getInstance().getCollection(User.m_collectionName)
+            //        .document(FBManager.getInstance().getCurrentFBUser().getUid())
+            //        .update("connectionIds", FieldValue.arrayRemove(connection.getUid()));
             FBManager.getInstance().deleteFBObject(m_context, connection, deleteCompleteListener);
         });
     }

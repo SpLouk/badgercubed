@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
@@ -20,7 +22,9 @@ import com.badgercubed.ContactWallet.util.LoginManager;
 
 public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout drawerLayout;
+    private DrawerLayout m_drawerLayout;
+    private TextView m_userName;
+    private TextView m_userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +43,32 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+        m_drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, m_drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        m_drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+        // If new instance
         if (savedInstanceState == null) {
-            // start new fragment contacts
+            // start new fragment contacts as default
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container_nav, new ContactsFragment())
                     .commit();
             navigationView.setCheckedItem(R.id.nav_contacts);
         }
+
+        // Set current user's display name and email in navigation header
+        View header = navigationView.getHeaderView(0);
+
+        m_userName = header.findViewById(R.id.nav_header_user_name);
+        m_userName.setText(user.getName());
+
+        m_userEmail = header.findViewById(R.id.nav_header_user_email);
+        m_userEmail.setText(user.getEmail());
     }
 
     @Override
@@ -78,14 +92,14 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                 break;
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+        m_drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (m_drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            m_drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

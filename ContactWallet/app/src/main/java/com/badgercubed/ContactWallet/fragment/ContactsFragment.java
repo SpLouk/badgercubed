@@ -8,16 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.adapter.ContactAdapter;
 import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.Following;
-import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.LoginManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,7 +23,6 @@ import java.util.List;
 
 public class ContactsFragment extends Fragment {
     private FloatingActionButton m_addContact;
-    private TextView m_currentUserContact;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -38,13 +33,6 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
-
-        m_currentUserContact = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
-        m_currentUserContact.setText(LoginManager.getInstance().getCurrentUser().getName());
-        m_currentUserContact.setOnClickListener(l -> {
-            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid(),
-                    ProtectionLevel.PUBLIC.getInt());
-        });
 
         m_addContact = view.findViewById(R.id.fragment_contacts_add_contact);
         m_addContact.setOnClickListener(l -> {
