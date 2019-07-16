@@ -15,8 +15,8 @@ import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.adapter.ConnectionAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
-import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.LoginManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -80,7 +80,7 @@ public class ConnectionsFragment extends Fragment {
             return view;
         }
 
-        if (m_followingUserUid == LoginManager.getInstance().getCurrentUser().getUid()) {
+        if (m_followingUserUid == AuthManager.getInstance().getCurrentUser().getUid()) {
             m_followingProtectionLevel = ProtectionLevel.PUBLIC.getInt();
         }
 
@@ -118,7 +118,7 @@ public class ConnectionsFragment extends Fragment {
     }
 
     private void queryContacts(int protectionLevel) {
-        Query query = FBManager.getInstance().getCollection(Connection.m_collectionName);
+        Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
         query = query.whereEqualTo("userId", m_followingUserUid);
         query = query.whereEqualTo("protectionLevel", protectionLevel);
         query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {

@@ -10,9 +10,9 @@ import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.util.LoginCallback;
-import com.badgercubed.ContactWallet.util.LoginManager;
 import com.badgercubed.ContactWallet.util.RegisterCallback;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterCallback, LoginCallback {
@@ -33,10 +33,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         String name = m_enterName.getText().toString().trim();
         String phoneNum = m_enterPhoneNum.getText().toString().trim();
 
-        String uid = FBManager.getInstance().getCurrentFBUser().getUid();
+        String uid = StoreManager.getInstance().getCurrentFBUser().getUid();
 
         User newUser = new User(uid, email, name, phoneNum);
-        LoginManager.getInstance().saveUserAfterFBRegistration(this, newUser, this);
+        AuthManager.getInstance().saveUserAfterFBRegistration(this, newUser, this);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        if (FBManager.getInstance().getCurrentFBUser() != null) {
+        if (StoreManager.getInstance().getCurrentFBUser() != null) {
             // User already logged in
             finish();
             // TODO : go to profile fragment? necessary
@@ -100,6 +100,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
             return;
         }
 
-        LoginManager.getInstance().registerUser(this, email, password, this);
+        AuthManager.getInstance().registerUser(this, email, password, this);
     }
 }

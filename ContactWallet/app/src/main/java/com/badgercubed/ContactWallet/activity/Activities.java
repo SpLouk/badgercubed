@@ -9,7 +9,7 @@ public class Activities {
     public static final String INTENT_REL_PROT_LEVEL = ".intent.relationship_protection_level";
 
     public static void startWelcomeActivity(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
 

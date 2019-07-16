@@ -9,12 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.util.LoginCallback;
-import com.badgercubed.ContactWallet.util.LoginManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements LoginCallback {
+public class LoginActivity extends AppCompatActivity implements LoginCallback {
     private Button m_login;
     private TextView m_register;
     private EditText m_enterEmail;
@@ -36,13 +36,12 @@ public class MainActivity extends AppCompatActivity implements LoginCallback {
         setContentView(R.layout.activity_welcome);
 
         // Check if user is logged in
-        FirebaseUser fbUser = FBManager.getInstance().getCurrentFBUser();
-        if (fbUser != null) {
-            LoginManager.getInstance().updateUserAfterFBLogin(this, this);
+        if (AuthManager.getInstance().isLoggedIn()) {
+            AuthManager.getInstance().updateUserAfterFBLogin(this, this);
         }
 
         m_register = findViewById(R.id.welcome_register);
-        m_register.setOnClickListener(l -> Activities.startRegisterActivity(MainActivity.this));
+        m_register.setOnClickListener(l -> Activities.startRegisterActivity(LoginActivity.this));
 
         m_login = findViewById(R.id.welcome_login);
         m_login.setOnClickListener(l -> loginUser());
@@ -67,6 +66,6 @@ public class MainActivity extends AppCompatActivity implements LoginCallback {
             return;
         }
 
-        LoginManager.getInstance().login(this, email, password, this);
+        AuthManager.getInstance().login(this, email, password, this);
     }
 }

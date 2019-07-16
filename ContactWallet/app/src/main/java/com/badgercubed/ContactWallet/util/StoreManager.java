@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.FBObject;
@@ -13,9 +12,6 @@ import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,57 +22,37 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
-public class FBManager {
-    private static FBManager instance = null;
-    private final String TAG = "T-FBManager";
-    private FirebaseAuth m_firebaseAuth;
+public class StoreManager {
+    private static StoreManager instance = null;
+    private final String TAG = "T-StoreManager";
     private FirebaseFirestore m_db;
+    private User m_currentUser = null;
 
-    private FBManager() {
-        m_firebaseAuth = FirebaseAuth.getInstance();
+    private StoreManager() {
         m_db = FirebaseFirestore.getInstance();
     }
 
-    public static FBManager getInstance() {
+    public static StoreManager getInstance() {
         if (instance == null) {
-            instance = new FBManager();
+            instance = new StoreManager();
         }
         return instance;
     }
 
-    // AUTHENTICATION METHODS
-
-    public void registerUserWithEmailAndPassword(Context context, String email, String password,
-                                                 OnCompleteListener<AuthResult> registerCompleteListener) {
-        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
-        progressDialog.setMessage("Registering...");
-        progressDialog.show();
-
-        Task<AuthResult> registerTask = m_firebaseAuth.createUserWithEmailAndPassword(email, password);
-        registerTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        registerTask.addOnCompleteListener(registerCompleteListener);
-    }
-
-    public void loginWithEmailAndPassword(Context context, String email, String password,
-                                          OnCompleteListener<AuthResult> loginCompleteListener) {
-        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
-        progressDialog.setMessage("Logging In...");
-        progressDialog.show();
-
-        Task<AuthResult> loginTask = m_firebaseAuth.signInWithEmailAndPassword(email, password);
-        loginTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        loginTask.addOnCompleteListener(loginCompleteListener);
-    }
-
-    public FirebaseUser getCurrentFBUser() {
-        return m_firebaseAuth.getCurrentUser();
-    }
-
-    public void logout() {
-        m_firebaseAuth.signOut();
+    public static void destroyInstance() {
+        instance = null;
     }
 
     // GENERAL FIRESTORE METHODS
+
+
+    public User getCurrentUser() {
+        return m_currentUser;
+    }
+
+    public void setCurrentUser(User u) {
+        m_currentUser = u;
+    }
 
     public void saveFBObject(Context context, FBObject fbObject,
                              OnCompleteListener<Void> saveCompleteListener) {
@@ -93,8 +69,8 @@ public class FBManager {
         progressDialog.setMessage("Saving...");
         progressDialog.show();
 
-        CollectionReference usersCollection = m_db.collection(collName);
-        Task<Void> saveTask = usersCollection.document(docRef).set(fbObject);
+        CollectionReference collection = m_db.collection(collName);
+        Task<Void> saveTask = collection.document(docRef).set(fbObject);
         saveTask.addOnCompleteListener(task -> {
             progressDialog.dismiss();
             if (task.isSuccessful()) {
@@ -166,7 +142,7 @@ public class FBManager {
         // find following docs with followerid == current user
 
         Query following = m_db.collection(Following.m_collectionName)
-                .whereEqualTo("followerUid", getCurrentFBUser().getUid());
+                .whereEqualTo("followerUid", AuthManager.getInstance().getAuthUser().getUid());
 
         following.addSnapshotListener(queryListener);
         progressDialog.dismiss();

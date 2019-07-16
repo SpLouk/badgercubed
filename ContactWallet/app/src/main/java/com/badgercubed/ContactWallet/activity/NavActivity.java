@@ -15,8 +15,7 @@ import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.fragment.ContactsFragment;
 import com.badgercubed.ContactWallet.fragment.ProfileFragment;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.LoginManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
 
 public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -26,7 +25,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User user = LoginManager.getInstance().getCurrentUser();
+        User user = AuthManager.getInstance().getCurrentUser();
         if (user == null) {
             // User somehow logged out
             Toast.makeText(this, "Error, user somehow logged out", Toast.LENGTH_SHORT).show();
@@ -92,7 +91,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     }
 
     private void logoutUser() {
-        FBManager.getInstance().logout();
+        AuthManager.getInstance().logout();
         finish();
         Activities.startWelcomeActivity(this);
     }

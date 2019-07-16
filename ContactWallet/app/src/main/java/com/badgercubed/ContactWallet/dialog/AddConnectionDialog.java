@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -24,13 +23,12 @@ import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.util.OauthManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
@@ -190,17 +188,17 @@ public class AddConnectionDialog extends DialogFragment {
     private void createAndSaveConnections() {
         // TODO: validate link
 
-        String currentUserUid = FBManager.getInstance().getCurrentFBUser().getUid();
+        String currentUserUid = StoreManager.getInstance().getCurrentFBUser().getUid();
         String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
 
         Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
-        FBManager.getInstance().saveFBObject(getActivity(), connection, null);
+        StoreManager.getInstance().saveFBObject(getActivity(), connection, null);
 
         // Add new connection Id to current user
-        FBManager.getInstance().getCollection(User.m_collectionName)
+        StoreManager.getInstance().getCollection(User.m_collectionName)
                 .document(currentUserUid)
                 .update("connectionIds", FieldValue.arrayUnion(connection.getUid()));
     }

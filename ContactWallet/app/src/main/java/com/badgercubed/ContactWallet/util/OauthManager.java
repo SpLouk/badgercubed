@@ -24,7 +24,7 @@ public class OauthManager {
     }
 
     public Task<AuthResult> verifyService(Activity a, Service service) {
-        FirebaseUser user = FBManager.getInstance().getCurrentFBUser();
+        FirebaseUser user = AuthManager.getInstance().getAuthUser();
         switch (service) {
             case TWITTER:
                 provider = OAuthProvider.newBuilder("twitter.com");
@@ -36,7 +36,7 @@ public class OauthManager {
                 provider = null;
         }
 
-        List<? extends UserInfo> providers = FBManager.getInstance().getCurrentFBUser().getProviderData();
+        List<? extends UserInfo> providers = AuthManager.getInstance().getAuthUser().getProviderData();
         for (int i = 0; i < providers.size(); i++) {
             boolean equals = providers.get(i).getProviderId() + "/" == service.getLink();
             if (service.getLink().equals(providers.get(i).getProviderId() + "/")) {

@@ -16,8 +16,8 @@ import com.badgercubed.ContactWallet.adapter.ContactAdapter;
 import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
-import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.LoginManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,9 +40,9 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         m_currentUserContact = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
-        m_currentUserContact.setText(LoginManager.getInstance().getCurrentUser().getName());
+        m_currentUserContact.setText(AuthManager.getInstance().getCurrentUser().getName());
         m_currentUserContact.setOnClickListener(l -> {
-            Activities.startContactDetailsActivity(getContext(), LoginManager.getInstance().getCurrentUser().getUid(),
+            Activities.startContactDetailsActivity(getContext(), AuthManager.getInstance().getCurrentUser().getUid(),
                     ProtectionLevel.PUBLIC.getInt());
         });
 
@@ -83,6 +83,6 @@ public class ContactsFragment extends Fragment {
             contactAdapter.notifyDataSetChanged();
         };
 
-        FBManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);
+        StoreManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);
     }
 }

@@ -1,7 +1,6 @@
 package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.List;
@@ -58,7 +57,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                 }
             };
 
-            FBManager.getInstance().deleteFBObject(m_context, m_dataset.get(position), deleteCompleteListener);
+            StoreManager.getInstance().deleteFBObject(m_context, m_dataset.get(position), deleteCompleteListener);
         });
     }
 
@@ -84,7 +83,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
 
         public void setPosition(int position) {
-            FBManager.getInstance().getCollection(User.m_collectionName)
+            StoreManager.getInstance().getCollection(User.m_collectionName)
                     .document(m_dataset.get(position).getFollowingUid())
                     .get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {

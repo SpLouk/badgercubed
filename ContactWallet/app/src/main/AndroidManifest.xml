@@ -17,7 +17,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LoginActivity"
             android:label="ContactWallet"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

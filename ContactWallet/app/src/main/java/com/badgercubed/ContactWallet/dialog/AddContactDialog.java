@@ -15,8 +15,8 @@ import android.widget.Toast;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.LoginManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,7 +77,7 @@ public class AddContactDialog extends DialogFragment {
             Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (email.equals(LoginManager.getInstance().getCurrentUser())) {
+        if (email.equals(AuthManager.getInstance().getCurrentUser())) {
             String errMsg = "Can't follow yourself!";
             Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
             return;
@@ -88,7 +88,7 @@ public class AddContactDialog extends DialogFragment {
             return;
         }
 
-        Task<QuerySnapshot> usersByEmail = FBManager.getInstance().getUsersByEmail(email);
+        Task<QuerySnapshot> usersByEmail = StoreManager.getInstance().getUsersByEmail(email);
         usersByEmail.addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 String errMsg = "Error Querying DB: " + task.getException().getMessage();
@@ -123,7 +123,7 @@ public class AddContactDialog extends DialogFragment {
     }
 
     private void saveFollowingRelationship(User following, ProtectionLevel protLevel) {
-        String followerId = LoginManager.getInstance().getCurrentUser().getUid();
+        String followerId = AuthManager.getInstance().getCurrentUser().getUid();
         String followingId = following.getUid();
         Following followingRelationship = new Following(followerId, followingId, protLevel.getInt());
 
@@ -138,7 +138,7 @@ public class AddContactDialog extends DialogFragment {
                 return;
             }
         };
-        FBManager.getInstance().saveFBObject(getActivity(), followingRelationship, saveCompleteListener);
+        StoreManager.getInstance().saveFBObject(getActivity(), followingRelationship, saveCompleteListener);
     }
 
     private ProtectionLevel getProtectionLevelFromHandle(User checkUser, String handle) {
