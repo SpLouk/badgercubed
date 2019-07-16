@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
         });
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, ConnectionsFragment.newInstance(
+                .replace(R.id.fragment_connections_container, ConnectionsFragment.newInstance(
                         FBManager.getInstance().getCurrentFBUser().getUid(), ProtectionLevel.PRIVATE.getInt()))
                 .commit();
 
