@@ -73,8 +73,14 @@ public class AuthManager {
                 loginCallBack.loginResult(false);
             }
         };
+        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
+        progressDialog.setMessage("Logging In...");
+        progressDialog.show();
 
-        StoreManager.getInstance().loginWithEmailAndPassword(context, email, password, loginCompleteListener);
+        Task<AuthResult> loginTask = m_firebaseAuth.signInWithEmailAndPassword(email, password);
+        loginTask.addOnCompleteListener(task -> progressDialog.dismiss());
+        loginTask.addOnCompleteListener(loginCompleteListener);
+
     }
 
     public void logout() {
@@ -91,20 +97,20 @@ public class AuthManager {
             registerCallBack.registerResult(registerTask.isSuccessful());
         };
         final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
-        progressDialog.setMessage("Logging In...");
+        progressDialog.setMessage("Registering...");
         progressDialog.show();
 
-        Task<AuthResult> loginTask = m_firebaseAuth.signInWithEmailAndPassword(email, password);
-        loginTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        loginTask.addOnCompleteListener(loginCompleteListener);
+        Task<AuthResult> registerTask = m_firebaseAuth.createUserWithEmailAndPassword(email, password);
+        registerTask.addOnCompleteListener(task -> progressDialog.dismiss());
+        registerTask.addOnCompleteListener(registerCompleteListener);
     }
 
     public void saveUserAfterFBRegistration(Context context, User newUser, LoginCallback loginCallback) {
         OnCompleteListener<Void> saveCompleteListener = saveTask -> {
             if (saveTask.isSuccessful()) {
-                m_currentUser = newUser;
+                StoreManager.getInstance().setCurrentUser(newUser);
             } else {
-                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show();
             }
             loginCallback.loginResult(saveTask.isSuccessful());
         };
