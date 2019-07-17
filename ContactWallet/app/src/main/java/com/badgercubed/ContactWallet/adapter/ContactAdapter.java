@@ -95,7 +95,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                         Following relationship = m_dataset.get(position);
                         Integer protectionLevel = relationship.getProtectionLevel();
                         Activities.startContactDetailsActivity(context,
-                                relationship.getFollowingUid(), relationship.getProtectionLevel());
+                                relationship.getFollowingUid(), protectionLevel);
                     });
 
                     ColorGenerator generator = ColorGenerator.MATERIAL;

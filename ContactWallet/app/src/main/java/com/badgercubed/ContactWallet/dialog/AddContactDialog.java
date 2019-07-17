@@ -68,8 +68,8 @@ public class AddContactDialog extends DialogFragment {
         // TODO : Check for repeats when adding, currently can add multiple entries in following table
         //  with same relationship
 
-        String email = m_enterEmail.getText().toString();
-        String handle = m_enterHandle.getFullString();
+        String email = m_enterEmail.getText().toString().trim();
+        String handle = m_enterHandle.getFullString().trim();
 
         if (TextUtils.isEmpty(email)) {
             String errMsg = "Email can't be empty";
@@ -77,7 +77,7 @@ public class AddContactDialog extends DialogFragment {
             return;
         }
         if (email.equals(StoreManager.getInstance().getCurrentUser())) {
-            String errMsg = "Can't follow yourself!";
+            String errMsg = "Can't follow yourself";
             Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
             return;
         }

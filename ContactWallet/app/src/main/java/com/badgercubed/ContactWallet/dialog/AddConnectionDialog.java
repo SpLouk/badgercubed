@@ -169,10 +169,6 @@ public class AddConnectionDialog extends DialogFragment {
             m_description.setVisibility(View.VISIBLE);
             m_protectionLevelSpinner.setSelection(0);
             m_protectionLevelSpinner.setVisibility(View.VISIBLE);
-            //TODO: this doesn't work
-            if (m_link.hasFocus()) {
-                m_link.clearFocus();
-            }
         }
 
         if (m_selectedService == TWITTER || m_selectedService == GITHUB) {
@@ -184,7 +180,7 @@ public class AddConnectionDialog extends DialogFragment {
     private void createAndSaveConnections() {
         // TODO: validate link
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
-        String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
+        String link = getString(R.string.http_base) + m_link.getFullString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
