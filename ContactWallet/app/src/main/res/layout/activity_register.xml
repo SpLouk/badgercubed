@@ -51,16 +51,6 @@
             android:inputType="textPersonName"
             android:paddingStart="10dp" />
 
-        <EditText
-            android:id="@+id/register_enterPhoneNum"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/rounded_white"
-            android:hint="Phone #: "
-            android:inputType="phone"
-            android:paddingStart="10dp" />
-
         <Button
             android:id="@+id/register_register"
             android:layout_width="150dp"

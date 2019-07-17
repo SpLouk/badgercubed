@@ -41,9 +41,6 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
                     m_userEmail = findViewById(R.id.activity_contact_details_email);
                     m_userEmail.setText(documentSnapshot.get("email").toString());
-
-                    m_userPhoneNumber = findViewById(R.id.activity_contact_details_phone_number);
-                    m_userPhoneNumber.setText(documentSnapshot.get("phoneNum").toString());
                 });
 
         ConnectionsFragment connectionsFragment = ConnectionsFragment.newInstance(uid, relationshipProtLevel);
