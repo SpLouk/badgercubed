@@ -1,8 +1,9 @@
 package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class ProfileFragment extends Fragment {
-    private FloatingActionButton m_addConnection;
+    private ExtendedFloatingActionButton m_addConnection;
 
     public ProfileFragment() {
     }

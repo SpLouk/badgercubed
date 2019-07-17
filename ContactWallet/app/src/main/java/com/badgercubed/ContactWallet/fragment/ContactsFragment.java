@@ -1,11 +1,12 @@
 package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsFragment extends Fragment {
-    private FloatingActionButton m_addContact;
+    private ExtendedFloatingActionButton m_addContact;
     private RecyclerView m_recyclerView;
     private RecyclerView.LayoutManager m_layoutManager;
 

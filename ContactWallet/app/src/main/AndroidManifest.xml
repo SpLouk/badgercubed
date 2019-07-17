@@ -10,16 +10,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
 
         <activity
-            android:name=".activity.NavActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activity.NavActivity"/>
 
         <activity
             android:name=".activity.LoginActivity"
-            android:label="ContactWallet"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="ContactWallet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,13 +27,11 @@
 
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="Register"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Register"/>
 
         <activity
             android:name=".activity.ContactDetailsActivity"
-            android:label="Contacts"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Contacts"/>
 
     </application>
 
