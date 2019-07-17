@@ -9,26 +9,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
-import com.badgercubed.ContactWallet.util.StoreManager;
-import com.badgercubed.ContactWallet.util.LoginCallback;
 import com.badgercubed.ContactWallet.util.AuthManager;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentSnapshot;
 
-public class LoginActivity extends AppCompatActivity implements LoginCallback {
+public class LoginActivity extends AppCompatActivity {
     private Button m_login;
     private TextView m_register;
     private EditText m_enterEmail;
     private EditText m_enterPassword;
-
-    @Override
-    public void loginResult(boolean result) {
-        if (result) {
-            // User logged in
-            finish();
-
-            Activities.startNavActivity(this);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +28,11 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
 
         // Check if user is logged in
         if (AuthManager.getInstance().isLoggedIn()) {
-            AuthManager.getInstance().updateUserAfterFBLogin(this, this);
+            AuthManager.getInstance().updateUserAfterFBLogin(this).addOnSuccessListener(task -> {
+                // User logged in
+                finish();
+                Activities.startNavActivity(this);
+            });
         }
 
         m_register = findViewById(R.id.welcome_register);
@@ -65,7 +60,17 @@ public class LoginActivity extends AppCompatActivity implements LoginCallback {
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        AuthManager.getInstance().login(this, email, password, this);
+        OnCompleteListener<AuthResult> loginCompleteListener = loginTask -> {
+            if (loginTask.isSuccessful()) {
+                AuthManager.getInstance().updateUserAfterFBLogin(this).addOnSuccessListener(documentSnapshot -> {
+                    // User logged in
+                    finish();
+                    Activities.startNavActivity(this);
+                });
+            } else {
+                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+            }
+        };
+        AuthManager.getInstance().login(this, email, password).addOnCompleteListener(loginCompleteListener);
     }
 }

@@ -3,10 +3,13 @@ package com.badgercubed.ContactWallet.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,50 +40,26 @@ public class AuthManager {
         return m_firebaseAuth.getCurrentUser() != null;
     }
 
-
-    // AUTHENTICATION METHODS
-
-    public void registerUserWithEmailAndPassword(Context context, String email, String password,
-                                                 OnCompleteListener<AuthResult> registerCompleteListener) {
-        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
-        progressDialog.setMessage("Registering...");
-        progressDialog.show();
-
-        Task<AuthResult> registerTask = m_firebaseAuth.createUserWithEmailAndPassword(email, password);
-        registerTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        registerTask.addOnCompleteListener(registerCompleteListener);
-    }
-
-    public void updateUserAfterFBLogin(Context context, LoginCallback callBack) {
+    public Task<DocumentSnapshot> updateUserAfterFBLogin(Context context) {
         FirebaseUser user = getAuthUser();
 
         String uid = user.getUid();
-        OnCompleteListener<DocumentSnapshot> onCompleteListener = task -> {
-            if (task.isSuccessful()) {
-                StoreManager.getInstance().setCurrentUser(task.getResult().toObject(User.class));
-            }
-            callBack.loginResult(task.isSuccessful());
-        };
-        StoreManager.getInstance().getFBObject(context, User.m_collectionName, uid, onCompleteListener);
+        Task<DocumentSnapshot> task = StoreManager
+                .getInstance()
+                .getFBObject(context, User.m_collectionName, uid);
+        task.addOnSuccessListener(documentSnapshot -> {
+            StoreManager.getInstance().setCurrentUser(documentSnapshot.toObject(User.class));
+        });
+        return task;
     }
 
-    public void login(Context context, String email, String password, LoginCallback loginCallBack) {
-        OnCompleteListener<AuthResult> loginCompleteListener = loginTask -> {
-            if (loginTask.isSuccessful()) {
-                updateUserAfterFBLogin(context, loginCallBack);
-            } else {
-                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show();
-                loginCallBack.loginResult(false);
-            }
-        };
-        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
-        progressDialog.setMessage("Logging In...");
-        progressDialog.show();
+    public Task<AuthResult> login(Context context, String email, String password) {
+        final ProgressBar progress = new ProgressBar(context); // TODO: replace w progress bar
+        progress.setVisibility(View.VISIBLE);
 
         Task<AuthResult> loginTask = m_firebaseAuth.signInWithEmailAndPassword(email, password);
-        loginTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        loginTask.addOnCompleteListener(loginCompleteListener);
-
+        loginTask.addOnCompleteListener(task -> progress.setVisibility(View.GONE));
+        return loginTask;
     }
 
     public void logout() {
@@ -88,33 +67,39 @@ public class AuthManager {
         StoreManager.destroyInstance();
     }
 
-    public void registerUser(Context context, String email, String password, RegisterCallback registerCallBack) {
-        OnCompleteListener<AuthResult> registerCompleteListener = registerTask -> {
-            if (!registerTask.isSuccessful()) {
-                Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Registration failed", registerTask.getException());
-            }
-            registerCallBack.registerResult(registerTask.isSuccessful());
-        };
+    public void registerUser(
+            Context context,
+            String email, String password,
+            OnSuccessListener<AuthResult> onSuccessListener) {
+
         final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
         progressDialog.setMessage("Registering...");
         progressDialog.show();
 
+        OnCompleteListener<AuthResult> onCompleteListener = task -> {
+            progressDialog.dismiss();
+            if (!task.isSuccessful()) {
+                Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Registration failed", task.getException());
+            }
+        };
+
         Task<AuthResult> registerTask = m_firebaseAuth.createUserWithEmailAndPassword(email, password);
-        registerTask.addOnCompleteListener(task -> progressDialog.dismiss());
-        registerTask.addOnCompleteListener(registerCompleteListener);
+        registerTask.addOnCompleteListener(onCompleteListener);
+        registerTask.addOnSuccessListener(onSuccessListener);
     }
 
-    public void saveUserAfterFBRegistration(Context context, User newUser, LoginCallback loginCallback) {
+    public Task<Void> saveUserAfterFBRegistration(Context context, User newUser) {
         OnCompleteListener<Void> saveCompleteListener = saveTask -> {
             if (saveTask.isSuccessful()) {
                 StoreManager.getInstance().setCurrentUser(newUser);
             } else {
                 Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show();
             }
-            loginCallback.loginResult(saveTask.isSuccessful());
         };
 
-        StoreManager.getInstance().saveFBObject(context, newUser, saveCompleteListener);
+        Task<Void> task = StoreManager.getInstance().saveFBObject(context, newUser);
+        task.addOnCompleteListener(saveCompleteListener);
+        return task;
     }
 }

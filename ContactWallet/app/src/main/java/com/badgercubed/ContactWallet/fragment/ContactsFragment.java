@@ -40,9 +40,9 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         m_currentUserContact = view.findViewById(R.id.fragment_contacts_listContacts_currentUser);
-        m_currentUserContact.setText(AuthManager.getInstance().getCurrentUser().getName());
+        m_currentUserContact.setText(StoreManager.getInstance().getCurrentUser().getName());
         m_currentUserContact.setOnClickListener(l -> {
-            Activities.startContactDetailsActivity(getContext(), AuthManager.getInstance().getCurrentUser().getUid(),
+            Activities.startContactDetailsActivity(getContext(), StoreManager.getInstance().getCurrentUser().getUid(),
                     ProtectionLevel.PUBLIC.getInt());
         });
 

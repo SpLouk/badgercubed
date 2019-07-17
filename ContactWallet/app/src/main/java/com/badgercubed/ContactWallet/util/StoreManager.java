@@ -54,8 +54,7 @@ public class StoreManager {
         m_currentUser = u;
     }
 
-    public void saveFBObject(Context context, FBObject fbObject,
-                             OnCompleteListener<Void> saveCompleteListener) {
+    public Task<Void> saveFBObject(Context context, FBObject fbObject) {
         try {
             fbObject.validate();
         } catch (Exception e) {
@@ -80,11 +79,10 @@ public class StoreManager {
                 Log.e(TAG, msg, task.getException());
             }
         });
-
-        saveTask.addOnCompleteListener(saveCompleteListener);
+        return saveTask;
     }
 
-    public void deleteFBObject(Context context, FBObject fbObject,
+    public Task<Void> deleteFBObject(Context context, FBObject fbObject,
                                OnCompleteListener<Void> deleteCompleteListener) {
         final String collName = fbObject.getCollectionName();
         final String docRef = fbObject.getDocReference();
@@ -106,14 +104,14 @@ public class StoreManager {
         });
 
         deleteTask.addOnCompleteListener(deleteCompleteListener);
+        return deleteTask;
     }
 
     public CollectionReference getCollection(String colName) {
         return m_db.collection(colName);
     }
 
-    public void getFBObject(Context context, final String collName, final String docRefId,
-                            @NonNull OnCompleteListener<DocumentSnapshot>... readCompleteListeners) {
+    public Task<DocumentSnapshot> getFBObject(Context context, final String collName, final String docRefId) {
         final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -123,10 +121,7 @@ public class StoreManager {
         readTask.addOnCompleteListener(task -> {
             progressDialog.dismiss();
         });
-
-        for (int i = 0; i < readCompleteListeners.length; i++) {
-            readTask.addOnCompleteListener(readCompleteListeners[i]);
-        }
+        return readTask;
     }
 
     // SPECIFIC FIRESTORE QUERIES

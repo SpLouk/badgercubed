@@ -14,6 +14,7 @@ import com.badgercubed.ContactWallet.dialog.AddConnectionDialog;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class ProfileFragment extends Fragment {
     private Button m_addConnection;
@@ -27,7 +28,7 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        User user = AuthManager.getInstance().getCurrentUser();
+        User user = StoreManager.getInstance().getCurrentUser();
         if (user == null) {
             // User somehow logged out
             Toast.makeText(getContext(), "ERROR, user somehow logged out", Toast.LENGTH_SHORT).show();

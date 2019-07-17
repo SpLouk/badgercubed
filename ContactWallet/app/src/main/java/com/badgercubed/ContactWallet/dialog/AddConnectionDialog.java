@@ -23,6 +23,7 @@ import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
+import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.util.OauthManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
@@ -188,14 +189,14 @@ public class AddConnectionDialog extends DialogFragment {
     private void createAndSaveConnections() {
         // TODO: validate link
 
-        String currentUserUid = StoreManager.getInstance().getCurrentFBUser().getUid();
+        String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
         String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
 
         Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
-        StoreManager.getInstance().saveFBObject(getActivity(), connection, null);
+        StoreManager.getInstance().saveFBObject(getActivity(), connection);
 
         // Add new connection Id to current user
         StoreManager.getInstance().getCollection(User.m_collectionName)

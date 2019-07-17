@@ -77,7 +77,7 @@ public class AddContactDialog extends DialogFragment {
             Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (email.equals(AuthManager.getInstance().getCurrentUser())) {
+        if (email.equals(StoreManager.getInstance().getCurrentUser())) {
             String errMsg = "Can't follow yourself!";
             Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
             return;
@@ -123,7 +123,7 @@ public class AddContactDialog extends DialogFragment {
     }
 
     private void saveFollowingRelationship(User following, ProtectionLevel protLevel) {
-        String followerId = AuthManager.getInstance().getCurrentUser().getUid();
+        String followerId = StoreManager.getInstance().getCurrentUser().getUid();
         String followingId = following.getUid();
         Following followingRelationship = new Following(followerId, followingId, protLevel.getInt());
 
@@ -138,7 +138,7 @@ public class AddContactDialog extends DialogFragment {
                 return;
             }
         };
-        StoreManager.getInstance().saveFBObject(getActivity(), followingRelationship, saveCompleteListener);
+        StoreManager.getInstance().saveFBObject(getActivity(), followingRelationship).addOnCompleteListener(saveCompleteListener);
     }
 
     private ProtectionLevel getProtectionLevelFromHandle(User checkUser, String handle) {

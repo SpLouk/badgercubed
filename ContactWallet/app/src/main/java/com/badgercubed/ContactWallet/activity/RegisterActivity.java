@@ -11,11 +11,10 @@ import android.widget.Toast;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
-import com.badgercubed.ContactWallet.util.StoreManager;
-import com.badgercubed.ContactWallet.util.LoginCallback;
-import com.badgercubed.ContactWallet.util.RegisterCallback;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterCallback, LoginCallback {
+public class RegisterActivity extends AppCompatActivity {
     private Button m_register;
     private EditText m_enterEmail;
     private EditText m_enterPassword;
@@ -24,36 +23,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
     private TextView m_login;
 
     @Override
-    public void registerResult(boolean result) {
-        if (!result) {
-            return;
-        }
-
-        String email = m_enterEmail.getText().toString().trim();
-        String name = m_enterName.getText().toString().trim();
-        String phoneNum = m_enterPhoneNum.getText().toString().trim();
-
-        String uid = StoreManager.getInstance().getCurrentFBUser().getUid();
-
-        User newUser = new User(uid, email, name, phoneNum);
-        AuthManager.getInstance().saveUserAfterFBRegistration(this, newUser, this);
-    }
-
-    @Override
-    public void loginResult(boolean result) {
-        if (result) {
-            // User logged in
-            finish();
-            Activities.startNavActivity(this);
-        }
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        if (StoreManager.getInstance().getCurrentFBUser() != null) {
+        if (AuthManager.getInstance().isLoggedIn()) {
             // User already logged in
             finish();
             // TODO : go to profile fragment? necessary
@@ -100,6 +74,18 @@ public class RegisterActivity extends AppCompatActivity implements RegisterCallb
             return;
         }
 
-        AuthManager.getInstance().registerUser(this, email, password, this);
+        OnSuccessListener<AuthResult> onSuccessListener = task -> {
+            String uid = AuthManager.getInstance().getAuthUser().getUid();
+
+            User newUser = new User(uid, email, name, phoneNum);
+
+            AuthManager.getInstance().saveUserAfterFBRegistration(this, newUser).addOnSuccessListener(saveTask -> {
+                // User logged in
+                finish();
+                Activities.startNavActivity(this);
+            });
+        };
+
+        AuthManager.getInstance().registerUser(this, email, password, onSuccessListener);
     }
 }

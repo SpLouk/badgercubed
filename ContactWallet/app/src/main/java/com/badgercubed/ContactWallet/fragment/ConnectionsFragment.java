@@ -80,7 +80,7 @@ public class ConnectionsFragment extends Fragment {
             return view;
         }
 
-        if (m_followingUserUid == AuthManager.getInstance().getCurrentUser().getUid()) {
+        if (m_followingUserUid == StoreManager.getInstance().getCurrentUser().getUid()) {
             m_followingProtectionLevel = ProtectionLevel.PUBLIC.getInt();
         }
 

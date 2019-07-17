@@ -16,6 +16,7 @@ import com.badgercubed.ContactWallet.fragment.ContactsFragment;
 import com.badgercubed.ContactWallet.fragment.ProfileFragment;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -25,7 +26,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        User user = AuthManager.getInstance().getCurrentUser();
+        User user = StoreManager.getInstance().getCurrentUser();
         if (user == null) {
             // User somehow logged out
             Toast.makeText(this, "Error, user somehow logged out", Toast.LENGTH_SHORT).show();
