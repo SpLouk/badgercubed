@@ -13,7 +13,7 @@ public class Connection extends FBObject {
     private String m_userId;
     private String m_link;
     private String m_description;
-    private int m_serviceId = -1;
+    private Service m_service;
     private int m_protectionLevel = -1;
 
     private boolean m_verified = false;
@@ -23,14 +23,14 @@ public class Connection extends FBObject {
 
     public Connection(
             String userId,
-            int serviceId,
+            Service service,
             String link,
             String description,
             Integer protectionLevel,
             boolean verified) {
         m_uid = UUID.randomUUID().toString();
         m_userId = userId;
-        m_serviceId = serviceId;
+        m_service = service;
         m_link = link;
         m_description = description;
         m_protectionLevel = protectionLevel;
@@ -40,13 +40,13 @@ public class Connection extends FBObject {
 
     public Connection(
             String userId,
-            int serviceId,
+            Service service,
             String link,
             String description,
             Integer protectionLevel) {
         m_uid = UUID.randomUUID().toString();
         m_userId = userId;
-        m_serviceId = serviceId;
+        m_service = service;
         m_link = link;
         m_description = description;
         m_protectionLevel = protectionLevel;
@@ -88,12 +88,12 @@ public class Connection extends FBObject {
         m_userId = userId;
     }
 
-    public int getServiceId() {
-        return m_serviceId;
+    public Service getService() {
+        return m_service;
     }
 
-    public void setServiceId(int serviceId) {
-        m_serviceId = serviceId;
+    public void setService(Service service) {
+        m_service = service;
     }
 
     public String getLink() {
@@ -136,8 +136,8 @@ public class Connection extends FBObject {
         if (TextUtils.isEmpty(m_userId)) {
             throw new Exception("User ID is empty");
         }
-        if (m_serviceId == -1) {
-            throw new Exception("Service ID is empty");
+        if (m_service == null) {
+            throw new Exception("Service ID is null");
         }
         if (TextUtils.isEmpty(m_link)) {
             throw new Exception("Connection link is empty");

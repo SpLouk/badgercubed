@@ -141,12 +141,14 @@ public class AddConnectionDialog extends DialogFragment {
         m_protectionLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) return;
+                position--;
                 m_selectedProtectionLevel = protectionLevels[position];
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                m_selectedProtectionLevel = protectionLevels[2];
+                m_selectedProtectionLevel = null;
             }
         });
 
@@ -178,14 +180,16 @@ public class AddConnectionDialog extends DialogFragment {
     }
 
     private void createAndSaveConnections() {
-        // TODO: validate link
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
-        String link = getString(R.string.http_base) + m_link.getFullString();
+        String link = "";
+        if (m_selectedService.isHttpLinkUsed()) {
+            link += getString(R.string.http_base);
+        }
+        link += m_link.getFullString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
-        int serviceId = m_selectedService.getId();
 
-        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
+        Connection connection = new Connection(currentUserUid, m_selectedService, link, description, protectionLevel, m_verified);
         StoreManager.getInstance().saveFBObject(getActivity(), connection);
     }
 }
