@@ -1,7 +1,11 @@
 package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
@@ -14,6 +18,10 @@ public class ContactDetailsActivity extends AppCompatActivity {
     private TextView m_userName;
     private TextView m_userEmail;
     private TextView m_userPhoneNumber;
+    private ImageView m_dropdownArrow;
+    private LinearLayout m_linearLayout;
+
+    private boolean isDroppedDown = false;
 
     @Override
 
@@ -38,9 +46,39 @@ public class ContactDetailsActivity extends AppCompatActivity {
                     m_userPhoneNumber.setText(documentSnapshot.get("phoneNum").toString());
                 });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_contact_details_connections_container,
-                        ConnectionsFragment.newInstance(uid, relationshipProtLevel))
-                .commit();
+        ConnectionsFragment connectionsFragment = ConnectionsFragment.newInstance(uid, relationshipProtLevel);
+
+        m_dropdownArrow = findViewById(R.id.activity_contact_details_dropdown_arrow);
+        m_linearLayout = findViewById(R.id.activity_contact_details_dropdown);
+        m_linearLayout.setOnClickListener(l -> {
+
+            if (!isDroppedDown) {
+                m_dropdownArrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                isDroppedDown = true;
+            } else {
+                m_dropdownArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp);
+                isDroppedDown = false;
+            }
+
+            showHideFragment(connectionsFragment);
+        });
+    }
+
+    private void showHideFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+
+        if (!fragment.isAdded()) {
+            fragmentTransaction.add(R.id.activity_contact_details_connections_container, fragment);
+            fragmentTransaction.show(fragment);
+        } else {
+            if (fragment.isHidden()) {
+                fragmentTransaction.show(fragment);
+            } else {
+                fragmentTransaction.hide(fragment);
+            }
+        }
+
+        fragmentTransaction.commit();
     }
 }
