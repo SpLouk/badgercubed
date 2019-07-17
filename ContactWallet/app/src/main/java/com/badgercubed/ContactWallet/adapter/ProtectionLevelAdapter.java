@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
-import com.badgercubed.ContactWallet.model.Service;
-
-import java.util.List;
 
 public class ProtectionLevelAdapter extends ArrayAdapter<ProtectionLevel> {
     ProtectionLevel[] m_items;

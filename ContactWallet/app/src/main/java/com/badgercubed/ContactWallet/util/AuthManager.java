@@ -3,8 +3,6 @@ package com.badgercubed.ContactWallet.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.model.User;
@@ -53,12 +51,8 @@ public class AuthManager {
         return task;
     }
 
-    public Task<AuthResult> login(Context context, String email, String password) {
-        final ProgressBar progress = new ProgressBar(context); // TODO: replace w progress bar
-        progress.setVisibility(View.VISIBLE);
-
+    public Task<AuthResult> login(String email, String password) {
         Task<AuthResult> loginTask = m_firebaseAuth.signInWithEmailAndPassword(email, password);
-        loginTask.addOnCompleteListener(task -> progress.setVisibility(View.GONE));
         return loginTask;
     }
 

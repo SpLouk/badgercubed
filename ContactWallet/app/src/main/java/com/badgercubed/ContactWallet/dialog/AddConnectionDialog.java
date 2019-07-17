@@ -1,8 +1,8 @@
 package com.badgercubed.ContactWallet.dialog;
 
 import android.app.Dialog;
-import android.os.Bundle;
 import android.app.DialogFragment;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -24,8 +24,8 @@ import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
-import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.util.OauthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

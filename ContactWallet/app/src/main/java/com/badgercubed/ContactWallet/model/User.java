@@ -7,7 +7,6 @@ import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.util.App;
 import com.google.firebase.firestore.Exclude;
 
-import java.util.List;
 import java.util.Random;
 
 public class User extends FBObject {

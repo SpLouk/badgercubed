@@ -16,7 +16,6 @@ import com.badgercubed.ContactWallet.adapter.ContactAdapter;
 import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
-import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -74,13 +73,15 @@ public class ContactsFragment extends Fragment {
         recyclerView.setAdapter(contactAdapter);
 
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
-            for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                    Following contact = documentChange.getDocument().toObject(Following.class);
-                    userDataSet.add(contact);
+            if (queryDocumentSnapshots != null) {
+                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                        Following contact = documentChange.getDocument().toObject(Following.class);
+                        userDataSet.add(contact);
+                    }
                 }
+                contactAdapter.notifyDataSetChanged();
             }
-            contactAdapter.notifyDataSetChanged();
         };
 
         StoreManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);

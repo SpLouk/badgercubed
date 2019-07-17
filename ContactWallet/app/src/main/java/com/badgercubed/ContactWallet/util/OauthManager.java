@@ -1,7 +1,6 @@
 package com.badgercubed.ContactWallet.util;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.badgercubed.ContactWallet.model.Service;
 import com.google.android.gms.tasks.Task;

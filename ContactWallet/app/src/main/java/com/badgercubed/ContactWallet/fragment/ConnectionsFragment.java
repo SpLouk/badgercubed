@@ -15,7 +15,6 @@ import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.adapter.ConnectionAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
-import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestoreException;

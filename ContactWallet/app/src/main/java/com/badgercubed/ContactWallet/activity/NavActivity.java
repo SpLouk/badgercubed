@@ -92,8 +92,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     }
 
     private void logoutUser() {
-        AuthManager.getInstance().logout();
         finish();
         Activities.startWelcomeActivity(this);
+        AuthManager.getInstance().logout();
     }
 }

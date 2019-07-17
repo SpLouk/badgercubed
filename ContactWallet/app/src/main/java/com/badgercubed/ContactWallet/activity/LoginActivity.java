@@ -3,17 +3,17 @@ package com.badgercubed.ContactWallet.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.util.AuthManager;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class LoginActivity extends AppCompatActivity {
     private Button m_login;
@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         m_enterPassword = findViewById(R.id.login_password);
     }
 
-
     private void loginUser() {
         String email = m_enterEmail.getText().toString().trim();
         String password = m_enterPassword.getText().toString().trim();
@@ -60,7 +59,12 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        final ProgressBar progress = new ProgressBar(this);
+        progress.setVisibility(View.VISIBLE);
+
         OnCompleteListener<AuthResult> loginCompleteListener = loginTask -> {
+            progress.setVisibility(View.GONE);
             if (loginTask.isSuccessful()) {
                 AuthManager.getInstance().updateUserAfterFBLogin(this).addOnSuccessListener(documentSnapshot -> {
                     // User logged in
@@ -71,6 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
             }
         };
-        AuthManager.getInstance().login(this, email, password).addOnCompleteListener(loginCompleteListener);
+        AuthManager.getInstance().login(email, password).addOnCompleteListener(loginCompleteListener);
     }
 }

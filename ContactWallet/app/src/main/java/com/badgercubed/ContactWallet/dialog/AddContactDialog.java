@@ -14,10 +14,9 @@ import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.Following;
-import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.AuthManager;
-import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
+import com.badgercubed.ContactWallet.model.User;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
