@@ -17,7 +17,6 @@ public class User extends FBObject {
     private String m_name;
     private String m_phoneNum;
 
-
     private String m_publicHandle;
     private String m_protectedHandle;
     private String m_privateHandle;

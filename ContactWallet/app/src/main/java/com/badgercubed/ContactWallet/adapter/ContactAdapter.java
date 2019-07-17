@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,14 +72,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView m_textView;
-        public Button m_deleteBtn;
+        public ImageButton m_deleteBtn;
         public ImageView m_imageIcon;
 
         public ViewHolder(View v) {
             super(v);
-            m_textView = v.findViewById(R.id.my_text_view_id);
+            m_textView = v.findViewById(R.id.list_item_contact_name);
             m_deleteBtn = v.findViewById(R.id.btn_list_item_contact_delete);
-            m_imageIcon = v.findViewById(R.id.image_icon);
+            m_imageIcon = v.findViewById(R.id.list_item_contact_image_icon);
         }
 
         public void setPosition(int position) {

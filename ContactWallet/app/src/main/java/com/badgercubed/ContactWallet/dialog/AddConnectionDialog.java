@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +21,6 @@ import com.badgercubed.ContactWallet.adapter.ServiceAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
-import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.OauthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
@@ -30,7 +28,6 @@ import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,7 +109,6 @@ public class AddConnectionDialog extends DialogFragment {
                                         @Override
                                         public void onSuccess(AuthResult authResult) {
                                             Map<String, Object> profile = authResult.getAdditionalUserInfo().getProfile();
-                                            Log.e("foo", profile.toString());
                                             switch (m_selectedService) {
                                                 case TWITTER:
                                                     m_link.setText((String)profile.get("screen_name"));
@@ -129,7 +125,6 @@ public class AddConnectionDialog extends DialogFragment {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.e("Oauth Integration", e.toString());
                                     m_switch.setChecked(false);
                                     Toast.makeText(getActivity(), "Something went wrong. Please try again.", Toast.LENGTH_LONG).show();
                                 }
@@ -188,7 +183,6 @@ public class AddConnectionDialog extends DialogFragment {
 
     private void createAndSaveConnections() {
         // TODO: validate link
-
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
         String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
@@ -197,10 +191,5 @@ public class AddConnectionDialog extends DialogFragment {
 
         Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
         StoreManager.getInstance().saveFBObject(getActivity(), connection);
-
-        // Add new connection Id to current user
-        StoreManager.getInstance().getCollection(User.m_collectionName)
-                .document(currentUserUid)
-                .update("connectionIds", FieldValue.arrayUnion(connection.getUid()));
     }
 }

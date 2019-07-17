@@ -12,8 +12,8 @@ import com.google.firebase.auth.UserInfo;
 import java.util.List;
 
 public class OauthManager {
-    OAuthProvider.Builder provider;
     private static OauthManager instance = null;
+    OAuthProvider.Builder provider;
 
     public static OauthManager getInstance() {
         if (instance == null) {

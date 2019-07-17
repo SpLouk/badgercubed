@@ -1,11 +1,11 @@
 package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
@@ -17,7 +17,7 @@ import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class ProfileFragment extends Fragment {
-    private Button m_addConnection;
+    private FloatingActionButton m_addConnection;
 
     public ProfileFragment() {
     }
@@ -38,7 +38,7 @@ public class ProfileFragment extends Fragment {
             // return;
         }
 
-        // getActivity().setTitle(user.getName());
+        getActivity().setTitle("Profile");
 
         // Dialog to allow current user to add connections
         m_addConnection = view.findViewById(R.id.fragment_profile_add_connection);
@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
         });
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, ConnectionsFragment.newInstance(
+                .replace(R.id.fragment_connections_container, ConnectionsFragment.newInstance(
                         AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE.getInt()))
                 .commit();
 
