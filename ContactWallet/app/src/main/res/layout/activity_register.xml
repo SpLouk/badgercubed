@@ -5,12 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg1"
-<<<<<<< HEAD
-    tools:context="com.badgercubed.ContactWallet.activity.LoginActivity">
-=======
     android:padding="16dp"
-    tools:context=".activity.MainActivity">
->>>>>>> origin/master
+    tools:context="com.badgercubed.ContactWallet.activity.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,13 +38,8 @@
             android:layout_margin="16dp"
             android:background="@drawable/rounded_white"
             android:hint="Password: "
-<<<<<<< HEAD
-            android:inputType="textPassword"/>
-
-=======
-            android:inputType="textVisiblePassword"
+            android:inputType="textPassword"
             android:paddingStart="10dp" />
->>>>>>> origin/master
 
         <EditText
             android:id="@+id/register_enterName"

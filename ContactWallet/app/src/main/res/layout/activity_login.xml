@@ -4,13 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-<<<<<<< HEAD
-    tools:context=".activity.LoginActivity"
-    android:layout_centerVertical="true">
-=======
     android:layout_centerVertical="true"
-    tools:context="activity.MainActivity">
->>>>>>> origin/master
+    tools:context=".activity.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -60,12 +55,8 @@
             android:drawableStart="@drawable/ic_action_password"
             android:ems="10"
             android:hint="Password"
-<<<<<<< HEAD
-            android:inputType="textPassword" />
-=======
-            android:inputType="textVisiblePassword"
+            android:inputType="textPassword"
             android:paddingStart="5dp" />
->>>>>>> origin/master
 
         <Button
             android:id="@+id/welcome_login"
