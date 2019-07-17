@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.adapter.ProtectionLevelAdapter;
@@ -20,8 +21,9 @@ import com.badgercubed.ContactWallet.adapter.ServiceAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.OauthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static com.badgercubed.ContactWallet.model.Service.GITHUB;
+import static com.badgercubed.ContactWallet.model.Service.TWITTER;
 
 public class AddConnectionDialog extends DialogFragment {
     private static final String TAG = "T-AddConnectionDialog";
@@ -43,6 +48,7 @@ public class AddConnectionDialog extends DialogFragment {
 
     private Service m_selectedService = null;
     private ProtectionLevel m_selectedProtectionLevel = null;
+    private boolean m_verified = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -96,21 +102,31 @@ public class AddConnectionDialog extends DialogFragment {
         m_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b && m_selectedService == Service.TWITTER) {
+                if (b && (m_selectedService == TWITTER || m_selectedService == GITHUB)) {
                     OauthManager.getInstance().verifyService(getActivity(), m_selectedService)
                             .addOnSuccessListener(
                                     new OnSuccessListener<AuthResult>() {
                                         @Override
                                         public void onSuccess(AuthResult authResult) {
                                             Map<String, Object> profile = authResult.getAdditionalUserInfo().getProfile();
-                                            m_link.setText("twitter.com/" + profile.get("screen_name"));
+                                            switch (m_selectedService) {
+                                                case TWITTER:
+                                                    m_link.setText((String)profile.get("screen_name"));
+                                                    break;
+                                                case GITHUB:
+                                                    m_link.setText((String)profile.get("login"));
+                                                    break;
+                                            }
                                             m_link.setEnabled(false);
+                                            m_verified = true;
                                         }
                                     }
                             )
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    m_switch.setChecked(false);
+                                    Toast.makeText(getActivity(), "Something went wrong. Please try again.", Toast.LENGTH_LONG).show();
                                 }
                             });
                 }
@@ -159,7 +175,7 @@ public class AddConnectionDialog extends DialogFragment {
             }
         }
 
-        if (m_selectedService == Service.TWITTER) {
+        if (m_selectedService == TWITTER || m_selectedService == GITHUB) {
             m_switch.setChecked(false);
             m_switch.setVisibility(View.VISIBLE);
         }
@@ -167,18 +183,13 @@ public class AddConnectionDialog extends DialogFragment {
 
     private void createAndSaveConnections() {
         // TODO: validate link
-        String currentUserUid = FBManager.getInstance().getCurrentFBUser().getUid();
-        String link = " http://www." + m_link.getText().toString();
+        String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
+        String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
 
-        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel);
-        FBManager.getInstance().saveFBObject(getActivity(), connection, null);
-
-        // Add new connection Id to current user
-        // FBManager.getInstance().getCollection(User.m_collectionName)
-        //          .document(currentUserUid)
-        //         .update("connectionIds", FieldValue.arrayUnion(connection.getUid()));
+        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
+        StoreManager.getInstance().saveFBObject(getActivity(), connection);
     }
 }

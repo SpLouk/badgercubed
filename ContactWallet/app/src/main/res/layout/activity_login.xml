@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_centerVertical="true"
-    tools:context="activity.MainActivity">
+    tools:context=".activity.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             android:drawableStart="@drawable/ic_action_password"
             android:ems="10"
             android:hint="Password"
-            android:inputType="textVisiblePassword"
+            android:inputType="textPassword"
             android:paddingStart="5dp" />
 
         <Button

@@ -13,8 +13,8 @@ import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.dialog.AddConnectionDialog;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
-import com.badgercubed.ContactWallet.util.LoginManager;
+import com.badgercubed.ContactWallet.util.AuthManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class ProfileFragment extends Fragment {
     private FloatingActionButton m_addConnection;
@@ -28,11 +28,11 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        User user = LoginManager.getInstance().getCurrentUser();
+        User user = StoreManager.getInstance().getCurrentUser();
         if (user == null) {
             // User somehow logged out
             Toast.makeText(getContext(), "ERROR, user somehow logged out", Toast.LENGTH_SHORT).show();
-            LoginManager.getInstance().logout();
+            AuthManager.getInstance().logout();
             getActivity().finish();
             Activities.startWelcomeActivity(getContext());
             // return;
@@ -49,7 +49,7 @@ public class ProfileFragment extends Fragment {
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_connections_container, ConnectionsFragment.newInstance(
-                        FBManager.getInstance().getCurrentFBUser().getUid(), ProtectionLevel.PRIVATE.getInt()))
+                        AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE.getInt()))
                 .commit();
 
         return view;

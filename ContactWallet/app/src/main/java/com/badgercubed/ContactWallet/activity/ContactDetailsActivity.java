@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.fragment.ConnectionsFragment;
 import com.badgercubed.ContactWallet.model.User;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class ContactDetailsActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
         String uid = getIntent().getStringExtra(Activities.INTENT_FOLLOWING_USER_UID); //TODO: null check
         Integer relationshipProtLevel = getIntent().getIntExtra(Activities.INTENT_REL_PROT_LEVEL, -1);
 
-        FBManager.getInstance().getCollection(User.m_collectionName)
+        StoreManager.getInstance().getCollection(User.m_collectionName)
                 .document(uid)
                 .addSnapshotListener((documentSnapshot, ex) -> {
                     m_userName = findViewById(R.id.activity_contact_details_name);

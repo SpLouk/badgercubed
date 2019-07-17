@@ -14,7 +14,7 @@ import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.adapter.ContactAdapter;
 import com.badgercubed.ContactWallet.dialog.AddContactDialog;
 import com.badgercubed.ContactWallet.model.Following;
-import com.badgercubed.ContactWallet.util.FBManager;
+import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,7 +34,6 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
-
         getActivity().setTitle("Contacts");
 
         m_addContact = view.findViewById(R.id.fragment_contacts_add_contact);
@@ -70,15 +69,17 @@ public class ContactsFragment extends Fragment {
         m_recyclerView.setAdapter(contactAdapter);
 
         EventListener<QuerySnapshot> queryListener = (queryDocumentSnapshots, e) -> {
-            for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                    Following contact = documentChange.getDocument().toObject(Following.class);
-                    userDataSet.add(contact);
+            if (queryDocumentSnapshots != null) {
+                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                        Following contact = documentChange.getDocument().toObject(Following.class);
+                        userDataSet.add(contact);
+                    }
                 }
+                contactAdapter.notifyDataSetChanged();
             }
-            contactAdapter.notifyDataSetChanged();
         };
 
-        FBManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);
+        StoreManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);
     }
 }
