@@ -53,7 +53,7 @@ public class AddConnectionDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add A Connection");
+        builder.setTitle("Add Contact Info");
 
         View dialogView = createDialogView();
         builder.setView(dialogView);
@@ -184,7 +184,7 @@ public class AddConnectionDialog extends DialogFragment {
     private void createAndSaveConnections() {
         // TODO: validate link
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
-        String link = " http://www." + m_selectedService.getLink() + m_link.getText().toString();
+        String link = "http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
         int protectionLevel = m_selectedProtectionLevel.getInt();
         int serviceId = m_selectedService.getId();
