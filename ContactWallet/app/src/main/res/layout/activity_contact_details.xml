@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingVertical="45dp">
 
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="45dp"
             android:contentDescription="@string/title_activity_profile"
             android:src="@drawable/initial_profile_picture"
             android:visibility="visible"
@@ -30,12 +30,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="45dp"
             android:contentDescription="@string/username"
             android:text="User's Name"
             android:textColor="#ffff"
             android:textSize="21sp"
             android:textStyle="bold" />
-
     </LinearLayout>
+    <!--
+    <TextView
+        android:id="@+id/activity_contact_details_empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginVertical="16dp"
+        android:text="User has not added any contact information yet."/>
+        !-->
 </LinearLayout>
