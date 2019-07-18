@@ -29,13 +29,14 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:layout_toEndOf="@+id/listItemConnection_verified"  />
 
-    <Button
-        android:id="@+id/listItemConnection_linkBtn"
+    <TextView
+        android:id="@+id/listItemConnection_protectionLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="Open" />
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_toStartOf="@+id/listItemConnection_deleteBtn"  />
 
     <ImageButton
         android:id="@+id/listItemConnection_deleteBtn"
@@ -45,5 +46,13 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/listItemConnection_linkBtn"
         android:src="@drawable/ic_delete_black_24dp" />
+
+    <Button
+        android:id="@+id/listItemConnection_linkBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="Open" />
 
 </RelativeLayout>

@@ -8,6 +8,79 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Handles:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fragment_contacts_public_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Public Handle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <ImageButton
+                android:id="@+id/fragment_contacts_copy_public_handle"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_content_copy_24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fragment_contacts_protected_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protected Handle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <ImageButton
+                android:id="@+id/fragment_contacts_copy_protected_handle"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_content_copy_24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fragment_contacts_private_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Private Handle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+            <ImageButton
+                android:id="@+id/fragment_contacts_copy_private_handle"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_content_copy_24dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -24,10 +97,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:clickable="true"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:clickable="true"
         android:contentDescription="Add a Contact"
-        android:text="Add a Contact"/>
+        android:text="Add a Contact" />
 
 </RelativeLayout>

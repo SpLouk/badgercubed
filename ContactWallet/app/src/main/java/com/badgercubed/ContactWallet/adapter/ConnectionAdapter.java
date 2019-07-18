@@ -1,8 +1,6 @@
 package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
 import com.badgercubed.ContactWallet.model.Connection;
-import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 
@@ -41,7 +38,6 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        // TODO : Refactor?
         if (m_activityName.equals(ContactDetailsActivity.class.getSimpleName())) {
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
         }
@@ -52,13 +48,17 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
                 connection.getDescription();
         viewHolder.m_descTextView.setText(description);
 
+        viewHolder.m_protectionLevelTextView.setText(
+                connection.getProtectionLevel().getName()
+        );
+
         if (!connection.getVerified()) {
             viewHolder.m_view.findViewById(R.id.listItemConnection_verified).setVisibility(View.GONE);
             viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
         }
 
         String link = connection.getLink();
-        viewHolder.m_linkBtn.setOnClickListener((View view) -> connection.getService().openLink(link));
+        viewHolder.m_linkBtn.setOnClickListener((View view) -> connection.getService().openLink(m_context, link));
 
         viewHolder.m_deleteBtn.setOnClickListener((View view) -> {
             OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {
@@ -82,6 +82,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView m_descTextView;
+        public TextView m_protectionLevelTextView;
         public Button m_linkBtn;
         public ImageButton m_deleteBtn;
         View m_view;
@@ -91,6 +92,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             m_view = itemView;
 
             m_descTextView = m_view.findViewById(R.id.listItemConnection_textView);
+            m_protectionLevelTextView = m_view.findViewById(R.id.listItemConnection_protectionLevel);
             m_deleteBtn = m_view.findViewById(R.id.listItemConnection_deleteBtn);
             m_linkBtn = m_view.findViewById(R.id.listItemConnection_linkBtn);
         }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.fragment.ConnectionsFragment;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.StoreManager;
 
@@ -31,7 +32,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
         // TODO : Get userid from savedInstanceState and pass to connectionsFragment
         String uid = getIntent().getStringExtra(Activities.INTENT_FOLLOWING_USER_UID); //TODO: null check
-        Integer relationshipProtLevel = getIntent().getIntExtra(Activities.INTENT_REL_PROT_LEVEL, -1);
+        ProtectionLevel relationshipProtLevel = (ProtectionLevel) getIntent().getSerializableExtra(Activities.INTENT_REL_PROT_LEVEL);
 
         StoreManager.getInstance().getCollection(User.m_collectionName)
                 .document(uid)

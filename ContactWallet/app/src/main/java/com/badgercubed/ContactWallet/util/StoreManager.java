@@ -54,12 +54,6 @@ public class StoreManager {
     }
 
     public Task<Void> saveFBObject(Context context, FBObject fbObject) {
-        try {
-            fbObject.validate();
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to validate Firebase object", e);
-        }
-
         final String collName = fbObject.getCollectionName();
         final String docRef = fbObject.getDocReference();
 

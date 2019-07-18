@@ -12,12 +12,12 @@ public class Following extends FBObject {
     private String m_uid;
     private String m_followingUid;
     private String m_followerUid;
-    private Integer m_protectionLevel;
+    private ProtectionLevel m_protectionLevel;
 
     public Following() {
     }
 
-    public Following(String followerUid, String followingUid, Integer protectionLevel) {
+    public Following(String followerUid, String followingUid, ProtectionLevel protectionLevel) {
         m_uid = UUID.randomUUID().toString();
         m_followerUid = followerUid;
         m_followingUid = followingUid;
@@ -48,11 +48,11 @@ public class Following extends FBObject {
         this.m_followerUid = followerUid;
     }
 
-    public Integer getProtectionLevel() {
+    public ProtectionLevel getProtectionLevel() {
         return m_protectionLevel;
     }
 
-    public void setProtectionLevel(Integer level) {
+    public void setProtectionLevel(ProtectionLevel level) {
         this.m_protectionLevel = level;
     }
 
