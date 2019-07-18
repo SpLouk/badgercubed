@@ -3,6 +3,7 @@ package com.badgercubed.ContactWallet.activity;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +43,16 @@ public class LoginActivity extends AppCompatActivity {
         m_login.setOnClickListener(l -> loginUser());
 
         m_enterEmail = findViewById(R.id.login_username);
+
         m_enterPassword = findViewById(R.id.login_password);
+        m_enterPassword.setOnKeyListener((view, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                // Login on enter through password field
+                m_login.performClick();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loginUser() {

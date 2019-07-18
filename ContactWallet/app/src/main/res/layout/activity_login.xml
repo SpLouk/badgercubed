@@ -39,7 +39,9 @@
             android:drawableStart="@drawable/ic_action_username"
             android:ems="10"
             android:hint="@string/username"
+            android:imeOptions="actionNext"
             android:inputType="textPersonName"
+            android:maxLines="1"
             android:paddingStart="5dp" />
 
         <AutoCompleteTextView
@@ -56,6 +58,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            android:maxLines="1"
             android:paddingStart="5dp" />
 
         <Button
