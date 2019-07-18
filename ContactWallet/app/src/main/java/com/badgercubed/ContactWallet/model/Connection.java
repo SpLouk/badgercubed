@@ -37,26 +37,6 @@ public class Connection extends FBObject {
         m_verified = verified;
     }
 
-    public static boolean isValidInputs(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
-        if (TextUtils.isEmpty(uid)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(userId)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(serviceId)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(link)) {
-            return false;
-        }
-        if (TextUtils.isEmpty(description)) {
-            return false;
-        }
-        // TODO: better verification
-        return protectionLevel != null;
-    }
-
     public String getUid() {
         return m_uid;
     }
@@ -122,10 +102,13 @@ public class Connection extends FBObject {
             throw new Exception("User ID is empty");
         }
         if (m_service == null) {
-            throw new Exception("Service ID is null");
+            throw new Exception("Service is null");
         }
         if (TextUtils.isEmpty(m_link)) {
             throw new Exception("Connection link is empty");
+        }
+        if (m_protectionLevel == null) {
+            throw new Exception("Protection level is null");
         }
     }
 

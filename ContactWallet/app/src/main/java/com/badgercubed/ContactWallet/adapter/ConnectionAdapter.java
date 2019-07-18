@@ -1,8 +1,6 @@
 package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,8 +13,6 @@ import android.widget.TextView;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
 import com.badgercubed.ContactWallet.model.Connection;
-import com.badgercubed.ContactWallet.model.ProtectionLevel;
-import com.badgercubed.ContactWallet.model.Service;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 
@@ -42,7 +38,6 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        // TODO : Refactor?
         if (m_activityName.equals(ContactDetailsActivity.class.getSimpleName())) {
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
         }
@@ -63,7 +58,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         }
 
         String link = connection.getLink();
-        viewHolder.m_linkBtn.setOnClickListener((View view) -> connection.getService().openLink(link));
+        viewHolder.m_linkBtn.setOnClickListener((View view) -> connection.getService().openLink(m_context, link));
 
         viewHolder.m_deleteBtn.setOnClickListener((View view) -> {
             OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {

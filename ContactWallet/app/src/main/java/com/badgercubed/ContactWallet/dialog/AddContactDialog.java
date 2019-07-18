@@ -117,11 +117,13 @@ public class AddContactDialog extends DialogFragment {
                 Toast.makeText(getActivity(), errMsg, Toast.LENGTH_SHORT).show();
                 return;
             }
-            saveFollowingRelationship(queriedContact, protLevel);
+            if (!saveFollowingRelationship(queriedContact, protLevel)) {
+                Toast.makeText(getActivity(), "Could not save. Ensure all fields are valid.", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private void saveFollowingRelationship(User following, ProtectionLevel protLevel) {
+    private boolean saveFollowingRelationship(User following, ProtectionLevel protLevel) {
         String followerId = StoreManager.getInstance().getCurrentUser().getUid();
         String followingId = following.getUid();
         Following followingRelationship = new Following(followerId, followingId, protLevel);
@@ -137,7 +139,13 @@ public class AddContactDialog extends DialogFragment {
                 return;
             }
         };
-        StoreManager.getInstance().saveFBObject(getActivity(), followingRelationship).addOnCompleteListener(saveCompleteListener);
+        try {
+            followingRelationship.validate();
+            StoreManager.getInstance().saveFBObject(getActivity(), followingRelationship).addOnCompleteListener(saveCompleteListener);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     private ProtectionLevel getProtectionLevelFromHandle(User checkUser, String handle) {

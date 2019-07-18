@@ -1,23 +1,17 @@
 package com.badgercubed.ContactWallet.model;
 
 public enum ProtectionLevel {
-    PUBLIC(0, "Public"),
-    PROTECTED(1, "Protected"),
-    PRIVATE(2, "Private");
+    PUBLIC("Public"),
+    PROTECTED("Protected"),
+    PRIVATE("Private");
 
-    private final int m_levelNum;
     private final String m_name;
 
-    ProtectionLevel(int levelNum, String name) {
-        m_levelNum = levelNum;
+    ProtectionLevel(String name) {
         m_name = name;
     }
 
     public String getName() {
         return m_name;
-    }
-
-    public int getInt() {
-        return m_levelNum;
     }
 }

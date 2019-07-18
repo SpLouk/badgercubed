@@ -107,20 +107,25 @@ public class ConnectionsFragment extends Fragment {
     }
 
     private void queryContacts(ProtectionLevel protectionLevel) {
-        Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
-        query = query.whereEqualTo("userId", m_followingUserUid);
-        query = query.whereEqualTo("protectionLevel", protectionLevel);
-        query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
-            if (queryDocumentSnapshots != null) {
-                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                        Connection connection = documentChange.getDocument().toObject(Connection.class);
+        for (ProtectionLevel p : ProtectionLevel.values()) {
+            if (p.ordinal() > protectionLevel.ordinal()) {
+                return;
+            }
+            Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
+            query = query.whereEqualTo("userId", m_followingUserUid);
+            query = query.whereEqualTo("protectionLevel", p.toString());
+            query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
+                if (queryDocumentSnapshots != null) {
+                    for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                            Connection connection = documentChange.getDocument().toObject(Connection.class);
 
-                        m_connections.add(connection);
-                        m_connectionAdapter.notifyDataSetChanged();
+                            m_connections.add(connection);
+                            m_connectionAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 }

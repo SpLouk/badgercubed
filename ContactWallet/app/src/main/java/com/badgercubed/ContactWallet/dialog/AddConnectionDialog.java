@@ -59,8 +59,11 @@ public class AddConnectionDialog extends DialogFragment {
         builder.setView(dialogView);
 
         builder.setPositiveButton("Create", (dialog, which) -> {
-            createAndSaveConnections();
-            dismiss();
+            if (createAndSaveConnections()) {
+                dismiss();
+            } else {
+                Toast.makeText(getActivity(), "Could not save. Make sure all fields are valid.", Toast.LENGTH_SHORT).show();
+            }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dismiss());
 
@@ -183,13 +186,21 @@ public class AddConnectionDialog extends DialogFragment {
         }
     }
 
-    private void createAndSaveConnections() {
+    private boolean createAndSaveConnections() {
         // TODO: validate link
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
-        String link = "http://www." + m_selectedService.getLink() + m_link.getText().toString();
+        String link = m_selectedService.isHttpLinkUsed() ?
+                "http://www." + m_selectedService.getLink() + m_link.getText().toString() :
+                m_link.getText().toString();
         String description = m_description.getText().toString();
 
         Connection connection = new Connection(currentUserUid, m_selectedService, link, description, m_selectedProtectionLevel, m_verified);
-        StoreManager.getInstance().saveFBObject(getActivity(), connection);
+        try {
+            connection.validate();
+            StoreManager.getInstance().saveFBObject(getActivity(), connection);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
