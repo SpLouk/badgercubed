@@ -41,7 +41,7 @@ public class Activities {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "");
-        emailIntent.setDataAndType(Uri.parse("mailto:" + email), "message/rfc822");
+        emailIntent.setData(Uri.parse("mailto:" + email));
         context.startActivity(Intent.createChooser(emailIntent, "Send Email"));
     }
 
