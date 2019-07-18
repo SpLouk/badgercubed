@@ -56,7 +56,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         viewHolder.m_protectionLevelTextView.setText(
                 connection.getProtectionLevel().getName()
         );
-        
+
         if (!connection.getVerified()) {
             viewHolder.m_view.findViewById(R.id.listItemConnection_verified).setVisibility(View.GONE);
             viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);

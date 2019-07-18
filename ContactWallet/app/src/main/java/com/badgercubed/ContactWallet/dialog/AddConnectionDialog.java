@@ -188,10 +188,8 @@ public class AddConnectionDialog extends DialogFragment {
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
         String link = "http://www." + m_selectedService.getLink() + m_link.getText().toString();
         String description = m_description.getText().toString();
-        int protectionLevel = m_selectedProtectionLevel.getInt();
-        int serviceId = m_selectedService.getId();
 
-        Connection connection = new Connection(currentUserUid, serviceId, link, description, protectionLevel, m_verified);
+        Connection connection = new Connection(currentUserUid, m_selectedService, link, description, m_selectedProtectionLevel, m_verified);
         StoreManager.getInstance().saveFBObject(getActivity(), connection);
     }
 }

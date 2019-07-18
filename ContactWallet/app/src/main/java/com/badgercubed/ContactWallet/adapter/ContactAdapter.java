@@ -14,6 +14,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
 import com.badgercubed.ContactWallet.model.Following;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -93,6 +94,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                         // Start contact detail activity
                         Context context = m_textView.getContext();
                         Following relationship = m_dataset.get(position);
+                        ProtectionLevel protectionLevel = relationship.getProtectionLevel();
                         Activities.startContactDetailsActivity(context,
                                 relationship.getFollowingUid(), protectionLevel);
                     });

@@ -18,38 +18,20 @@ public class Connection extends FBObject {
 
     private boolean m_verified = false;
 
-    public Connection() {
-    }
-
     public Connection(
             String userId,
             Service service,
             String link,
             String description,
-            Integer protectionLevel,
+            ProtectionLevel protectionLevel,
             boolean verified) {
         m_uid = UUID.randomUUID().toString();
         m_userId = userId;
         m_service = service;
         m_link = link;
         m_description = description;
-        m_protectionLevel = ProtectionLevel.values()[protectionLevel];
+        m_protectionLevel = protectionLevel;
         m_verified = verified;
-    }
-
-
-    public Connection(
-            String userId,
-            Service service,
-            String link,
-            String description,
-            Integer protectionLevel) {
-        m_uid = UUID.randomUUID().toString();
-        m_userId = userId;
-        m_service = service;
-        m_link = link;
-        m_description = description;
-        m_protectionLevel = ProtectionLevel.values()[protectionLevel];
     }
 
     public static boolean isValidInputs(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
