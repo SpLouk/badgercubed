@@ -25,6 +25,7 @@ import com.badgercubed.ContactWallet.model.Following;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -125,6 +126,8 @@ public class ContactsFragment extends Fragment {
             }
         };
 
-        StoreManager.getInstance().getFollowingUsers(getActivity(), new ArrayList<>(), queryListener);
+
+        Query following = StoreManager.getInstance().getFollowingUsers();
+        following.addSnapshotListener(queryListener);
     }
 }

@@ -119,21 +119,12 @@ public class StoreManager {
 
     // SPECIFIC FIRESTORE QUERIES
 
-    // TODO : Not sure what followingIds for, kept for now
-    public void getFollowingUsers(Context context, List<String> followingIds,
-                                  EventListener<QuerySnapshot> queryListener) {
-        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
-        progressDialog.setMessage("Getting Contacts...");
-        progressDialog.show();
-
+    public Query getFollowingUsers() {
         // Need to get list of people that current user is following,
         // find following docs with followerid == current user
 
-        Query following = m_db.collection(Following.m_collectionName)
-                .whereEqualTo("followerUid", AuthManager.getInstance().getAuthUser().getUid());
-
-        following.addSnapshotListener(queryListener);
-        progressDialog.dismiss();
+        return m_db.collection(Following.m_collectionName)
+                .whereEqualTo("followerUid", StoreManager.getInstance().getCurrentUser().getUid());
     }
 
     public Task<QuerySnapshot> getConnectionByUserAndService(User user, Service service) {

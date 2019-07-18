@@ -1,9 +1,9 @@
 package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,44 +39,10 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 .addSnapshotListener((documentSnapshot, ex) -> {
                     m_userName = findViewById(R.id.activity_contact_details_name);
                     m_userName.setText(documentSnapshot.get("name").toString());
-
-                    m_userEmail = findViewById(R.id.activity_contact_details_email);
-                    m_userEmail.setText(documentSnapshot.get("email").toString());
                 });
 
         ConnectionsFragment connectionsFragment = ConnectionsFragment.newInstance(uid, relationshipProtLevel);
-
-        m_dropdownArrow = findViewById(R.id.activity_contact_details_dropdown_arrow);
-        m_linearLayout = findViewById(R.id.activity_contact_details_dropdown);
-        m_linearLayout.setOnClickListener(l -> {
-
-            if (!isDroppedDown) {
-                m_dropdownArrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                isDroppedDown = true;
-            } else {
-                m_dropdownArrow.setImageResource(R.drawable.ic_keyboard_arrow_right_black_24dp);
-                isDroppedDown = false;
-            }
-
-            showHideFragment(connectionsFragment);
-        });
-    }
-
-    private void showHideFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-
-        if (!fragment.isAdded()) {
-            fragmentTransaction.add(R.id.activity_contact_details_connections_container, fragment);
-            fragmentTransaction.show(fragment);
-        } else {
-            if (fragment.isHidden()) {
-                fragmentTransaction.show(fragment);
-            } else {
-                fragmentTransaction.hide(fragment);
-            }
-        }
-
-        fragmentTransaction.commit();
+        fragmentTransaction.add(R.id.activity_contact_details_layout, connectionsFragment).commit();
     }
 }

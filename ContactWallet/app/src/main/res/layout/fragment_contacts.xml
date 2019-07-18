@@ -6,6 +6,7 @@
     tools:context=".fragment.ContactsFragment">
 
     <LinearLayout
+        android:id="@+id/fragment_contacts_handles_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -81,6 +82,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_contacts_handles_container"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView

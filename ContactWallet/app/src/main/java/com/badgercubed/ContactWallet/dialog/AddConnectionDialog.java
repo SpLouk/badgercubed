@@ -121,6 +121,7 @@ public class AddConnectionDialog extends DialogFragment {
                                                     break;
                                             }
                                             m_link.setEnabled(false);
+                                            m_switch.setEnabled(false);
                                             m_verified = true;
                                         }
                                     }

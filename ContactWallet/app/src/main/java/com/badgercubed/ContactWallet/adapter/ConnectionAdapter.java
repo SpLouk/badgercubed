@@ -40,6 +40,9 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if (m_activityName.equals(ContactDetailsActivity.class.getSimpleName())) {
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
+            viewHolder.m_protectionLevelTextView.setVisibility(View.GONE);
+        } else {
+            viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
         }
 
         Connection connection = m_connections.get(i);
