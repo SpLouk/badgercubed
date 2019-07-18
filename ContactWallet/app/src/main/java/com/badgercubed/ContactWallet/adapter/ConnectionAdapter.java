@@ -49,25 +49,21 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
         Connection connection = m_connections.get(i);
         String description = TextUtils.isEmpty(connection.getDescription()) ?
-                Service.values()[connection.getServiceId()].getName() :
+                connection.getService().getName() :
                 connection.getDescription();
         viewHolder.m_descTextView.setText(description);
 
         viewHolder.m_protectionLevelTextView.setText(
                 connection.getProtectionLevel().getName()
         );
-
-
+        
         if (!connection.getVerified()) {
             viewHolder.m_view.findViewById(R.id.listItemConnection_verified).setVisibility(View.GONE);
             viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
         }
 
-        String url = connection.getLink();
-        viewHolder.m_linkBtn.setOnClickListener((View view) -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            m_context.startActivity(browserIntent);
-        });
+        String link = connection.getLink();
+        viewHolder.m_linkBtn.setOnClickListener((View view) -> connection.getService().openLink(link));
 
         viewHolder.m_deleteBtn.setOnClickListener((View view) -> {
             OnCompleteListener<Void> deleteCompleteListener = deleteTask -> {

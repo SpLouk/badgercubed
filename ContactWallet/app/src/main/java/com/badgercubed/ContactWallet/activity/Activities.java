@@ -2,6 +2,8 @@ package com.badgercubed.ContactWallet.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 
@@ -30,5 +32,31 @@ public class Activities {
     public static void startNavActivity(Context context) {
         Intent intent = new Intent(context, NavActivity.class);
         context.startActivity(intent);
+    }
+
+    public static void startBrowserActivity(Context context, String url){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(browserIntent);
+    }
+
+    public static void startEmailActivity(Context context, String email) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+        emailIntent.setDataAndType(Uri.parse("mailto:" + email), "message/rfc822");
+        context.startActivity(Intent.createChooser(emailIntent, "Send Email"));
+    }
+
+    public static void startCallActivity(Context context, String phoneNum) {
+        // get digits only in phone number
+        phoneNum = phoneNum.replaceAll("\\D+","");
+        if (phoneNum.length() != 9 && phoneNum.length() != 10 ) {
+            Toast.makeText(context, "This phone number is invalid", Toast.LENGTH_LONG).show();
+        }
+
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phoneNum));
+
+        context.startActivity(Intent.createChooser(callIntent, "Make Call"));
     }
 }

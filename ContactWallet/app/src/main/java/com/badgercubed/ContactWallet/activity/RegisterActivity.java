@@ -19,7 +19,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText m_enterEmail;
     private EditText m_enterPassword;
     private EditText m_enterName;
-    private EditText m_enterPhoneNum;
     private TextView m_login;
 
     @Override
@@ -37,8 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         m_enterEmail = findViewById(R.id.register_enterEmail);
         m_enterPassword = findViewById(R.id.register_enterPassword);
         m_enterName = findViewById(R.id.register_enterName);
-        m_enterPhoneNum = findViewById(R.id.register_enterPhoneNum);
-
 
         m_register = findViewById(R.id.register_register);
         m_register.setOnClickListener(l -> registerUser());
@@ -51,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
         String email = m_enterEmail.getText().toString().trim();
         String password = m_enterPassword.getText().toString().trim();
         String name = m_enterName.getText().toString().trim();
-        String phoneNum = m_enterPhoneNum.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             // Email empty
@@ -68,16 +64,11 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter name", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(phoneNum)) {
-            // Password empty
-            Toast.makeText(this, "Please enter phone #", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         OnSuccessListener<AuthResult> onSuccessListener = task -> {
             String uid = AuthManager.getInstance().getAuthUser().getUid();
 
-            User newUser = new User(uid, email, name, phoneNum);
+            User newUser = new User(uid, email, name);
 
             AuthManager.getInstance().saveUserAfterFBRegistration(this, newUser).addOnSuccessListener(saveTask -> {
                 // User logged in

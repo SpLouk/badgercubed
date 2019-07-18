@@ -145,7 +145,7 @@ public class StoreManager {
     public Task<QuerySnapshot> getConnectionByUserAndService(User user, Service service) {
         return m_db.collection(Connection.m_collectionName)
                 .whereEqualTo("userId", user.getUid())
-                .whereEqualTo("serviceId", service.getId())
+                .whereEqualTo("service", service)
                 .get();
     }
 

@@ -15,7 +15,6 @@ public class User extends FBObject {
     private String m_uid;
     private String m_email;
     private String m_name;
-    private String m_phoneNum;
 
     private String m_publicHandle;
     private String m_protectedHandle;
@@ -24,11 +23,10 @@ public class User extends FBObject {
     public User() {
     }
 
-    public User(String uid, String email, String name, String phoneNum) {
+    public User(String uid, String email, String name) {
         m_uid = uid;
         m_email = email;
         m_name = name;
-        m_phoneNum = phoneNum;
 
         if (TextUtils.isEmpty(m_email)) {
             throw new IllegalArgumentException("Email can't be empty");
@@ -76,14 +74,6 @@ public class User extends FBObject {
         m_name = name;
     }
 
-    public String getPhoneNum() {
-        return m_phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        m_phoneNum = phoneNum;
-    }
-
     public String getPublicHandle() {
         return m_publicHandle;
     }
@@ -117,9 +107,6 @@ public class User extends FBObject {
         }
         if (TextUtils.isEmpty(m_name)) {
             throw new Exception("Name is empty");
-        }
-        if (TextUtils.isEmpty(m_phoneNum)) {
-            throw new Exception("Phone # is empty");
         }
     }
 
