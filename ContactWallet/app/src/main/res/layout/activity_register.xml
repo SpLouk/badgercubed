@@ -27,7 +27,7 @@
             android:layout_height="35dp"
             android:layout_margin="16dp"
             android:background="@drawable/rounded_white"
-            android:hint="Email: "
+            android:hint="Email"
             android:inputType="textEmailAddress"
             android:paddingStart="10dp" />
 
@@ -37,7 +37,7 @@
             android:layout_height="35dp"
             android:layout_margin="16dp"
             android:background="@drawable/rounded_white"
-            android:hint="Password: "
+            android:hint="Password"
             android:inputType="textPassword"
             android:paddingStart="10dp" />
 
@@ -47,7 +47,7 @@
             android:layout_height="35dp"
             android:layout_margin="16dp"
             android:background="@drawable/rounded_white"
-            android:hint="Name: "
+            android:hint="Name"
             android:inputType="textPersonName"
             android:paddingStart="10dp" />
 

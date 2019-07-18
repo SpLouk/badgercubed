@@ -7,36 +7,29 @@ import com.badgercubed.ContactWallet.util.App;
 
 public enum Service {
     // Display alphabetially
-    FACEBOOK (0,"Facebook", "facebook.com/"),
-    MESSENGER (1, "Messenger", "messenger.com/t/"),
-    TWITTER (2, "Twitter", "twitter.com/"),
-    GITHUB (3, "Github", "github.com/"),
-    CUSTOMURL(4, "Custom URL", ""),
-    CUSTOM (5,"Custom", "", false),
-    EMAIL (6,"Email", "", false),
-    PHONENUM (7,"Phone Number", "", false);
+    FACEBOOK ("Facebook", "facebook.com/"),
+    MESSENGER ("Messenger", "messenger.com/t/"),
+    TWITTER ("Twitter", "twitter.com/"),
+    GITHUB ( "Github", "github.com/"),
+    CUSTOMURL ("Custom URL", ""),
+    CUSTOM ("Custom", "", false),
+    EMAIL ("Email", "", false),
+    PHONENUM ("Phone Number", "", false);
 
-    private final int m_id;
     private final String m_name;
     private final String m_baseLink;
     private final boolean m_isHttpLinkUsed;
 
-    Service(int id, String name, String baseLink) {
-        m_id = id;
+    Service(String name, String baseLink) {
         m_name = name;
         m_baseLink = baseLink;
         m_isHttpLinkUsed = true;
     }
 
-    Service(int id, String name, String baseLink, boolean isHttpLinkUsed) {
-        m_id = id;
+    Service(String name, String baseLink, boolean isHttpLinkUsed) {
         m_name = name;
         m_baseLink = baseLink;
         m_isHttpLinkUsed = isHttpLinkUsed;
-    }
-
-    public int getId() {
-        return m_id;
     }
 
     public String getName() {
@@ -51,8 +44,7 @@ public enum Service {
         return m_isHttpLinkUsed;
     }
 
-    public void openLink(String link) {
-        Context context = App.getContext();
+    public void openLink(Context context, String link) {
         switch(Service.this) {
             case FACEBOOK:
             case MESSENGER:

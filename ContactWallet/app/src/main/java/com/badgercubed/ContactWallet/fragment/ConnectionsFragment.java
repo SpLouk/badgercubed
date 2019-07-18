@@ -32,13 +32,13 @@ public class ConnectionsFragment extends Fragment {
     private ConnectionAdapter m_connectionAdapter;
 
     private String m_followingUserUid = "";
-    private Integer m_followingProtectionLevel = null;
+    private ProtectionLevel m_followingProtectionLevel = null;
     private List<Connection> m_connections;
 
-    public static ConnectionsFragment newInstance(String followingUserUid, Integer relationshipProtectionLevel) {
+    public static ConnectionsFragment newInstance(String followingUserUid, ProtectionLevel relationshipProtectionLevel) {
         Bundle bundle = new Bundle();
         bundle.putString(Activities.INTENT_FOLLOWING_USER_UID, followingUserUid);
-        bundle.putInt(Activities.INTENT_REL_PROT_LEVEL, relationshipProtectionLevel);
+        bundle.putSerializable(Activities.INTENT_REL_PROT_LEVEL, relationshipProtectionLevel);
 
         ConnectionsFragment connectionsFragment = new ConnectionsFragment();
         connectionsFragment.setArguments(bundle);
@@ -62,7 +62,7 @@ public class ConnectionsFragment extends Fragment {
         }
 
         m_followingUserUid = getArguments().get(Activities.INTENT_FOLLOWING_USER_UID).toString();
-        m_followingProtectionLevel = (Integer) getArguments().get(Activities.INTENT_REL_PROT_LEVEL);
+        m_followingProtectionLevel = (ProtectionLevel) getArguments().get(Activities.INTENT_REL_PROT_LEVEL);
 
         m_connections = new ArrayList<>();
         m_connectionAdapter = new ConnectionAdapter(getActivity(), activityName, m_connections);
@@ -84,7 +84,7 @@ public class ConnectionsFragment extends Fragment {
         }
 
         if (m_followingUserUid == StoreManager.getInstance().getCurrentUser().getUid()) {
-            m_followingProtectionLevel = ProtectionLevel.PUBLIC.getInt();
+            m_followingProtectionLevel = ProtectionLevel.PUBLIC;
         }
 
         if (m_followingProtectionLevel == null) {
@@ -94,8 +94,7 @@ public class ConnectionsFragment extends Fragment {
             return view;
         }
 
-        ProtectionLevel protectionLevel = ProtectionLevel.fromInt(m_followingProtectionLevel);
-        if (protectionLevel == null) {
+        if (m_followingProtectionLevel == null) {
             Toast.makeText(getActivity(), "ERROR: failed to determine protection level, num=" + m_followingProtectionLevel,
                     Toast.LENGTH_SHORT);
             Log.e(TAG, "ERROR: failed to determine protection level, num=" + m_followingProtectionLevel);
@@ -103,37 +102,30 @@ public class ConnectionsFragment extends Fragment {
             return view;
         }
 
-        switch (protectionLevel) {
-            case PRIVATE:
-                queryContacts(ProtectionLevel.PRIVATE.getInt());
-                // fall through
-            case PROTECTED:
-                queryContacts(ProtectionLevel.PROTECTED.getInt());
-                // fall through
-            case PUBLIC:
-                queryContacts(ProtectionLevel.PUBLIC.getInt());
-                break;
-            default:
-                break;
-        }
+        queryContacts(m_followingProtectionLevel);
         return view;
     }
 
-    private void queryContacts(int protectionLevel) {
-        Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
-        query = query.whereEqualTo("userId", m_followingUserUid);
-        query = query.whereEqualTo("protectionLevel", protectionLevel);
-        query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
-            if (queryDocumentSnapshots != null) {
-                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                        Connection connection = documentChange.getDocument().toObject(Connection.class);
+    private void queryContacts(ProtectionLevel protectionLevel) {
+        for (ProtectionLevel p : ProtectionLevel.values()) {
+            if (p.ordinal() > protectionLevel.ordinal()) {
+                return;
+            }
+            Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
+            query = query.whereEqualTo("userId", m_followingUserUid);
+            query = query.whereEqualTo("protectionLevel", p.toString());
+            query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
+                if (queryDocumentSnapshots != null) {
+                    for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                            Connection connection = documentChange.getDocument().toObject(Connection.class);
 
-                        m_connections.add(connection);
-                        m_connectionAdapter.notifyDataSetChanged();
+                            m_connections.add(connection);
+                            m_connectionAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 }

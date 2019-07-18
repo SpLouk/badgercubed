@@ -59,8 +59,11 @@ public class AddConnectionDialog extends DialogFragment {
         builder.setView(dialogView);
 
         builder.setPositiveButton("Create", (dialog, which) -> {
-            createAndSaveConnections();
-            dismiss();
+            if (createAndSaveConnections()) {
+                dismiss();
+            } else {
+                Toast.makeText(getActivity(), "Could not save. Make sure all fields are valid.", Toast.LENGTH_SHORT).show();
+            }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dismiss());
 
@@ -118,6 +121,7 @@ public class AddConnectionDialog extends DialogFragment {
                                                     break;
                                             }
                                             m_link.setEnabled(false);
+                                            m_switch.setEnabled(false);
                                             m_verified = true;
                                         }
                                     }
@@ -141,9 +145,9 @@ public class AddConnectionDialog extends DialogFragment {
         m_protectionLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) return;
-                position--;
-                m_selectedProtectionLevel = protectionLevels[position];
+                if (position != 0) {
+                    m_selectedProtectionLevel = protectionLevels[position - 1];
+                }
             }
 
             @Override
@@ -171,6 +175,10 @@ public class AddConnectionDialog extends DialogFragment {
             m_description.setVisibility(View.VISIBLE);
             m_protectionLevelSpinner.setSelection(0);
             m_protectionLevelSpinner.setVisibility(View.VISIBLE);
+            //TODO: this doesn't work
+            if (m_link.hasFocus()) {
+                m_link.clearFocus();
+            }
         }
 
         if (m_selectedService == TWITTER || m_selectedService == GITHUB) {
@@ -179,17 +187,21 @@ public class AddConnectionDialog extends DialogFragment {
         }
     }
 
-    private void createAndSaveConnections() {
+    private boolean createAndSaveConnections() {
+        // TODO: validate link
         String currentUserUid = AuthManager.getInstance().getAuthUser().getUid();
-        String link = "";
-        if (m_selectedService.isHttpLinkUsed()) {
-            link += getString(R.string.http_base);
-        }
-        link += m_link.getFullString();
+        String link = m_selectedService.isHttpLinkUsed() ?
+                "http://www." + m_selectedService.getLink() + m_link.getText().toString() :
+                m_link.getText().toString();
         String description = m_description.getText().toString();
-        int protectionLevel = m_selectedProtectionLevel.getInt();
 
-        Connection connection = new Connection(currentUserUid, m_selectedService, link, description, protectionLevel, m_verified);
-        StoreManager.getInstance().saveFBObject(getActivity(), connection);
+        Connection connection = new Connection(currentUserUid, m_selectedService, link, description, m_selectedProtectionLevel, m_verified);
+        try {
+            connection.validate();
+            StoreManager.getInstance().saveFBObject(getActivity(), connection);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
