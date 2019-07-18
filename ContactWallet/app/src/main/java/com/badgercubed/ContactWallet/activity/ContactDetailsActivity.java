@@ -1,11 +1,10 @@
 package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badgercubed.ContactWallet.R;
@@ -15,17 +14,9 @@ import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.StoreManager;
 
 public class ContactDetailsActivity extends AppCompatActivity {
-
     private TextView m_userName;
-    private TextView m_userEmail;
-    private TextView m_userPhoneNumber;
-    private ImageView m_dropdownArrow;
-    private LinearLayout m_linearLayout;
-
-    private boolean isDroppedDown = false;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
