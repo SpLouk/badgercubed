@@ -18,6 +18,9 @@ public class Connection extends FBObject {
 
     private boolean m_verified = false;
 
+    public Connection() {
+    }
+
     public Connection(
             String userId,
             Service service,
