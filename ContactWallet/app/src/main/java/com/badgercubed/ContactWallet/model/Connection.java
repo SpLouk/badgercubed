@@ -14,7 +14,7 @@ public class Connection extends FBObject {
     private String m_link;
     private String m_description;
     private int m_serviceId = -1;
-    private int m_protectionLevel = -1;
+    private ProtectionLevel m_protectionLevel = ProtectionLevel.PRIVATE;
 
     private boolean m_verified = false;
 
@@ -33,7 +33,7 @@ public class Connection extends FBObject {
         m_serviceId = serviceId;
         m_link = link;
         m_description = description;
-        m_protectionLevel = protectionLevel;
+        m_protectionLevel = ProtectionLevel.values()[protectionLevel];
         m_verified = verified;
     }
 
@@ -49,7 +49,7 @@ public class Connection extends FBObject {
         m_serviceId = serviceId;
         m_link = link;
         m_description = description;
-        m_protectionLevel = protectionLevel;
+        m_protectionLevel = ProtectionLevel.values()[protectionLevel];
     }
 
     public static boolean isValidInputs(String uid, String userId, String serviceId, String link, String description, Integer protectionLevel) {
@@ -112,12 +112,12 @@ public class Connection extends FBObject {
         m_description = description;
     }
 
-    public int getProtectionLevel() {
+    public ProtectionLevel getProtectionLevel() {
         return m_protectionLevel;
     }
 
-    public void setProtectionLevel(Integer protectionLevel) {
-        m_protectionLevel = protectionLevel.intValue();
+    public void setProtectionLevel(ProtectionLevel protectionLevel) {
+        m_protectionLevel = protectionLevel;
     }
 
 
@@ -141,12 +141,6 @@ public class Connection extends FBObject {
         }
         if (TextUtils.isEmpty(m_link)) {
             throw new Exception("Connection link is empty");
-        }
-        if (TextUtils.isEmpty(m_description)) {
-            throw new Exception("Description is empty");
-        }
-        if (m_protectionLevel == -1) {
-            throw new Exception("Protection level not set");
         }
     }
 

@@ -93,7 +93,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                         // Start contact detail activity
                         Context context = m_textView.getContext();
                         Following relationship = m_dataset.get(position);
-                        Integer protectionLevel = relationship.getProtectionLevel();
                         Activities.startContactDetailsActivity(context,
                                 relationship.getFollowingUid(), relationship.getProtectionLevel());
                     });

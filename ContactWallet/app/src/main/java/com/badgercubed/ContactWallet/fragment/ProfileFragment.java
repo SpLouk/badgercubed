@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_connections_container, ConnectionsFragment.newInstance(
-                        AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE.getInt()))
+                        AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE))
                 .commit();
 
         return view;

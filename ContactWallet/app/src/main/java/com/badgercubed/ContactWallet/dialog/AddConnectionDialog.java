@@ -141,12 +141,14 @@ public class AddConnectionDialog extends DialogFragment {
         m_protectionLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                m_selectedProtectionLevel = protectionLevels[position];
+                if (position != 0) {
+                    m_selectedProtectionLevel = protectionLevels[position - 1];
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                m_selectedProtectionLevel = protectionLevels[2];
+                m_selectedProtectionLevel = null;
             }
         });
 

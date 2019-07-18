@@ -124,7 +124,7 @@ public class AddContactDialog extends DialogFragment {
     private void saveFollowingRelationship(User following, ProtectionLevel protLevel) {
         String followerId = StoreManager.getInstance().getCurrentUser().getUid();
         String followingId = following.getUid();
-        Following followingRelationship = new Following(followerId, followingId, protLevel.getInt());
+        Following followingRelationship = new Following(followerId, followingId, protLevel);
 
         OnCompleteListener<Void> saveCompleteListener = task -> {
             if (task.isSuccessful()) {
