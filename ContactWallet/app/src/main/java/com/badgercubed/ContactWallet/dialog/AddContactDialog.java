@@ -2,6 +2,9 @@ package com.badgercubed.ContactWallet.dialog;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import android.text.TextUtils;
@@ -10,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
@@ -50,6 +55,52 @@ public class AddContactDialog extends DialogFragment {
 
         m_enterEmail = view.findViewById(R.id.addContact_email);
         m_enterHandle = view.findViewById(R.id.addContact_handle);
+
+        /*
+                Handles
+         */
+
+        User user = StoreManager.getInstance().getCurrentUser();
+
+        TextView publicHandle = view.findViewById(R.id.fragment_contacts_public_handle);
+        publicHandle.setText("Public: " + user.getPublicHandle());
+        ImageButton publicButton = view.findViewById(R.id.fragment_contacts_copy_public_handle);
+        publicButton.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager)
+                    getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+
+            ClipData clip = ClipData.newPlainText("Public access handle", user.getPublicHandle());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getActivity(), "Copied to clipboard!", Toast.LENGTH_SHORT).show();
+        });
+
+        TextView protectedHandle = view.findViewById(R.id.fragment_contacts_protected_handle);
+        protectedHandle.setText("Protected: " + user.getProtectedHandle());
+        ImageButton protectedButton = view.findViewById(R.id.fragment_contacts_copy_protected_handle);
+        protectedButton.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager)
+                    getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+
+            ClipData clip = ClipData.newPlainText("Protected access handle", user.getProtectedHandle());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getActivity(), "Copied to clipboard!", Toast.LENGTH_SHORT).show();
+        });
+
+        TextView privateHandle = view.findViewById(R.id.fragment_contacts_private_handle);
+        privateHandle.setText("Private: " + user.getPrivateHandle());
+        ImageButton privateButton = view.findViewById(R.id.fragment_contacts_copy_private_handle);
+        privateButton.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager)
+                    getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+
+            ClipData clip = ClipData.newPlainText("Private access handle", user.getPrivateHandle());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getActivity(), "Copied to clipboard!", Toast.LENGTH_SHORT).show();
+        });
+
+        /*
+           Handles
+         */
 
         return view;
     }
