@@ -4,11 +4,23 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/list_item_connection_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_facebook" />
+
     <TextView
         android:id="@+id/listItemConnection_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/listItemConnection_linkBtn"
+        android:layout_toRightOf="@+id/list_item_connection_logo"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -16,27 +28,37 @@
         android:id="@+id/listItemConnection_verified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:src="@drawable/ic_check_black_24dp"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/listItemConnection_textView"  />
+        android:layout_toEndOf="@+id/listItemConnection_textView"
+        android:paddingStart="16dp"
+        android:src="@drawable/ic_check_black_24dp" />
+
     <TextView
         android:id="@+id/listItemConnection_verifiedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/listItemConnection_verified"
         android:text="Verified"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:layout_toEndOf="@+id/listItemConnection_verified"  />
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
     <TextView
         android:id="@+id/listItemConnection_protectionLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/listItemConnection_deleteBtn"
         android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:layout_toStartOf="@+id/listItemConnection_deleteBtn"  />
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    <ImageButton
+        android:id="@+id/list_item_connection_edit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/listItemConnection_deleteBtn"
+        android:src="@drawable/ic_edit_black_24dp" />
 
     <ImageButton
         android:id="@+id/listItemConnection_deleteBtn"
