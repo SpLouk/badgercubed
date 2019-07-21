@@ -1,14 +1,17 @@
 package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
@@ -39,13 +42,22 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if (m_activityName.equals(ContactDetailsActivity.class.getSimpleName())) {
+            viewHolder.m_editBtn.setVisibility(View.GONE);
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
             viewHolder.m_protectionLevelTextView.setVisibility(View.GONE);
         } else {
             viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.m_descTextView.getLayoutParams();
+            params.addRule(RelativeLayout.LEFT_OF, R.id.list_item_connection_edit);
+            viewHolder.m_descTextView.setLayoutParams(params);
         }
 
         Connection connection = m_connections.get(i);
+
+        int logo = connection.getService().getLogo();
+        viewHolder.m_logo.setImageResource(logo);
+
         String description = TextUtils.isEmpty(connection.getDescription()) ?
                 connection.getService().getName() :
                 connection.getDescription();
@@ -84,9 +96,11 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public ImageView m_logo;
         public TextView m_descTextView;
         public TextView m_protectionLevelTextView;
         public Button m_linkBtn;
+        public ImageButton m_editBtn;
         public ImageButton m_deleteBtn;
         View m_view;
 
@@ -94,8 +108,10 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             super(itemView);
             m_view = itemView;
 
+            m_logo = m_view.findViewById(R.id.list_item_connection_logo);
             m_descTextView = m_view.findViewById(R.id.listItemConnection_textView);
             m_protectionLevelTextView = m_view.findViewById(R.id.listItemConnection_protectionLevel);
+            m_editBtn = m_view.findViewById(R.id.list_item_connection_edit);
             m_deleteBtn = m_view.findViewById(R.id.listItemConnection_deleteBtn);
             m_linkBtn = m_view.findViewById(R.id.listItemConnection_linkBtn);
         }
