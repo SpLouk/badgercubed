@@ -9,8 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:padding="8dp"
-        android:src="@drawable/ic_facebook" />
+        android:paddingRight="8dp" />
 
     <TextView
         android:id="@+id/listItemConnection_textView"
@@ -58,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/listItemConnection_deleteBtn"
+        android:adjustViewBounds="true"
         android:src="@drawable/ic_edit_black_24dp" />
 
     <ImageButton
@@ -67,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/listItemConnection_linkBtn"
+        android:adjustViewBounds="true"
         android:src="@drawable/ic_delete_black_24dp" />
 
     <Button
