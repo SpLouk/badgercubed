@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -44,19 +43,21 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        Connection connection = m_connections.get(i);
+
         if (m_activityName.equals(ContactDetailsActivity.class.getSimpleName())) {
             viewHolder.m_editBtn.setVisibility(View.GONE);
             viewHolder.m_deleteBtn.setVisibility(View.GONE);
             viewHolder.m_protectionLevelTextView.setVisibility(View.GONE);
         } else {
-            viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
-
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.m_descTextView.getLayoutParams();
-            params.addRule(RelativeLayout.LEFT_OF, R.id.listItemConnection_protectionLevel);
+            if (connection.getVerified()) {
+                params.addRule(RelativeLayout.LEFT_OF, R.id.listItemConnection_verified);
+            } else {
+                params.addRule(RelativeLayout.LEFT_OF, R.id.listItemConnection_protectionLevel);
+            }
             viewHolder.m_descTextView.setLayoutParams(params);
         }
-
-        Connection connection = m_connections.get(i);
 
         int logo = connection.getService().getLogo();
         viewHolder.m_logo.setImageResource(logo);
@@ -72,7 +73,6 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
 
         if (!connection.getVerified()) {
             viewHolder.m_view.findViewById(R.id.listItemConnection_verified).setVisibility(View.GONE);
-            viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
         }
 
         viewHolder.m_editBtn.setOnClickListener(l -> {

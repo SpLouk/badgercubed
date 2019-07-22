@@ -27,19 +27,10 @@
         android:id="@+id/listItemConnection_verified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_connection_logo"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/listItemConnection_textView"
-        android:paddingStart="16dp"
-        android:src="@drawable/ic_check_black_24dp" />
-
-    <TextView
-        android:id="@+id/listItemConnection_verifiedText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/listItemConnection_verified"
-        android:text="Verified"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        android:layout_toStartOf="@+id/listItemConnection_protectionLevel"
+        android:src="@drawable/ic_verified_user_black_24dp" />
 
     <TextView
         android:id="@+id/listItemConnection_protectionLevel"

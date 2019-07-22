@@ -77,9 +77,9 @@ public class ConnectionsFragment extends Fragment {
         m_recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             private void updateUI() {
                 if (m_connections.isEmpty()) {
-                    m_contactInfoText.setText("Contact Info: None");
+                    m_contactInfoText.setVisibility(View.VISIBLE);
                 } else {
-                    m_contactInfoText.setText("Contact Info:");
+                    m_contactInfoText.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -146,7 +146,6 @@ public class ConnectionsFragment extends Fragment {
                     for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                         if (documentChange.getType() == DocumentChange.Type.ADDED) {
                             Connection connection = documentChange.getDocument().toObject(Connection.class);
-
                             m_connections.add(connection);
                         }
                     }
