@@ -75,6 +75,7 @@ public class ConnectionsFragment extends Fragment {
         m_recyclerView.setHasFixedSize(true);
         m_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         m_recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+
             private void updateUI() {
                 if (m_connections.isEmpty()) {
                     m_contactInfoText.setText("Contact Info: None");
@@ -82,6 +83,7 @@ public class ConnectionsFragment extends Fragment {
                     m_contactInfoText.setText("Contact Info:");
                 }
             }
+
             @Override
             public void onChildViewAttachedToWindow(@NonNull View view) {
                 updateUI();

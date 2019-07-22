@@ -16,13 +16,16 @@
         android:paddingVertical="45dp">
 
         <ImageView
+            android:id="@+id/activity_contact_details_photo"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/title_activity_profile"
-            android:src="@drawable/initial_profile_picture"
+            android:src="@drawable/circle"
             android:visibility="visible"
             tools:visibility="visible" />
+
+        <!-- android:src="@drawable/initial_profile_picture" !-->
 
         <TextView
             android:id="@+id/activity_contact_details_name"
