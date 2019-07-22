@@ -52,7 +52,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
 
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.m_descTextView.getLayoutParams();
-            params.addRule(RelativeLayout.LEFT_OF, R.id.list_item_connection_edit);
+            params.addRule(RelativeLayout.LEFT_OF, R.id.listItemConnection_protectionLevel);
             viewHolder.m_descTextView.setLayoutParams(params);
         }
 
@@ -117,9 +117,9 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         public ImageView m_logo;
         public TextView m_descTextView;
         public TextView m_protectionLevelTextView;
-        public Button m_linkBtn;
         public ImageButton m_editBtn;
         public ImageButton m_deleteBtn;
+        public ImageButton m_linkBtn;
 
         View m_view;
 
