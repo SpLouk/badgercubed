@@ -19,6 +19,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:contentDescription="Add Contact Info"
-        android:text="Add Contact Info"/>
+        android:text="Add Contact Info" />
 
 </RelativeLayout>

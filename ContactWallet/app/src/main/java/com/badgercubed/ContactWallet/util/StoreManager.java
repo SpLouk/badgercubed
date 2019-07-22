@@ -14,12 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.List;
+import java.util.Map;
 
 public class StoreManager {
     private static StoreManager instance = null;
@@ -75,8 +74,31 @@ public class StoreManager {
         return saveTask;
     }
 
+    public Task<Void> updateFBObject(Context context, FBObject fbObject, Map<String, Object> properties) {
+        final String collName = fbObject.getCollectionName();
+        final String docRef = fbObject.getDocReference();
+
+        final ProgressDialog progressDialog = new ProgressDialog(context); // TODO: replace w progress bar
+        progressDialog.setMessage("Saving...");
+        progressDialog.show();
+
+        CollectionReference collection = m_db.collection(collName);
+        Task<Void> updateTask = collection.document(docRef).update(properties);
+        updateTask.addOnCompleteListener(task -> {
+            progressDialog.dismiss();
+            if (task.isSuccessful()) {
+                Log.i(TAG, "Succesfully saved document " + docRef + " in collection " + collName);
+            } else {
+                String msg = "Failed to save document " + docRef + " in collection " + collName;
+                Log.e(TAG, msg, task.getException());
+            }
+        });
+
+        return updateTask;
+    }
+
     public Task<Void> deleteFBObject(Context context, FBObject fbObject,
-                               OnCompleteListener<Void> deleteCompleteListener) {
+                                     OnCompleteListener<Void> deleteCompleteListener) {
         final String collName = fbObject.getCollectionName();
         final String docRef = fbObject.getDocReference();
 

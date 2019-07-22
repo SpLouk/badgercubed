@@ -1,12 +1,13 @@
 package com.badgercubed.ContactWallet.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;

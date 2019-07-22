@@ -11,17 +11,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
+import com.badgercubed.ContactWallet.dialog.EditConnectionDialog;
 import com.badgercubed.ContactWallet.model.Connection;
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.List;
 
-public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.ViewHolder> {
+public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.ViewHolder> implements EditConnectionDialog.onModifyListener {
 
     private Context m_context;
     private String m_activityName;
@@ -31,6 +34,8 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         this.m_context = context;
         this.m_activityName = activityName;
         this.m_connections = connections;
+
+        setHasStableIds(true);
     }
 
     @Override
@@ -72,6 +77,12 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             viewHolder.m_view.findViewById(R.id.listItemConnection_verifiedText).setVisibility(View.GONE);
         }
 
+        viewHolder.m_editBtn.setOnClickListener(l -> {
+            EditConnectionDialog dialog = EditConnectionDialog.newInstance(i, m_connections.get(i));
+            dialog.setListener(ConnectionAdapter.this);
+            dialog.show(((AppCompatActivity) m_context).getFragmentManager(), "Edit Contact Information");
+        });
+
         String link = connection.getLink();
         viewHolder.m_linkBtn.setOnClickListener((View view) -> connection.getService().openLink(m_context, link));
 
@@ -90,8 +101,22 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
     }
 
     @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
     public int getItemCount() {
-        return m_connections.size();
+        return m_connections == null ? 0 : m_connections.size();
+    }
+
+    @Override
+    public void onModify(String description, String protectionLevel, int position) {
+
+        m_connections.get(position).setDescription(description);
+        m_connections.get(position).setProtectionLevel(ProtectionLevel.valueOf(protectionLevel));
+
+        notifyItemChanged(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -102,6 +127,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         public Button m_linkBtn;
         public ImageButton m_editBtn;
         public ImageButton m_deleteBtn;
+
         View m_view;
 
         public ViewHolder(View itemView) {
