@@ -34,8 +34,6 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         this.m_context = context;
         this.m_activityName = activityName;
         this.m_connections = connections;
-
-        setHasStableIds(true);
     }
 
     @Override
@@ -98,11 +96,6 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
             // Remove connection from current user
             StoreManager.getInstance().deleteFBObject(m_context, connection, deleteCompleteListener);
         });
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return super.getItemId(position);
     }
 
     @Override
