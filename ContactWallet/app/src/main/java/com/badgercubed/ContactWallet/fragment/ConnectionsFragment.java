@@ -1,6 +1,8 @@
 package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
@@ -22,18 +25,21 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionsFragment extends Fragment {
     private final static String TAG = "T-ConnectionsFragment";
 
+    private TextView m_contactInfoText;
     private RecyclerView m_recyclerView;
     private ConnectionAdapter m_connectionAdapter;
 
+    private List<Connection> m_connections;
     private String m_followingUserUid = "";
     private ProtectionLevel m_followingProtectionLevel = null;
-    private List<Connection> m_connections;
 
     public static ConnectionsFragment newInstance(String followingUserUid, ProtectionLevel relationshipProtectionLevel) {
         Bundle bundle = new Bundle();
@@ -51,7 +57,6 @@ public class ConnectionsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.list_connections, container, false);
 
-        String activityName = getActivity().getClass().getSimpleName();
         Bundle bundle = this.getArguments();
 
         if (bundle == null) {
@@ -64,12 +69,33 @@ public class ConnectionsFragment extends Fragment {
         m_followingUserUid = getArguments().get(Activities.INTENT_FOLLOWING_USER_UID).toString();
         m_followingProtectionLevel = (ProtectionLevel) getArguments().get(Activities.INTENT_REL_PROT_LEVEL);
 
-        m_connections = new ArrayList<>();
-        m_connectionAdapter = new ConnectionAdapter(getActivity(), activityName, m_connections);
+        m_contactInfoText = view.findViewById(R.id.listConnections_contactInfoText);
 
         m_recyclerView = view.findViewById(R.id.listConnections_recyclerView);
         m_recyclerView.setHasFixedSize(true);
         m_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        m_recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+            private void updateUI() {
+                if (m_connections.isEmpty()) {
+                    m_contactInfoText.setText("Contact Info: None");
+                } else {
+                    m_contactInfoText.setText("Contact Info:");
+                }
+            }
+            @Override
+            public void onChildViewAttachedToWindow(@NonNull View view) {
+                updateUI();
+            }
+
+            @Override
+            public void onChildViewDetachedFromWindow(@NonNull View view) {
+                updateUI();
+            }
+        });
+
+        String activityName = getActivity().getClass().getSimpleName();
+        m_connections = new ArrayList<>();
+        m_connectionAdapter = new ConnectionAdapter(getActivity(), activityName, m_connections);
         m_recyclerView.setAdapter(m_connectionAdapter);
 
         // Add dividing line between each item
@@ -103,6 +129,7 @@ public class ConnectionsFragment extends Fragment {
         }
 
         queryContacts(m_followingProtectionLevel);
+
         return view;
     }
 
@@ -121,9 +148,9 @@ public class ConnectionsFragment extends Fragment {
                             Connection connection = documentChange.getDocument().toObject(Connection.class);
 
                             m_connections.add(connection);
-                            m_connectionAdapter.notifyDataSetChanged();
                         }
                     }
+                    m_connectionAdapter.notifyDataSetChanged();
                 }
             });
         }
