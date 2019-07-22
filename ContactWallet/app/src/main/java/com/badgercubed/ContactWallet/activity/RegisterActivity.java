@@ -15,6 +15,7 @@ import com.badgercubed.ContactWallet.util.AuthManager;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
     private Button m_register;
@@ -79,6 +80,10 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
             saveUserTask.addOnSuccessListener(saveTask -> {
+
+                FirebaseAuth.getInstance().signOut();
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(newUser.getEmail(), password);
+                
                 // User logged in
                 finish();
                 Activities.startNavActivity(this);
