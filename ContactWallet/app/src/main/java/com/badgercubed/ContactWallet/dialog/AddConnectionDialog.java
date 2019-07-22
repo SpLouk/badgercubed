@@ -78,7 +78,7 @@ public class AddConnectionDialog extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (m_editConnection != null && context instanceof EditConnectionCallback) {
+        if (context instanceof EditConnectionCallback) {
             m_editCallback = (EditConnectionCallback) context;
         }
     }

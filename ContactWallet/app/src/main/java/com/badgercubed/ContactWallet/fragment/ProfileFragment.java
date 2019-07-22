@@ -59,6 +59,14 @@ public class ProfileFragment extends Fragment implements EditConnectionCallback 
     }
 
     public void connectionEdited() {
-        m_connectionsFragment.queryContacts();
+        refreshFragment();
+    }
+
+    private void refreshFragment() {
+        m_connectionsFragment = ConnectionsFragment.newInstance( AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_connections_container, m_connectionsFragment)
+                .commit();
+
     }
 }

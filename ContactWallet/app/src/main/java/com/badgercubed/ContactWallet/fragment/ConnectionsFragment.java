@@ -137,27 +137,38 @@ public class ConnectionsFragment extends Fragment {
     public void queryContacts() {
         m_connections.clear();
         m_connectionAdapter.notifyDataSetChanged();
+
+        switch (m_followingProtectionLevel) {
+            case PRIVATE:
+                queryContactsForProtectionLevel(ProtectionLevel.PRIVATE);
+            case PROTECTED:
+                queryContactsForProtectionLevel(ProtectionLevel.PROTECTED);
+            case PUBLIC:
+                queryContactsForProtectionLevel(ProtectionLevel.PUBLIC);
+            default:
+                break;
+        }
         //String activityName = getActivity().getClass().getSimpleName();
         //m_connectionAdapter = new ConnectionAdapter(getActivity(), activityName, m_connections);
         //m_recyclerView.setAdapter(m_connectionAdapter);
-        for (ProtectionLevel p : ProtectionLevel.values()) {
-            if (p.ordinal() > m_followingProtectionLevel.ordinal()) {
-                return;
-            }
-            Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
-            query = query.whereEqualTo("userId", m_followingUserUid);
-            query = query.whereEqualTo("protectionLevel", p.toString());
-            query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
-                if (queryDocumentSnapshots != null) {
-                    for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                        if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                            Connection connection = documentChange.getDocument().toObject(Connection.class);
-                            m_connections.add(connection);
-                        }
+
+    }
+
+    public void queryContactsForProtectionLevel(ProtectionLevel protectionLevel) {
+        Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);
+        query = query.whereEqualTo("userId", m_followingUserUid);
+        query = query.whereEqualTo("protectionLevel", protectionLevel.toString());
+        query.addSnapshotListener((QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) -> {
+            if (queryDocumentSnapshots != null) {
+                for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                        Connection connection = documentChange.getDocument().toObject(Connection.class);
+                        m_connections.add(connection);
                     }
-                    m_connectionAdapter.notifyDataSetChanged();
                 }
-            });
-        }
+                m_connectionAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 }
