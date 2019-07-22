@@ -15,15 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.ContactDetailsActivity;
-import com.badgercubed.ContactWallet.dialog.EditConnectionDialog;
+import com.badgercubed.ContactWallet.dialog.AddConnectionDialog;
 import com.badgercubed.ContactWallet.model.Connection;
-import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.List;
 
-public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.ViewHolder> implements EditConnectionDialog.onModifyListener {
+public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.ViewHolder> {
 
     private Context m_context;
     private String m_activityName;
@@ -76,8 +75,7 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
         }
 
         viewHolder.m_editBtn.setOnClickListener(l -> {
-            EditConnectionDialog dialog = EditConnectionDialog.newInstance(i, m_connections.get(i));
-            dialog.setListener(ConnectionAdapter.this);
+            AddConnectionDialog dialog = AddConnectionDialog.newInstance(m_connections.get(i));
             dialog.show(((AppCompatActivity) m_context).getFragmentManager(), "Edit Contact Information");
         });
 
@@ -101,15 +99,6 @@ public class ConnectionAdapter extends RecyclerView.Adapter<ConnectionAdapter.Vi
     @Override
     public int getItemCount() {
         return m_connections == null ? 0 : m_connections.size();
-    }
-
-    @Override
-    public void onModify(String description, String protectionLevel, int position) {
-
-        m_connections.get(position).setDescription(description);
-        m_connections.get(position).setProtectionLevel(ProtectionLevel.valueOf(protectionLevel));
-
-        notifyItemChanged(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

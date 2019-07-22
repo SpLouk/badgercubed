@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.activity.Activities;
+import com.badgercubed.ContactWallet.activity.EditConnectionCallback;
 import com.badgercubed.ContactWallet.adapter.ConnectionAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
@@ -128,14 +129,19 @@ public class ConnectionsFragment extends Fragment {
             return view;
         }
 
-        queryContacts(m_followingProtectionLevel);
+        queryContacts();
 
         return view;
     }
 
-    private void queryContacts(ProtectionLevel protectionLevel) {
+    public void queryContacts() {
+        m_connections.clear();
+        m_connectionAdapter.notifyDataSetChanged();
+        //String activityName = getActivity().getClass().getSimpleName();
+        //m_connectionAdapter = new ConnectionAdapter(getActivity(), activityName, m_connections);
+        //m_recyclerView.setAdapter(m_connectionAdapter);
         for (ProtectionLevel p : ProtectionLevel.values()) {
-            if (p.ordinal() > protectionLevel.ordinal()) {
+            if (p.ordinal() > m_followingProtectionLevel.ordinal()) {
                 return;
             }
             Query query = StoreManager.getInstance().getCollection(Connection.m_collectionName);

@@ -10,8 +10,10 @@ import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.User;
+import com.badgercubed.ContactWallet.util.App;
 import com.badgercubed.ContactWallet.util.AuthManager;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -70,7 +72,13 @@ public class RegisterActivity extends AppCompatActivity {
 
             User newUser = new User(uid, email, name);
 
-            AuthManager.getInstance().saveUserAfterFBRegistration(this, newUser).addOnSuccessListener(saveTask -> {
+            Task<Void> saveUserTask = AuthManager.getInstance().saveUserAfterFBRegistration(this, newUser);
+            if (task == null) {
+                Toast.makeText(App.getContext(), "Registration failed", Toast.LENGTH_LONG);
+                AuthManager.getInstance().logout();
+                return;
+            }
+            saveUserTask.addOnSuccessListener(saveTask -> {
                 // User logged in
                 finish();
                 Activities.startNavActivity(this);

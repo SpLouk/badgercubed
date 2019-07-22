@@ -28,7 +28,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:tag="prefix" />
+        android:tag="" />
 
     <EditText
         android:id="@+id/addConnection_description"

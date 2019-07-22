@@ -13,6 +13,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Exclude;
 
 public class AuthManager {
     private static AuthManager instance = null;
@@ -92,8 +93,13 @@ public class AuthManager {
             }
         };
 
-        Task<Void> task = StoreManager.getInstance().saveFBObject(context, newUser);
-        task.addOnCompleteListener(saveCompleteListener);
+        Task<Void> task = null;
+        try {
+            task = StoreManager.getInstance().saveFBObject(context, newUser);
+            task.addOnCompleteListener(saveCompleteListener);
+        } catch (Exception e) {
+
+        }
         return task;
     }
 }

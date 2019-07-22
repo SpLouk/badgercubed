@@ -2,6 +2,7 @@ package com.badgercubed.ContactWallet.fragment;
 
 import android.os.Bundle;
 
+import com.badgercubed.ContactWallet.activity.EditConnectionCallback;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,8 +18,9 @@ import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements EditConnectionCallback {
     private ExtendedFloatingActionButton m_addConnection;
+    private ConnectionsFragment m_connectionsFragment;
 
     public ProfileFragment() {
     }
@@ -44,15 +46,19 @@ public class ProfileFragment extends Fragment {
         // Dialog to allow current user to add connections
         m_addConnection = view.findViewById(R.id.fragment_profile_add_connection);
         m_addConnection.setOnClickListener(l -> {
-            AddConnectionDialog dialog = new AddConnectionDialog();
+            AddConnectionDialog dialog = AddConnectionDialog.newInstance();
             dialog.show(getActivity().getFragmentManager(), "Add Contact Information");
         });
 
+        m_connectionsFragment = ConnectionsFragment.newInstance( AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE);
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_connections_container, ConnectionsFragment.newInstance(
-                        AuthManager.getInstance().getAuthUser().getUid(), ProtectionLevel.PRIVATE))
+                .replace(R.id.fragment_connections_container, m_connectionsFragment)
                 .commit();
 
         return view;
+    }
+
+    public void connectionEdited() {
+        m_connectionsFragment.queryContacts();
     }
 }

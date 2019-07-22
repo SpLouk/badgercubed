@@ -38,7 +38,7 @@
             android:background="@drawable/rounded_white"
             android:drawableStart="@drawable/ic_action_username"
             android:ems="10"
-            android:hint="@string/username"
+            android:hint="Email"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:maxLines="1"

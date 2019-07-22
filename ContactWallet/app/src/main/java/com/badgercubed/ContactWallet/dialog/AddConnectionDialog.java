@@ -1,7 +1,9 @@
 package com.badgercubed.ContactWallet.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,17 +18,21 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.badgercubed.ContactWallet.R;
+import com.badgercubed.ContactWallet.activity.Activities;
+import com.badgercubed.ContactWallet.activity.EditConnectionCallback;
 import com.badgercubed.ContactWallet.adapter.ProtectionLevelAdapter;
 import com.badgercubed.ContactWallet.adapter.ServiceAdapter;
 import com.badgercubed.ContactWallet.model.Connection;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.badgercubed.ContactWallet.model.Service;
+import com.badgercubed.ContactWallet.util.App;
 import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.OauthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 import com.badgercubed.ContactWallet.widget.PrefixEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 import java.util.ArrayList;
@@ -40,6 +46,9 @@ import static com.badgercubed.ContactWallet.model.Service.TWITTER;
 public class AddConnectionDialog extends DialogFragment {
     private static final String TAG = "T-AddConnectionDialog";
 
+    private Connection m_editConnection = null;
+    private EditConnectionCallback m_editCallback = null;
+
     private Spinner m_serviceSpinner;
     private Spinner m_protectionLevelSpinner;
     private EditText m_description;
@@ -50,15 +59,47 @@ public class AddConnectionDialog extends DialogFragment {
     private ProtectionLevel m_selectedProtectionLevel = null;
     private boolean m_verified = false;
 
+    public static AddConnectionDialog newInstance() {
+        AddConnectionDialog fragment = new AddConnectionDialog();
+        fragment.setConnectionData(null);
+        return fragment;
+    }
+
+    public static AddConnectionDialog newInstance(Connection editConnection) {
+        AddConnectionDialog fragment = new AddConnectionDialog();
+        fragment.setConnectionData(editConnection);
+        return fragment;
+    }
+
+    public void setConnectionData(Connection editConnection) {
+        m_editConnection = editConnection;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (m_editConnection != null && context instanceof EditConnectionCallback) {
+            m_editCallback = (EditConnectionCallback) context;
+        }
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Contact Info");
+
+        String positiveText;
+        if (m_editConnection != null) {
+            builder.setTitle("Edit Contact Info");
+            positiveText = "Update";
+        } else {
+            builder.setTitle("Add Contact Info");
+            positiveText = "Create";
+        }
 
         View dialogView = createDialogView();
         builder.setView(dialogView);
 
-        builder.setPositiveButton("Create", (dialog, which) -> {
+        builder.setPositiveButton(positiveText, (dialog, which) -> {
             if (createAndSaveConnections()) {
                 dismiss();
             } else {
@@ -98,9 +139,22 @@ public class AddConnectionDialog extends DialogFragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        if (m_editConnection != null) {
+            m_selectedService = m_editConnection.getService();
+            int pos = services.indexOf(m_selectedService);
+            m_serviceSpinner.setSelection(pos+1);
+        }
 
         m_link = view.findViewById(R.id.addConnection_link);
+        if (m_editConnection != null) {
+            m_link.setText(m_editConnection.getLink());
+        }
+
         m_description = view.findViewById(R.id.addConnection_description);
+        if (m_editConnection != null) {
+            m_description.setText(m_editConnection.getDescription());
+        }
+
         m_switch = view.findViewById(R.id.oauthVerify);
         m_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -136,8 +190,11 @@ public class AddConnectionDialog extends DialogFragment {
                 }
             }
         });
+        if (m_editConnection != null) {
+            m_switch.setChecked(m_editConnection.getVerified());
+        }
 
-        ProtectionLevel[] protectionLevels = ProtectionLevel.values();
+        List<ProtectionLevel> protectionLevels = new ArrayList<>(Arrays.asList(ProtectionLevel.values()));
         ArrayAdapter<ProtectionLevel> protLevelAdapter = new ProtectionLevelAdapter(getActivity(), protectionLevels);
 
         m_protectionLevelSpinner = view.findViewById(R.id.addConnnection_protectionLevelSpinner);
@@ -146,7 +203,7 @@ public class AddConnectionDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    m_selectedProtectionLevel = protectionLevels[position - 1];
+                    m_selectedProtectionLevel = protectionLevels.get(position - 1);
                 }
             }
 
@@ -155,9 +212,14 @@ public class AddConnectionDialog extends DialogFragment {
                 m_selectedProtectionLevel = null;
             }
         });
+        if (m_editConnection != null) {
+            int pos = protectionLevels.indexOf(m_editConnection.getProtectionLevel());
+            m_protectionLevelSpinner.setSelection(pos+1);
+        }
 
-        selectedServiceChanged();
-
+        if (m_editConnection == null) {
+            selectedServiceChanged();
+        }
         return view;
     }
 
@@ -196,9 +258,16 @@ public class AddConnectionDialog extends DialogFragment {
         String description = m_description.getText().toString();
 
         Connection connection = new Connection(currentUserUid, m_selectedService, link, description, m_selectedProtectionLevel, m_verified);
+        if (m_editConnection!= null) {
+            connection.setUid(m_editConnection.getUid());
+        }
         try {
-            connection.validate();
-            StoreManager.getInstance().saveFBObject(getActivity(), connection);
+            Task<Void> saveTask = StoreManager.getInstance().saveFBObject(getActivity(), connection);
+            saveTask.addOnSuccessListener(aVoid -> {
+                if (m_editCallback!= null) {
+                    m_editCallback.connectionEdited();
+                }
+            });
         } catch (Exception e) {
             return false;
         }

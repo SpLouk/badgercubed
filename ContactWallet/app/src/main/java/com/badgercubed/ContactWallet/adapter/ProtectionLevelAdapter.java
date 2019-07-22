@@ -12,10 +12,12 @@ import androidx.annotation.NonNull;
 import com.badgercubed.ContactWallet.R;
 import com.badgercubed.ContactWallet.model.ProtectionLevel;
 
-public class ProtectionLevelAdapter extends ArrayAdapter<ProtectionLevel> {
-    ProtectionLevel[] m_items;
+import java.util.List;
 
-    public ProtectionLevelAdapter(Context context, ProtectionLevel[] items) {
+public class ProtectionLevelAdapter extends ArrayAdapter<ProtectionLevel> {
+    List<ProtectionLevel> m_items;
+
+    public ProtectionLevelAdapter(Context context, List<ProtectionLevel> items) {
         super(context, R.layout.list_item_service, items);
         m_items = items;
     }

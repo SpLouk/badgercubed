@@ -52,7 +52,9 @@ public class StoreManager {
         m_currentUser = u;
     }
 
-    public Task<Void> saveFBObject(Context context, FBObject fbObject) {
+    public Task<Void> saveFBObject(Context context, FBObject fbObject) throws Exception {
+        fbObject.validate();
+
         final String collName = fbObject.getCollectionName();
         final String docRef = fbObject.getDocReference();
 

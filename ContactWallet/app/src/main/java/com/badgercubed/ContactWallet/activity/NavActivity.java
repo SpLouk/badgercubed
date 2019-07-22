@@ -2,6 +2,8 @@ package com.badgercubed.ContactWallet.activity;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.badgercubed.ContactWallet.model.ProtectionLevel;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,7 +22,8 @@ import com.badgercubed.ContactWallet.model.User;
 import com.badgercubed.ContactWallet.util.AuthManager;
 import com.badgercubed.ContactWallet.util.StoreManager;
 
-public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EditConnectionCallback {
+    private EditConnectionCallback m_editConnectionCallback = null;
 
     private DrawerLayout m_drawerLayout;
     private TextView m_userName;
@@ -73,7 +76,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
+        m_editConnectionCallback = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_contacts:
                 getSupportFragmentManager()
@@ -82,9 +85,11 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                         .commit();
                 break;
             case R.id.nav_profile:
+                ProfileFragment fragment = new ProfileFragment();
+                m_editConnectionCallback = fragment;
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container_nav, new ProfileFragment())
+                        .replace(R.id.fragment_container_nav, fragment)
                         .commit();
                 break;
             case R.id.nav_logout:
@@ -110,5 +115,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         finish();
         Activities.startWelcomeActivity(this);
         AuthManager.getInstance().logout();
+    }
+
+    public void connectionEdited() {
+        m_editConnectionCallback.connectionEdited();
     }
 }
